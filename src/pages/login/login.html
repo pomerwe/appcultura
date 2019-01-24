@@ -1,0 +1,46 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+
+<ion-content padding class='content'>
+  <div class='title'>
+      <img src='../../assets/imgs/LOGO VERTICAL.png' class='logo'>
+  </div>
+  <br><br>
+ <div class='loginForm'>
+<form #entrar='ngForm' (ngSubmit)='login(entrar.form.value)'>
+    <span *ngIf='email.invalid && !email.pristine && emailLostFocus'>Coloque um email válido!</span>
+  <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input (blur)='emailLostFocus=true' ngModel name='email' type='email' 
+      pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" 
+      #email='ngModel' required></ion-input>
+    </ion-item>
+    <br>
+    <ion-item>
+      <ion-label>Senha</ion-label>
+      <ion-input ngModel name='senha' [type]='passwordInput' #senha='ngModel' required></ion-input>
+    </ion-item>
+    <br>
+    <div class='showPasswordDiv' >
+    <ion-item no-lines class='showPassword'>
+      <ion-label>Mostrar senha</ion-label>
+      <ion-checkbox (click)='mostrarSenha(show.checked)' #show></ion-checkbox>
+    </ion-item>
+    
+  </div>
+    <br>
+    <div class='loginButtonDiv'>
+    <button [disabled]='entrar.invalid' type='submit' class='loginButton' ion-button>ENTRAR</button>
+    </div>
+
+  </form>
+  </div>
+
+
+</ion-content>
