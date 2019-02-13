@@ -8,7 +8,14 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { LoginPage } from '../pages/login/login';
+
+import { HttpServiceProvider } from '../providers/http-service/http-service';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { HttpClientModule } from '@angular/common/http';
+import { Functions } from '../functions/functions';
+import { LoginServiceProvider } from '../providers/login-service/login-service';
+import { ContasChooseProvider } from '../providers/contas-choose/contas-choose';
+import { AlunoProvider } from '../providers/aluno/aluno';
 
 @NgModule({
   declarations: [
@@ -18,6 +25,7 @@ import { LoginPage } from '../pages/login/login';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -26,7 +34,13 @@ import { LoginPage } from '../pages/login/login';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    HttpServiceProvider,
+    AuthServiceProvider,
+    Functions,
+    LoginServiceProvider,
+    ContasChooseProvider,
+    AlunoProvider
   ]
 })
 export class AppModule {}

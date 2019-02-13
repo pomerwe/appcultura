@@ -1,16 +1,112 @@
 <ion-menu [content]="content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
+  
+  <ion-header *ngIf='!perfil'>
+ 
+      
+      
+
+           
+       
+        <ion-card class="perfil" >   
+            <div class='menuBackground'>         
+          <div class='menuDivAvatar'>
+                <div style='float:right;padding-right:10px;font-size:20px;' >
+                    <ion-icon  name="return-left" menuToggle></ion-icon>
+                </div>   
+            <div  class='avatarImg' >
+              <ion-card class="avatar">
+              <ion-avatar item-start>
+                  <img src="">
+              </ion-avatar>
+              
+              </ion-card>
+              <a  class='avatarName'>{{nome}}</a>
+            </div>
+            
+              <div class='avatarDesc' col-12>
+                  
+              <p col-12>Matricula: {{matricula}}</p>
+              <p style='display:inline' col-9>Email: {{email == undefined ? email : "Sem email cadastrado"}}</p> <ion-icon (click)='carregarContas();clicked=!clicked;carregado=true;' name="arrow-dropdown-circle" ></ion-icon>
+              <div class='popover' *ngIf='clicked==true'>
+                <ion-list (ionChange)='contaChoose($event);clickedTime();'  radio-group class='popoverList'>
+                    
+                  <ion-item *ngFor='let acc of contas'>
+                      <ion-label>{{acc.nome}}</ion-label>
+                      <ion-radio [checked]='acc.checked' [value]='acc'></ion-radio>
+                  </ion-item>                  
+                    
+                </ion-list>  
+              </div>
+            
+              
+              </div>
+              
+            
+          </div>
+        </div>
+          </ion-card>
+       
+        
+      
   </ion-header>
 
-  <ion-content>
+  <ion-header *ngIf='perfil'>
+ 
+      
+      
+
+           
+       
+      <ion-card class="perfil" >   
+          <div class='menuBackground'>         
+        <div class='menuDivAvatar'>
+              <div style='float:right;padding-right:10px;font-size:20px;' >
+                  <ion-icon  name="return-left" menuToggle></ion-icon>
+              </div>   
+          <div  class='avatarImg' >
+            <ion-card class="avatar">
+            <ion-avatar item-start>
+                <img src="">
+            </ion-avatar>
+            
+            </ion-card>
+            <a  class='avatarName'>{{nome}}</a>
+          </div>
+          
+            <div class='avatarDesc' col-12>
+                
+            <p col-12>Matricula: {{matricula}}</p>
+            <p style='display:inline' col-9>Email: {{email == undefined ? email : "Sem email cadastrado"}}</p> <ion-icon (click)='carregarContas();clicked=!clicked;carregado=true;' name="arrow-dropdown-circle" ></ion-icon>
+            <div class='popover' *ngIf='clicked==true'>
+              <ion-list (ionChange)='contaChoose($event);clickedTime();'  radio-group class='popoverList'>
+                  
+                <ion-item *ngFor='let acc of contas'>
+                    <ion-label>{{acc.nome}}</ion-label>
+                    <ion-radio [checked]='acc.checked' [value]='acc'></ion-radio>
+                </ion-item>                  
+                  
+              </ion-list>  
+            </div>
+          
+            
+            </div>
+            
+          
+        </div>
+      </div>
+        </ion-card>
+     
+      
+    
+</ion-header>
+  
+  <ion-content *ngIf='!perfil'>
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPagePush(p)">
         {{p.title}}
       </button>
     </ion-list>
+    <button (click)='logout()' class='logoutButton'>Sair</button>
   </ion-content>
 
 </ion-menu>

@@ -13,11 +13,11 @@
   </div>
   <br><br>
  <div class='loginForm'>
-<form #entrar='ngForm' (ngSubmit)='login(entrar.form.value)'>
-    <span *ngIf='email.invalid && !email.pristine && emailLostFocus'>Coloque um email válido!</span>
+<form #entrar='ngForm' (ngSubmit)='getAccess(entrar.form.value)'>
+    <span style='font-size:10px;color:white;' *ngIf='email.invalid && !email.pristine && emailLostFocus'>Coloque um email válido!</span>
   <ion-item>
       <ion-label>Email</ion-label>
-      <ion-input (blur)='emailLostFocus=true' ngModel name='email' type='email' 
+      <ion-input (ionBlur)='emailLostFocus=true' ngModel name='email' type='email' 
       pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" 
       #email='ngModel' required></ion-input>
     </ion-item>
@@ -36,7 +36,7 @@
   </div>
     <br>
     <div class='loginButtonDiv'>
-    <button [disabled]='entrar.invalid' type='submit' class='loginButton' ion-button>ENTRAR</button>
+    <button [disabled]='entrar.invalid' type='submit' class='loginButton' >ENTRAR</button>
     </div>
 
   </form>
