@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
 
 import { LoginServiceProvider } from '../login-service/login-service';
 import { Functions } from '../../functions/functions';
-import { AlertController } from '../../../node_modules/ionic-angular';
-import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/util';
+import { AlertController } from 'ionic-angular';
 /*
   Generated class for the ContasChooseProvider provider.
 

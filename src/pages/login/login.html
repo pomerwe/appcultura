@@ -11,34 +11,38 @@
   <div class='title'>
       <img src='../../assets/imgs/LOGO VERTICAL.png' class='logo'>
   </div>
-  <br><br>
+  
  <div class='loginForm'>
 <form #entrar='ngForm' (ngSubmit)='getAccess(entrar.form.value)'>
-    <span style='font-size:10px;color:white;' *ngIf='email.invalid && !email.pristine && emailLostFocus'>Coloque um email válido!</span>
-  <ion-item>
+    <span style='font-size:10px;color:black;' *ngIf='email.invalid && !email.pristine && emailLostFocus'>Coloque um email válido!</span>
+    <br>
+   <div class='formDiv'>
+    
+    <ion-item>
       <ion-label>Email</ion-label>
       <ion-input (ionBlur)='emailLostFocus=true' ngModel name='email' type='email' 
       pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" 
       #email='ngModel' required></ion-input>
     </ion-item>
-    <br>
+    
     <ion-item>
       <ion-label>Senha</ion-label>
       <ion-input ngModel name='senha' [type]='passwordInput' #senha='ngModel' required></ion-input>
     </ion-item>
-    <br>
-    <div class='showPasswordDiv' >
-    <ion-item no-lines class='showPassword'>
-      <ion-label>Mostrar senha</ion-label>
-      <ion-checkbox (click)='mostrarSenha(show.checked)' #show></ion-checkbox>
-    </ion-item>
-    
+  
   </div>
-    <br>
-    <div class='loginButtonDiv'>
-    <button [disabled]='entrar.invalid' type='submit' class='loginButton' >ENTRAR</button>
+    <div class='landscapeShowPassAndButtonDiv'>
+      <div class='showPasswordDiv' >
+      <ion-item no-lines class='showPassword'>
+        <ion-label>Mostrar senha</ion-label>
+        <ion-checkbox (click)='mostrarSenha(show.checked)' #show></ion-checkbox>
+      </ion-item>
+      </div>
+      
+      <div class='loginButtonDiv'>
+      <button [disabled]='entrar.invalid' type='submit' class='loginButton' >ENTRAR</button>
+      </div>
     </div>
-
   </form>
   </div>
 

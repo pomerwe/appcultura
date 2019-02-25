@@ -17,7 +17,9 @@
 
 
 <ion-content padding>
+    <h3 style="margin-left:5px;text-align:left;">{{nome}}</h3>
     <ion-list>
+        
         <ion-item>
             <ion-label>Período Letivo</ion-label>
             <ion-select (ionChange)='carregarDados()' [(ngModel)]="codperlet" interface="popover">
@@ -27,8 +29,8 @@
           </ion-item>
         <ion-item>
           <ion-label>Curso</ion-label>
-          <ion-select [(ngModel)]="notasConceitoId" interface="popover">
-            <ion-option  *ngFor='let c of notasConceitoList'  [value]="c.id">{{c.curso}}</ion-option>
+          <ion-select [(ngModel)]="idmatriculaperlet" interface="popover">
+            <ion-option  *ngFor='let c of cursos'  [value]="c.id">{{c.periodo}}</ion-option>
             
           </ion-select>
         </ion-item>
@@ -42,6 +44,9 @@
           </ion-item>
       </ion-list>
     
+        
+     
+      
       <ion-grid *ngIf='bimestre==0' class='tabelaNotas'>                     
         <div class='provasNotas'>
           <div *ngFor='let pn of provasNotas1'>
@@ -87,6 +92,7 @@
               </ion-col>
           </ion-row>                       
       </ion-grid>  
+      
       <ion-grid *ngIf='bimestre==2' class='tabelaNotas'>           
           <div class='provasNotas'> 
             <div *ngFor='let pn of provasNotasFinais'>

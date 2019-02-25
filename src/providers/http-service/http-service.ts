@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { AuthServiceProvider } from "../auth-service/auth-service";
+
 import { Observable } from "../../../node_modules/rxjs/Observable";
 import { RequestOptionsArgs } from "@angular/http";
 import { HTTP } from '@ionic-native/http';
 
 import { environment as env } from "../../environments/environment";
+import { AuthServiceProvider } from "../auth-service/auth-service";
 /*
   Generated class for the HttpServiceProvider provider.
 
@@ -21,60 +22,59 @@ export class HttpServiceProvider {
     private http: HttpClient,
     private auth: AuthServiceProvider
   ) {
-    this.urlApi = env.BASE_URL;
+    this.urlApi = env.BASE_URL + env.uriApi;
   }
   
 
-  public getDiaDia(param):Observable<any>{
+  // public getDiaDia(param):Observable<any>{
 
-    console.log(param);
-    let page = param.page;
-    let matricula = param.matricula;
-    return this.http.get(`${this.urlApi}dia-dia/?matricula=${matricula}&sort=data,desc&page=${page}&size=10&example`);
+  //   console.log(param);
+  //   let page = param.page;
+  //   let matricula = param.matricula;
+  //   return this.http.get(`${this.urlApi}/dia-dia/?matricula=${matricula}&sort=data,desc&page=${page}&size=10&example`);
 
-  }
+  // }
 
   public getCodperlet(matricula):Observable<any>{
     let mat = matricula;
-    return this.http.get(`${this.urlApi}codperlet/?sort=codperlet,desc&matricula=${mat}&example`);
+    return this.http.get(`${this.urlApi}/codperlet/?sort=codperlet,desc&matricula=${mat}&example`);
 
   }
 
-  public getNotasConceitoList(params):Observable<any>{
-    let matricula = params.matricula;
-    let codperlet = params.codperlet
-    return this.http.get(`${this.urlApi}notas/?matricula=${matricula}&codperlet=${codperlet}&example`);
-  }
+  // public getCursosList(params):Observable<any>{
+  //   let matricula = params.matricula;
+  //   let codperlet = params.codperlet
+  //   return this.http.get(`${this.urlApi}/cursos/?matricula=${matricula}&codperlet=${codperlet}&example`);
+  // }
 
-  public getNotasConceito(id):Observable<any>{
-    return this.http.get(`${this.urlApi}notas/${id}`);
+  // public getNotasConceito(id):Observable<any>{
+  //   return this.http.get(`${this.urlApi}/notas/${id}`);
 
-  }
-  public getAccess(params): Observable<any>{
-    
-    let senha = params.senha;
-    let email = params.email;
-    return this.http.get(`${this.urlApi}login?email=${email}&senha=${senha}&example`);
-  }
+  // }
 
-  public getCheckAluno(params) : Observable<any>{
-    let matricula = params.id;
-    let email = params.email;
-    return this.http.get(`${this.urlApi}contas/checkaluno?id=${matricula}&email=${email}&example&sort=nome,asc`);
 
-  }
-  public getCheckResp(params) : Observable<any>{
-    let matricula = params.id;
-    let email = params.email;
-    return this.http.get(`${this.urlApi}contas/checkresp?id=${matricula}&email=${email}&example&sort=nome,asc`);
+  // public getCheckAluno(params) : Observable<any>{
+  //   let matricula = params.id;
+  //   let email = params.email;
+  //   return this.http.get(`${this.urlApi}contas/checkaluno?id=${matricula}&email=${email}&example&sort=nome,asc`);
 
-  }
-  public getContasVinculo(params) : Observable<any>{
-    let matricula = params.id;
-    return this.http.get(`${this.urlApi}contas?matricularesp=${matricula}&example&sort=nome,asc`);
+  // }
+  // public getCheckResp(params) : Observable<any>{
+  //   let matricula = params.id;
+  //   let email = params.email;
+  //   return this.http.get(`${this.urlApi}contas/checkresp?id=${matricula}&email=${email}&example&sort=nome,asc`);
 
-  }
+  // }
+  
+  // public getContasVinculo(params) : Observable<any>{
+  //   let matricula = params.id;
+  //   return this.http.get(`${this.urlApi}contas/?matricularesp=${matricula}&example&sort=nome,asc`);
 
+  // }
+
+ 
+
+  
   public get( uri: string, params?: HttpParams | { [param: string]: string | string[] }): Observable<any> {
     if (params) {
       for (const p in params) {

@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams, MenuController, AlertController, L
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 import { ContasChooseProvider } from '../../providers/contas-choose/contas-choose';
+import { AlunoProvider } from '../../providers/aluno/aluno';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+
 
 /**
  * Generated class for the LoginPage page.
@@ -26,9 +29,11 @@ export class LoginPage {
               public navParams: NavParams,
               private menu:MenuController,
               private http:HttpServiceProvider,
+              private auth:AuthServiceProvider,
               private alert:AlertController,
               private loginService:LoginServiceProvider,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              private aluno:AlunoProvider) {
                 
                 
   }
@@ -69,40 +74,31 @@ export class LoginPage {
     
   }
 
-
-  getAccess(params){
+  getAccess(credentials){
     this.loader.present();
-    this.http.getAccess(params)
-    .subscribe(
-      data =>{
-        if(data.length == 0){
-          
-            this.loginErrorAlert();
-            this.loader.dismiss();
-            this.createloader();
-          
-        }
-        else{
-          this.loginService.setUserData(data[0]);
-          this.loginService.getUserData()
-          .then(
+    this.auth.login(credentials)
+        .subscribe(
             data=>{
-              this.user = data;
-              this.getContasRoutine();
+              this.loginService.setUserData(data);
+              let uri='/contas';
+              let params = {
+                'id_resp':data.id,
+                'example':'',
+                'sort':'nome,asc'
+              }
+              this.contasVinculo(uri,params);
+              
             }
-          );
-          
-          
-        }
-       
+            ,
+            error=>{
+              this.loader.dismiss();
+              this.loginErrorAlert();
+            }
+    );
 
-      },
-      error=>{
-        console.log(error);
-      }
-    )
-
+    
   }
+  
   loginErrorAlert(){
     let alert = this.alert.create({
       title:'Erro de Autenticação',
@@ -112,51 +108,14 @@ export class LoginPage {
       ]
 
     })
+    this.createloader();
     alert.present();
   }
 
 
-  checkAluno(params){
-    this.http.getCheckAluno(params)
-   .subscribe(
-           data => {                        
-            this.loginService.setContas(data);
-            this.checkResp(this.user);
-            
-   
-           
-           
-         },
-         error =>{
-           console.log(error);
-         }
-   
-       );
-      
-  }
-
-   checkResp(params){
-     
-    this.http.getCheckResp(params)
-    .subscribe(
-          data => {       
-          if(data.length>0){
-          
-          this.contasVinculo(data[0]);  
-         }else{
-           this.login(true);
-         }
-            
-         },
-         error =>{
-          console.log(error);
-         }
-       )
-      
-  }
  
-   contasVinculo(params){
-    this.http.getContasVinculo(params)
+   contasVinculo(uri,params){
+    this.http.get(uri,params)
     .subscribe(
            data => {   
             
@@ -176,12 +135,6 @@ export class LoginPage {
       }
 
 
-    getContasRoutine(){
-      
-      
-      this.checkAluno(this.user);
-      
-      
-    }
+    
 
 }

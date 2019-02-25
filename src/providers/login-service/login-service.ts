@@ -13,7 +13,7 @@ export class LoginServiceProvider {
 
 
   private userInfo;
-  private contas;
+  private contas = [];
 
   public getUserData():Promise<any>{
    return new Promise( 
@@ -31,14 +31,14 @@ export class LoginServiceProvider {
      return this.contas;
    }
    public setContas(contas){
-     this.contas = contas;
+     this.contas.push(contas);
    }
    public pushToContas(contas){
      this.contas.push(contas);
    }
 
    public logoff(){
-     while(this.contas.lenght){
+     while(this.contas.length){
       this.contas.pop();
      }
      

@@ -6,6 +6,8 @@ import { ContasChooseProvider } from '../providers/contas-choose/contas-choose';
 import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { AlunoProvider } from '../providers/aluno/aluno';
 import { Functions } from '../functions/functions';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { UtilServiceProvider } from '../providers/util-service/util-service';
 
 
 
@@ -24,6 +26,7 @@ export class MyApp {
   matricula: string;
   nome: string;
   email:string;
+  photoUrl: string;
   checked:boolean;
   rootPage: any = 'LoginPage';
   perfil = false;
@@ -39,7 +42,9 @@ export class MyApp {
     private loginService:LoginServiceProvider,
     private aluno:AlunoProvider,
     private functions:Functions,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController,
+    private auth:AuthServiceProvider,
+    private util:UtilServiceProvider) {
     this.initializeApp();
     
 
@@ -56,7 +61,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
+      this.statusBar.show();
       this.splashScreen.hide();
     });
     this.platform.registerBackButtonAction(() => {
@@ -105,7 +110,8 @@ export class MyApp {
         let c = this.loginService.getContas();    
         for(let acc of c){
           let contaId = c.indexOf(acc);
-          let conta= {id:acc.id,nome:this.functions.nomes(acc.nome),email:acc.email,contaId:contaId,checked:acc.checked}
+          let photoUrl = this.util.getFoto(acc.foto);
+          let conta= {matricula:acc.matricula,nome:this.functions.nomes(acc.nome),email:acc.email,contaId:contaId,checked:acc.checked,photo:photoUrl}
           this.contas.push(conta);
           
           
@@ -124,8 +130,9 @@ export class MyApp {
     
     contaChoose(event){
       this.nome = event.nome;
-      this.matricula = event.id;
+      this.matricula = event.matricula;
       this.email = event.email;
+      this.photoUrl = event.photo;
       console.log(event);
       for(let acc of this.contas){
         let id = acc.contaId;
@@ -167,18 +174,32 @@ export class MyApp {
         spinner: "crescent",
         content:"Saindo..."
       });
-     
+      while(this.contas.length){
+        this.contas.pop();
+      }
+      this.carregado=false;
       this.aluno.unsetAluno();
       this.contasChoose.unsetContas();
       this.loginService.logoff();
       this.clicked=false;
       loader.present();
-      setTimeout(()=>{
+      this.auth.logout()
+      .subscribe(
+        data=>{
+           setTimeout(()=>{
         
-       loader.dismiss();
-        
-        this.nav.setRoot('LoginPage');
-      },1200);
+            loader.dismiss();
+             
+             this.nav.setRoot('LoginPage');
+           },1200);
+        }
+        ,
+        error=>{
+          console.log(error);
+        }
+
+      )
+      
       
     }
     

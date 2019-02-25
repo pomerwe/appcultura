@@ -16,7 +16,7 @@
             <div  class='avatarImg' >
               <ion-card class="avatar">
               <ion-avatar item-start>
-                  <img src="">
+                  <img [(src)]="photoUrl">
               </ion-avatar>
               
               </ion-card>
@@ -26,8 +26,9 @@
               <div class='avatarDesc' col-12>
                   
               <p col-12>Matricula: {{matricula}}</p>
-              <p style='display:inline' col-9>Email: {{email == undefined ? email : "Sem email cadastrado"}}</p> <ion-icon (click)='carregarContas();clicked=!clicked;carregado=true;' name="arrow-dropdown-circle" ></ion-icon>
-              <div class='popover' *ngIf='clicked==true'>
+              <p style='display:inline' col-9>Email: {{email ? email : "Sem email cadastrado"}}</p> <ion-icon (click)='carregarContas();clicked=!clicked;carregado=true;' name="arrow-dropdown-circle" ></ion-icon>
+              
+              <div scrollY='true' class='popover' *ngIf='clicked==true'>
                 <ion-list (ionChange)='contaChoose($event);clickedTime();'  radio-group class='popoverList'>
                     
                   <ion-item *ngFor='let acc of contas'>
@@ -37,6 +38,7 @@
                     
                 </ion-list>  
               </div>
+              
             
               
               </div>

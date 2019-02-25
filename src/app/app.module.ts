@@ -10,12 +10,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 
 import { HttpServiceProvider } from '../providers/http-service/http-service';
-import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+
 import { HttpClientModule } from '@angular/common/http';
 import { Functions } from '../functions/functions';
 import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { ContasChooseProvider } from '../providers/contas-choose/contas-choose';
 import { AlunoProvider } from '../providers/aluno/aluno';
+import { UtilServiceProvider } from '../providers/util-service/util-service';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +43,8 @@ import { AlunoProvider } from '../providers/aluno/aluno';
     Functions,
     LoginServiceProvider,
     ContasChooseProvider,
-    AlunoProvider
+    AlunoProvider,
+    UtilServiceProvider
   ]
 })
 export class AppModule {}

@@ -7,6 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import { Observable } from '../../../node_modules/rxjs/Observable';
 import { AlunoProvider } from '../../providers/aluno/aluno';
 import { MyApp } from '../../app/app.component';
+import { UtilServiceProvider } from '../../providers/util-service/util-service';
 
 /**
  * Generated class for the FeedPage page.
@@ -44,7 +45,8 @@ export class FeedPage {
     private contasChoose:ContasChooseProvider,
     private aluno:AlunoProvider,
     private menu:MyApp,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private util:UtilServiceProvider
     
     ) {
    
@@ -68,11 +70,18 @@ export class FeedPage {
       .contasChoose()
       .then(
         data=>{
-          
           this.aluno.setAluno(data);
           this.aluno.getAluno()
           .then(
             data=>{
+              this.http.getCodperlet(data.matricula)
+              .subscribe(
+                  codperlets =>{this.aluno.setCodperlets(codperlets);
+                    console.log(this.aluno.getCodperlets());},
+                  error=>{console.log(error);}
+              )
+              this.menu.photoUrl = this.util.getFoto(data.foto);
+              console.log(this.menu.photoUrl);
               this.menu.nome = data.nome;
               this.menu.matricula = data.matricula;
               this.menu.email = data.email; 
@@ -97,14 +106,20 @@ export class FeedPage {
  
   setDiaDiaParam(){
     this.diaDiaParam = {
-      page:this.getPage(),
-      matricula:this.getMatricula()
+      'page':this.getPage(),
+      'matricula':this.aluno.getMatricula(),
+      'size':10,
+      'example':'',
+      'sort':'data,desc'
     }
   }
+  
+  
 
   getDiaDia(){
     this.setDiaDiaParam();
-    this.http.getDiaDia(this.diaDiaParam).subscribe(
+    let uri = '/dia-dia';
+    this.http.get(uri,this.diaDiaParam).subscribe(
 
       data =>{ 
         this.chamada = data.content;
@@ -183,7 +198,9 @@ export class FeedPage {
       this.setPage(1);
     }    
     this.setDiaDiaParam();
-    this.http.getDiaDia(this.diaDiaParam).subscribe(
+    let uri = '/dia-dia';
+    
+    this.http.get(uri,this.diaDiaParam).subscribe(
       data => {
       for (var i = 0; i < data.content.length; i++) {
         this.chamada.push( data.content[i] );

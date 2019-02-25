@@ -15,6 +15,8 @@ export class AlunoProvider {
   private email;
   private nome;
   private checked;
+  private codperlets = [];
+  private photo;
 
   constructor(
     public http: HttpClient,
@@ -47,9 +49,16 @@ export class AlunoProvider {
   public getChecked(){
     return this.checked;
   }
+  public setCodperlets(codperlets){
+    this.codperlets = codperlets;
+  }
+  public getCodperlets(){
+    return this.codperlets;
+  }
 
   public setAluno(data){
-    this.matricula = data.id;
+    this.photo = data.foto;
+    this.matricula = data.matricula;
     this.email = data.email;
     this.nome = this.functions.nomes(data.nome);
     let checked = data.checked;
@@ -66,7 +75,8 @@ export class AlunoProvider {
       let object={
         matricula:this.getMatricula(),
         email:this.getEmail(),
-        nome:this.getNome()
+        nome:this.getNome(),
+        foto:this.getPhoto()
       }
       resolve(object);
 
@@ -78,7 +88,8 @@ export class AlunoProvider {
       let object={
         matricula:this.getMatricula(),
         email:this.getEmail(),
-        nome:this.getNome()
+        nome:this.getNome(),
+        foto:this.getPhoto()
       }
       obs.next(object);
       obs.complete;
@@ -86,10 +97,20 @@ export class AlunoProvider {
   )
   }
 
+  public getPhoto(){
+    return this.photo;
+  }
+
+  public setPhoto(photo){
+    this.photo = photo;
+  }
+
   public unsetAluno(){
     this.setMatricula(undefined);
     this.setChecked(undefined);
     this.setEmail(undefined);
     this.setNome(undefined);
+    this.setCodperlets(undefined);
+    this.setPhoto(undefined);
   }
 }

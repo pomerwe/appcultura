@@ -1,103 +1,190 @@
-import { Injectable } from "@angular/core";
-import { HttpHeaders} from '@angular/common/http';
+import {catchError, tap, finalize} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from "../../../node_modules/rxjs/Observable";
-import { tap, finalize } from "rxjs/operators";
-import { JwtHelper } from 'angular2-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable } from 'rxjs';
+import { UtilServiceProvider } from '../util-service/util-service';
+import { _throw as observableThrowError} from 'rxjs/observable/throw';
+export interface User {
+    id: number;
+    username: string;
+    authorities: string[];
+    role: string;
+    idRole: number;
+    name: string;
+    nickname: string;
+    language: string;
+    sector: string;
+    location: string;
+    photo: string;
+    photoUri: string;
+}
 
-/*
-  Generated class for the AuthServiceProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class AuthServiceProvider {
 
-  private urlLogin : string = 'http://localhost:22001/oauth/token';
-  private urlLogout: string = 'http://localhost:22001/oauth/revoke';
-  authorization : string;
+  private urlLogin: string;
+  private urlLogout: string;
+  private urlRemember: string;
+  private authorization: string;
+  private user: User;
 
-  constructor(private http:HttpClient){
-
-      this.authorization = 'Basic ' + btoa(`ionic:10n1c0`);
-
+  constructor(
+    private http: HttpClient,
+   
+    private util: UtilServiceProvider
+  ) {
+    this.jwtHelper = new JwtHelperService(),
+    this.urlLogin = `${environment.urlApi}${environment.uriLogin}`;
+    this.urlLogout = `${environment.urlApi}${environment.uriLogout}`;
+    this.urlRemember = `${environment.urlApi}${environment.uriRemember}`;
+    this.authorization = 'Basic ' + btoa(`${environment.username}:${environment.password}`);
   }
-  private jwtHelper = new JwtHelper();
-  public getBasicAuthorizationHeader(): HttpHeaders {
-      let headers = new HttpHeaders();
-      headers = headers.set('Authorization', this.authorization);
-      headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
-      return headers;
+
+  jwtHelper;
+
+  getUser(): User {
+    if (!this.user && this.jwtHelper && localStorage.getItem('access_token')) {
+      this.user = this.jwtHelper.decodeToken(localStorage.getItem('access_token'));
+    }
+    
+    if (this.user) {
+        this.user.photoUri = this.util.getFoto(this.user.photo);
     }
 
-    
-public login(acesso: string, senha: string): Observable<any> {
-  
-  console.log(acesso);
-  console.log(senha);
-  const headers = this.getBasicAuthorizationHeader();
-  const body = `client=ionic&username=${acesso}&password=${senha}&grant_type=password`;
-  
-  return this.http.post(this.urlLogin,body,{headers, withCredentials:true}).pipe(
-    tap(data=>{
-      this.isValidAccessToken();
-      this.clearAccessToken();
-      this.storeAccessToken(data.access_token);
+    return this.user;
+  }
 
+  // changeLanguage() {
+  //   if (!this.getUser() || !this.getUser().language) { return; }
 
-    })
-  )
-  
-}
+  //   this.refreshAccessToken().subscribe(
+  //     () => this.translate.use(this.getUser().language.toLowerCase())
+  //   );
+  // }
 
-private storeAccessToken(accessToken: string) {
-  localStorage.setItem('access_token', accessToken);
-  
- 
-}
+  public login(credentials): Observable<any> {
+    let acesso: string = credentials.email;
+    let senha: string = credentials.senha;
+    if (this.isValidAccessToken()) {
+      const token = localStorage.getItem('access_token');
 
+      this.http.delete(this.urlLogout, { headers: { 'Authorization': `Bearer ${token}` }, withCredentials: true }).pipe(
+        tap(
+          () => {
+            this.clearAccessToken();
+            return this.login(credentials);
+          }
+        ));
+    }
 
-private clearAccessToken() {
-  localStorage.removeItem('access_token');
-}
+    const headers = this.getBasicAuthorizationHeader();
+    const body = `username=${acesso}&password=${senha}&grant_type=password`;
 
-public isValidAccessToken() {
-  const token = localStorage.getItem('access_token');
-  
-  if (!token || this.jwtHelper.isTokenExpired(token)) {
+    return this.http.post<{ access_token: string; }>(this.urlLogin, body, { headers: headers, withCredentials: true }).pipe(
+      tap(data => {
+        this.clearAccessToken();
+        this.storeAccessToken(data.access_token);
+        // this.changeLanguage();
+      }),
+      catchError((response: HttpErrorResponse) => {
+        if (response.status === 400 && response.error.error === 'invalid_grant') {
+          return observableThrowError(response);
+        }
+
+        return observableThrowError(response.error);
+      }));
+  }
+
+  public logout(): Observable<any> {
+    if (this.isValidAccessToken()) {
+      const token = localStorage.getItem('access_token');
+      return this.http.delete(this.urlLogout, { headers: { 'Authorization': `Bearer ${token}` }, withCredentials: true }).pipe(
+        finalize(() => this.clearAccessToken()));
+    } else {
+      return this.refreshAccessToken().pipe(
+        tap(() => {
+          const token = localStorage.getItem('access_token');
+          return this.http.delete(this.urlLogout, { headers: { 'Authorization': `Bearer ${token}` }, withCredentials: true });
+        }),
+        finalize(() => this.clearAccessToken())
+      );
+    }
+  }
+
+  public remember(email: string): Observable<any> {
+    return this.http.post(this.urlRemember, email, { withCredentials: true });
+  }
+
+  public getBasicAuthorizationHeader(): HttpHeaders {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', this.authorization);
+    headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    return headers;
+  }
+
+  public isValidAccessToken() {
+    const token = localStorage.getItem('access_token');
+
+    if (!token || this.jwtHelper.isTokenExpired(token)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public refreshAccessToken(): Observable<any> {
+    const headers = this.getBasicAuthorizationHeader();
+    const body = 'grant_type=refresh_token';
+    return this.http.post<{ access_token: string; }>(this.urlLogin, body, { headers, withCredentials: true }).pipe(
+      tap(
+        response => {
+          const token = response.access_token;
+          this.storeAccessToken(token);
+          return true;
+        }));
+  }
+
+  public hasAnyRole(roles): boolean {
+    for (const role of roles) {
+      if (this.hasRole(role)) {
+        return true;
+      }
+    }
+
     return false;
   }
-  
-  return true;
-}
 
-public logout(): Observable<any> {
-  if (this.isValidAccessToken()) {
-    const token = localStorage.getItem('access_token');
-    return this.http.delete(this.urlLogout, { headers: { 'Authorization': `Bearer ${token}` }, withCredentials: true }).pipe(
-      finalize(() => this.clearAccessToken()));
-  } else {
-    return this.refreshAccessToken().pipe(
-      tap(() => {
-        const token = localStorage.getItem('access_token');
-        return this.http.delete(this.urlLogout, { headers: { 'Authorization': `Bearer ${token}` }, withCredentials: true });
-      }),
-      finalize(() => this.clearAccessToken())
-    );
+  public verifyRecaptcha(token: string): Observable<any> {
+    return this.http.get(`${environment.urlApi}/recaptcha/${token}`);
   }
-}
 
-public refreshAccessToken(): Observable<any> {
-  const headers = this.getBasicAuthorizationHeader();
-  const body = 'grant_type=refresh_token';
-  return this.http.post<{ access_token: string; }>(this.urlLogin, body, { headers, withCredentials: true }).pipe(
-    tap(
-      response => {
-        const token = response.access_token;
-        this.storeAccessToken(token);
-        return true;
-      }));
-}
+  public hasRole(role): boolean {
+    if(this.getUser() && this.getUser().authorities){
+      for(let a of this.getUser().authorities){
+        if(a.match(role) !== null){
+          return true;
+        }
+      }
+      return false;
+    }
+    else{
+      return false;
+    }
+    
+  }
+
+  private storeAccessToken(accessToken: string) {
+    localStorage.setItem('access_token', accessToken);
+    this.user = this.jwtHelper.decodeToken(localStorage.getItem('access_token'));
+  }
+
+  private clearAccessToken() {
+    this.user = null;
+    localStorage.removeItem('access_token');
+  }
 
 }
