@@ -38,9 +38,9 @@ export class AuthServiceProvider {
     private util: UtilServiceProvider
   ) {
     this.jwtHelper = new JwtHelperService(),
-    this.urlLogin = `${environment.urlApi}${environment.uriLogin}`;
-    this.urlLogout = `${environment.urlApi}${environment.uriLogout}`;
-    this.urlRemember = `${environment.urlApi}${environment.uriRemember}`;
+    this.urlLogin = `${environment.urlApi}${environment.urnLogin}`;
+    this.urlLogout = `${environment.urlApi}${environment.urnLogout}`;
+    this.urlRemember = `${environment.urlApi}${environment.urnRemember}`;
     this.authorization = 'Basic ' + btoa(`${environment.username}:${environment.password}`);
   }
 

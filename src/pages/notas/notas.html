@@ -16,13 +16,13 @@
 </ion-header>
 
 
-<ion-content padding>
-    <h3 style="margin-left:5px;text-align:left;">{{nome}}</h3>
+<ion-content>
+    <h3 style="padding:15px;text-align:left;">{{nome}}</h3>
     <ion-list>
         
         <ion-item>
             <ion-label>Período Letivo</ion-label>
-            <ion-select (ionChange)='carregarDados()' [(ngModel)]="codperlet" interface="popover">
+            <ion-select (ionChange)='carregarDados();idmatriculaperlet=undefined;' [(ngModel)]="codperlet" interface="popover">
               <ion-option *ngFor='let c of codperlets' [value]="c.codperlet">{{c.codperlet}}</ion-option>
               
             </ion-select>
@@ -34,90 +34,101 @@
             
           </ion-select>
         </ion-item>
-        <ion-item>
-            <ion-label>Bimestre</ion-label>
-            <ion-select  [(ngModel)]="bimestre" interface="popover">
-              <ion-option *ngFor='let b of bimestres' [value]="b.value">{{b.bimestre}}
-              </ion-option>
+        <ion-item class='bimestresItem'>
+          <div ion-row class='bimestresDiv' (swipe)='swipe($event)'>
+              <div class='bimestres clicked' (click)='setBimestre(bimestre1,0)' ion-col col-4 #bimestre1>
+                  <span class='bismestreIndex'>1º <br> Bimestre</span>
+              </div>
+              <div class='bimestres' (click)='setBimestre(bimestre2,1)'  ion-col col-4 #bimestre2>
+                  <span class='bismestreIndex'>2º <br> Bimestre</span>
+              </div>
+              <div class='bimestres' (click)='setBimestre(bimestre3,2)'  ion-col col-4 #bimestre3>
+                  <span class='bismestreIndex'>Notas <br>Finais</span>
+              </div>
+
+          </div>
               
-            </ion-select>
-          </ion-item>
+        </ion-item>
       </ion-list>
     
-        
-     
-      
-      <ion-grid *ngIf='bimestre==0' class='tabelaNotas'>                     
-        <div class='provasNotas'>
-          <div *ngFor='let pn of provasNotas1'>
-              <ion-row class='blocoNota' col-12>
-              <ion-col class='prova'  col-9>
-                {{pn.prova}}
-              </ion-col>
-              <ion-col class='nota'  col-3>
-                {{pn.conceito == null || pn.conceito == '' ? '--' : pn.conceito}}
-              </ion-col>
+      <div class='swipeDiv'  (swipe)='swipe($event)'>
+
+      </div>
+     <div class='tabelaNotasDiv' (swipe)='swipe($event)'>
+        <ion-grid *ngIf='bimestre==0' class='tabelaNotas'>                     
+            <div class='provasNotas'>
+              <div *ngFor='let pn of provasNotas1'>
+                  <ion-row class='blocoNota' col-12>
+                  <ion-col class='prova'  col-9>
+                    {{pn.prova}}
+                  </ion-col>
+                  <ion-col class='nota'  col-3>
+                    {{pn.conceito == null || pn.conceito == '' ? '--' : pn.conceito}}
+                  </ion-col>
+                </ion-row>
+                </div>            
+            </div>    
+            <ion-row class='blocoNota' col-12>
+                <ion-col class='prova final'  col-9>
+                  {{notaFinalB1 ? notaFinalB1.prova : ''}}
+                </ion-col>
+                <ion-col class='nota final'  col-3>
+                    {{notaFinalB1 ? notaFinalB1.conceito : ''}}
+                </ion-col>
             </ion-row>
-            </div>            
-        </div>    
-        <ion-row class='blocoNota' col-12>
-            <ion-col class='prova'  col-9>
-              {{notaFinalB1 ? notaFinalB1.prova : ''}}
-            </ion-col>
-            <ion-col class='nota'  col-3>
-                {{notaFinalB1 ? notaFinalB1.conceito : ''}}
-            </ion-col>
-        </ion-row>
-        
-      </ion-grid>
-      <ion-grid *ngIf='bimestre==1' class='tabelaNotas'>
-          <div class='provasNotas'>                
-            <div *ngFor='let pn of provasNotas2'>
+            
+          </ion-grid>
+          <ion-grid *ngIf='bimestre==1' class='tabelaNotas'>
+              <div class='provasNotas'>                
+                <div *ngFor='let pn of provasNotas2'>
+                  <ion-row class='blocoNota' col-12>
+                  <ion-col class='prova'  col-9>
+                    {{pn.prova}}
+                  </ion-col>
+                  <ion-col class='nota'  col-3>
+                    {{pn.conceito == null || pn.conceito == '' ? '--' : pn.conceito}}
+                  </ion-col>
+                </ion-row>
+                </div>
+              </div> 
               <ion-row class='blocoNota' col-12>
-              <ion-col class='prova'  col-9>
-                {{pn.prova}}
-              </ion-col>
-              <ion-col class='nota'  col-3>
-                {{pn.conceito == null || pn.conceito == '' ? '--' : pn.conceito}}
-              </ion-col>
-            </ion-row>
-            </div>
-          </div> 
-          <ion-row class='blocoNota' col-12>
-              <ion-col class='prova'  col-9>
-                {{notaFinalB2 ? notaFinalB2.prova : ''}}
-              </ion-col>
-              <ion-col class='nota'  col-3>
-                  {{notaFinalB2 ? notaFinalB2.conceito : ''}}
-              </ion-col>
-          </ion-row>                       
-      </ion-grid>  
-      
-      <ion-grid *ngIf='bimestre==2' class='tabelaNotas'>           
-          <div class='provasNotas'> 
-            <div *ngFor='let pn of provasNotasFinais'>
-              <ion-row class='blocoNota' col-12>
-              <ion-col class='prova'  col-9>
-                {{pn.prova}}
-              </ion-col>
-              <ion-col class='nota'  col-3>
-                {{pn.conceito == null || pn.conceito == '' ? '--' : pn.conceito}}
-              </ion-col>
-            </ion-row>
-            </div>
-          </div>
-          <div class='notaFinal'>
-          <ion-row  class='blocoNota' col-12>
-              <ion-col class='prova'  col-9>
-                {{notaFinal ? notaFinal.prova : ''}}
-              </ion-col>
-              <ion-col  class='nota' col-3>
-                {{notaFinal ? notaFinal.conceito : ''}}
-              </ion-col>
-          </ion-row> 
-          </div>   
-         
-        
+                  <ion-col class='prova final'  col-9>
+                    {{notaFinalB2 ? notaFinalB2.prova : ''}}
+                  </ion-col>
+                  <ion-col class='nota final'  col-3>
+                      {{notaFinalB2 ? notaFinalB2.conceito : ''}}
+                  </ion-col>
+              </ion-row>                       
+          </ion-grid>  
           
-      </ion-grid>
+          <ion-grid *ngIf='bimestre==2' class='tabelaNotas'>           
+              <div class='provasNotas'> 
+                <div *ngFor='let pn of provasNotasFinais'>
+                  <ion-row class='blocoNota' col-12>
+                  <ion-col class='prova'  col-9>
+                    {{pn.prova}}
+                  </ion-col>
+                  <ion-col class='nota'  col-3>
+                    {{pn.conceito == null || pn.conceito == '' ? '--' : pn.conceito}}
+                  </ion-col>
+                </ion-row>
+                </div>
+              </div>
+              <div class='notaFinal'>
+              <ion-row  class='blocoNota' col-12>
+                  <ion-col class='prova final'  col-9>
+                    {{notaFinal ? notaFinal.prova : ''}}
+                  </ion-col>
+                  <ion-col  class='nota final' col-3>
+                    {{notaFinal ? notaFinal.conceito : ''}}
+                  </ion-col>
+              </ion-row> 
+              </div>   
+            
+            
+              
+          </ion-grid>
+     </div>
+      
+      
 </ion-content>

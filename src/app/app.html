@@ -1,34 +1,46 @@
+<div *ngIf='showSplash' class='loading3'> 
+  <div class="cssload-box-loading" *ngIf='false'>
+  </div>
+  <div class="lds-hourglass" *ngIf='false'></div>
+
+  <div class="cssload-loader" *ngIf='true'>
+    <div class="cssload-flipper">
+      <div class="cssload-front"></div>
+      <div class="cssload-back"></div>
+    </div>
+  </div>
+</div>
+
 <ion-menu [content]="content">
   
-  <ion-header *ngIf='!perfil'>
+  <ion-header>
  
       
       
 
            
        
-        <ion-card class="perfil" >   
-            <div class='menuBackground'>         
+        <ion-card class="perfil"  >   
+          <div class="menu" [(style.background-image)]="background == undefined ? defaultMenuBackground : background" >    
           <div class='menuDivAvatar'>
-                <div style='float:right;padding-right:10px;font-size:20px;' >
+                <div style='float:right;padding-right:17px;font-size:20px;' >
                     <ion-icon  name="return-left" menuToggle></ion-icon>
                 </div>   
             <div  class='avatarImg' >
-              <ion-card class="avatar">
-              <ion-avatar item-start>
-                  <img [(src)]="photoUrl">
-              </ion-avatar>
+              <div class="avatar" [(style.background-image)]='photoUrl' >
               
-              </ion-card>
+              
+              </div>
               <a  class='avatarName'>{{nome}}</a>
             </div>
             
-              <div class='avatarDesc' col-12>
-                  
-              <p col-12>Matricula: {{matricula}}</p>
-              <p style='display:inline' col-9>Email: {{email ? email : "Sem email cadastrado"}}</p> <ion-icon (click)='carregarContas();clicked=!clicked;carregado=true;' name="arrow-dropdown-circle" ></ion-icon>
-              
-              <div scrollY='true' class='popover' *ngIf='clicked==true'>
+            
+            <div class='avatarDesc' >
+              <span *ngIf='matricula!=undefined' style='display:block; font-size:11px;'>Matricula: {{matricula}}</span>
+              <span style='display:block;font-size:11px;'>Usuario:{{usuario ? usuario : "Sem email cadastrado"}}</span> 
+            </div> 
+            <ion-icon *ngIf='contas.length>1' (click)='clicked=!clicked;carregado=true;' name="arrow-dropdown-circle" ></ion-icon>
+            <div scrollY='true' class='popover' *ngIf='clicked==true'>
                 <ion-list (ionChange)='contaChoose($event);clickedTime();'  radio-group class='popoverList'>
                     
                   <ion-item *ngFor='let acc of contas'>
@@ -37,13 +49,8 @@
                   </ion-item>                  
                     
                 </ion-list>  
-              </div>
-              
-            
-              
-              </div>
-              
-            
+            </div>
+           
           </div>
         </div>
           </ion-card>
@@ -52,59 +59,10 @@
       
   </ion-header>
 
-  <ion-header *ngIf='perfil'>
- 
-      
-      
-
-           
-       
-      <ion-card class="perfil" >   
-          <div class='menuBackground'>         
-        <div class='menuDivAvatar'>
-              <div style='float:right;padding-right:10px;font-size:20px;' >
-                  <ion-icon  name="return-left" menuToggle></ion-icon>
-              </div>   
-          <div  class='avatarImg' >
-            <ion-card class="avatar">
-            <ion-avatar item-start>
-                <img src="">
-            </ion-avatar>
-            
-            </ion-card>
-            <a  class='avatarName'>{{nome}}</a>
-          </div>
-          
-            <div class='avatarDesc' col-12>
-                
-            <p col-12>Matricula: {{matricula}}</p>
-            <p style='display:inline' col-9>Email: {{email == undefined ? email : "Sem email cadastrado"}}</p> <ion-icon (click)='carregarContas();clicked=!clicked;carregado=true;' name="arrow-dropdown-circle" ></ion-icon>
-            <div class='popover' *ngIf='clicked==true'>
-              <ion-list (ionChange)='contaChoose($event);clickedTime();'  radio-group class='popoverList'>
-                  
-                <ion-item *ngFor='let acc of contas'>
-                    <ion-label>{{acc.nome}}</ion-label>
-                    <ion-radio [checked]='acc.checked' [value]='acc'></ion-radio>
-                </ion-item>                  
-                  
-              </ion-list>  
-            </div>
-          
-            
-            </div>
-            
-          
-        </div>
-      </div>
-        </ion-card>
-     
-      
-    
-</ion-header>
   
-  <ion-content *ngIf='!perfil'>
+  <ion-content >
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPagePush(p)">
+      <button menuClose ion-item *ngFor="let p of pages[funcao].pages" (click)="openPagePush(p)">
         {{p.title}}
       </button>
     </ion-list>

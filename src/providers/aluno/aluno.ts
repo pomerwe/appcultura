@@ -11,12 +11,26 @@ import { Observable } from '../../../node_modules/rxjs/Observable';
 @Injectable()
 export class AlunoProvider {
 
+  //Armazenará a matrícula do aluno selecionado para o acesso das demais classes
   private matricula;
-  private email;
+
+  //Armazenará o usuario do aluno selecionado para o acesso das demais classes
+  private usuario;
+
+  //Armazenará o nome do aluno selecionado para o acesso das demais classes
   private nome;
+
+  //Variável utilizada no menu para a div Popover.
   private checked;
+
+  //Armazenará a lista de codperlets do aluno selecionado para o acesso das demais classes
   private codperlets = [];
+
+  //Armazenará a URI da foto do aluno selecionado para o acesso das demais classes
   private photo;
+
+  //Armazenará a base de dados referente ao aluno selecionado para o acesso das demais classes
+  private base;
 
   constructor(
     public http: HttpClient,
@@ -25,17 +39,24 @@ export class AlunoProvider {
 
   }
 
+  public setBase(base){
+    this.base = base;
+  }
+  public getBase(){
+    return this.base;
+  }
+
   public setMatricula(matricula){
     this.matricula=matricula;
   }
   public getMatricula(){
     return this.matricula;
   }
-  public setEmail(email){
-    this.email=email;
+  public setUsuario(usuario){
+    this.usuario=usuario;
   }
-  public getEmail(){
-    return this.email;
+  public getUsuario(){
+    return this.usuario;
   }
   public setNome(nome){
     this.nome=nome;
@@ -59,8 +80,9 @@ export class AlunoProvider {
   public setAluno(data){
     this.photo = data.foto;
     this.matricula = data.matricula;
-    this.email = data.email;
+    this.usuario = data.email;
     this.nome = this.functions.nomes(data.nome);
+    this.base = data.base;
     let checked = data.checked;
     if(checked == undefined){
       this.checked = false ;
@@ -74,9 +96,10 @@ export class AlunoProvider {
     return new Promise ((resolve , reject) =>{
       let object={
         matricula:this.getMatricula(),
-        email:this.getEmail(),
+        usuario:this.getUsuario(),
         nome:this.getNome(),
-        foto:this.getPhoto()
+        photo:this.getPhoto(),
+        base:this.getBase()
       }
       resolve(object);
 
@@ -87,9 +110,10 @@ export class AlunoProvider {
     return new Observable(obs =>{
       let object={
         matricula:this.getMatricula(),
-        email:this.getEmail(),
+        usuario:this.getUsuario(),
         nome:this.getNome(),
-        foto:this.getPhoto()
+        photo:this.getPhoto(),
+        base:this.getBase()
       }
       obs.next(object);
       obs.complete;
@@ -105,12 +129,15 @@ export class AlunoProvider {
     this.photo = photo;
   }
 
+  //Função que unset todas as variáveis
   public unsetAluno(){
     this.setMatricula(undefined);
     this.setChecked(undefined);
-    this.setEmail(undefined);
+    this.setUsuario(undefined);
     this.setNome(undefined);
     this.setCodperlets(undefined);
     this.setPhoto(undefined);
+    this.setBase(undefined);
+  
   }
 }

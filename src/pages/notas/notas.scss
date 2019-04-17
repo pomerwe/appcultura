@@ -1,42 +1,157 @@
 page-notas {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 
-    .tabelaNotas{
-        border:1px solid;
-        border-color:rgba(0,0,0,0.15);
-        .provasNotas{
-            border-bottom:1px solid black;
+    .final{
+        font-weight: bold;
+    }
+    .swipeDiv{
+        position:absolute;
+        height:100%;
+        width:100%;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        z-index:-1;
+    }
+    .clicked{
+         background-color:rgba(179, 231, 255, 0.233);
+       // background-image:linear-gradient(to bottom, rgba(255,255,11,0.25) , rgba(255,0,0,0.1));
+        font-weight: bold;
+        
+    }
+    
+    ion-list{
+        padding:0px !important;
+        .bimestresItem{            
+            padding-left:0px;
+            padding-right:0px;
+            align-self: center;
+            .item-inner{
+                display:flex;
+                justify-content: center;
+                padding:0px !important;
+                .input-wrapper{
+                    padding:5px;
+                    ion-label{
+                        margin-right: 0 !important;
+                        margin-left: 0 !important;
+                    }
+                }
+                
+            }
+            
+        }
+    }
+    .tabelaNotasDiv{
+        margin:10px;
+        border: 1px solid rgba(226, 229, 230, 0.829) ;
+        background-color: rgb(242, 247, 248) ;
+        box-shadow:0px 2px 3px rgba(0, 0, 0, 0.267);
+        .tabelaNotas{
+            padding:15px;
+           
+            .provasNotas{
+                border-bottom:1px solid black;
+                .blocoNota{
+                    padding: 0px; 
+                    text-align:left;
+                    
+                    .prova{
+                    align-items: center;
+                    justify-content: center;
+                    border-right:1px solid;
+                    border-right-color:rgba(0,0,0,0.15);
+                    height: 100%;  
+                    }
+                    .nota{
+                    
+                    
+                    }
+
+                }
+            
+            }
+            
             .blocoNota{
-                padding: 0px; 
-                
-                .prova{
-                
-                border-right:1px solid;
-                border-right-color:rgba(0,0,0,0.15);
-                height: 100%;  
-                }
-                .nota{
-                
-                text-align:center;
-                }
+            padding: 0px; 
+            
+            .prova{
+            
+            border-right:1px solid;
+            border-right-color:rgba(0,0,0,0.15);
+            height: 100%;  
+            }
+            .nota{
+            text-align:center;
+            }
 
             }
-        
-        }
-        
-        .blocoNota{
-        padding: 0px; 
-        
-        .prova{
-        
-        border-right:1px solid;
-        border-right-color:rgba(0,0,0,0.15);
-        height: 100%;  
-        }
-        .nota{
-        text-align:center;
+            
         }
 
+    }
+    .bimestresDiv{
+        margin:0px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-left: 1px solid rgba(0, 0, 0, 0.100);
+        border-right: 1px solid rgba(0, 0, 0, 0.100);
+        .bimestres{
+            padding:10px;
+            .bimestreIndex{
+                
+            }
+            border-left: 1px solid rgba(0, 0, 0, 0.100);
+            border-right: 1px solid rgba(0, 0, 0, 0.100);
         }
-        
+    }
+
+
+
+    .animation1{
+        position:relative;
+
+        animation: anim 0.3s;
+    }
+
+    @keyframes anim{
+        from{left:-500px;}
+        to{left:0px;}
+    }
+    .animation2{
+        position:relative;
+
+        animation: anim2 0.3s;
+    }
+
+    @keyframes anim2{
+        from{right:-500px;}
+        to{right:0px;}
+    }
+
+    .animation3{
+        position:relative;
+
+        animation: anim3 0.3s;
+    }
+
+    @keyframes anim3{
+        from{left:-510px;}
+        to{left:0px;}
+    }
+
+    .animation4{
+        position:relative;
+
+        animation: anim4 0.3s;
+    }
+
+    @keyframes anim4{
+        from{right:-510px;}
+        to{right:0px;}
     }
 }

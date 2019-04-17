@@ -1,0 +1,118 @@
+<!--
+  Generated template for the FinanceiroPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color='danger'>
+    <ion-title>Financeiro</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  
+    <div class="financeiroTitleDiv">
+    <div class='bloco1'>
+        <span class='blocoTitle'>Aluno:</span>
+        <span class='blocoContent'>{{nome}}</span>
+    </div>
+    <div class='bloco2'>
+        <span class='blocoTitle'>Curso:</span>
+        <span *ngFor='let curso of cursos' class='blocoContent'>{{curso}}</span>
+      </div>
+    </div>
+    
+      <div class='historicoTitleDiv' (swipe)='swipe($event,historicoDivis,boletosDivis)'>
+        <div class='arrow floatLeft' >
+            <ion-icon [(style.display)]='arrowBackDisplay' (click)='back(historicoDivis,boletosDivis);setUnsetArrows();' name="arrow-back" #arrowBack></ion-icon>
+        </div>        
+          <span class='title'>{{title[page]}}</span>          
+        <div class='arrow floatRight' >
+            <ion-icon [(style.display)]='arrowForwardDisplay' (click)='forward(historicoDivis,boletosDivis);setUnsetArrows();' name="arrow-forward" #arrowForward></ion-icon>
+        </div>
+          
+      </div>
+    <div class='swipe' scrollY='true'>
+  <ion-content class='contentSwipe' (swipe)='swipe($event,historicoDivis,boletosDivis)' #ioncontent>
+    
+      <ion-refresher (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content
+          pullingIcon="sync"
+          pullingText="Recarregar"
+          refreshingSpinner="crescent">
+        </ion-refresher-content>
+      </ion-refresher>
+<div class='allContent'>
+    <div *ngIf='noConnectionTop' class='noConnectionMessage'>
+        Não há conexão com a internet. Reconecte e recarregue...
+    </div>
+  <div class='historicoDiv' (swipe)='swipe($event,historicoDivis,boletosDivis)' #historicoDivis>
+    <div *ngFor='let b of boletos'>
+      <div class='historicoContent' ion-row text-center>
+        <div ion-col col-12 class='historicoContentDescricao'><span style="font-weight: bold">Descrição: </span><span style='color:rgb(61, 61, 35)'>{{b.descricao}}</span></div>
+        <div ion-col class='historicoCol' col-4>
+          <span class='historicoColtitle'>Valor </span>
+          <span class='historicoColcontent'>{{b.valor | currency:'BRL':'symbol'}}</span>
+        </div>
+        <div ion-col class='historicoCol' col-4>
+          <span class='historicoColtitle'>Vencimento</span>
+          <span class='historicoColcontent'>{{b.vencimento | date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div ion-col class='historicoCol last' col-4>
+          <span class='historicoColtitle'>Pago</span>
+          <ion-icon *ngIf='b.estado.match("PAGO")===null' color='gray' style='margin:3px;' name="checkmark-circle"></ion-icon>
+          <ion-icon *ngIf='b.estado.match("PAGO")!==null' color='secondary' style='margin:3px;' name="checkmark-circle"></ion-icon>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class='boletosDiv hidden' (swipe)='swipe($event,historicoDivis,boletosDivis)' #boletosDivis>
+    <div *ngFor='let b of boletosAbertos'>
+      <div class='boletosContent'>
+        <span class='boletosContentTitle'>Descrição: {{b.descricao}} </span>
+        <span class='boletosContentInfo'>Valor: {{b.valor | currency:'BRL':true}} </span>
+        <span class='boletosContentInfo'> Vencimento: {{b.vencimento | date:'dd/MM/yyyy'}} </span>
+        <span class='boletosContentInfo'> Situação: {{b.estado}} </span>
+        <div class='boletosButtonDiv' ion-row>
+          <div  ion-col col-6>
+            <div (click)='baixarBoleto(b.id,b.base,b.matricula)' class='buttonContentDiv button' ion-row>
+              <div ion-col col-1>
+                <ion-icon start class='boletosButtonIcon' name="archive"></ion-icon>
+              </div>
+              <div ion-col col-11>
+                  Ver boleto
+              </div>
+            
+            </div>
+          </div>
+          <div (click)='copiarCodigo(b.linhaDigitavel)' ion-col col-6>
+              <div  class='buttonContentDiv button' ion-row>
+                <div ion-col col-1>
+                  <ion-icon start class='boletosButtonIcon' name="albums"></ion-icon>
+                </div>
+                <div ion-col col-11>
+                    Copiar código
+                </div>
+              
+              </div>
+            </div>
+          
+        </div>
+      </div>
+      
+    </div>
+    <div *ngIf='noBoletoAberto' class='noBoletoMessage' (swipe)='swipe($event,historicoDivis,boletosDivis)'>
+     Não há boletos abertos.
+    
+  </div>
+  </div>
+</div>
+</ion-content>
+</div>
+
+</ion-content>

@@ -15,12 +15,8 @@ export class LoginServiceProvider {
   private userInfo;
   private contas = [];
 
-  public getUserData():Promise<any>{
-   return new Promise( 
-     (resolve,reject)=>
-     {
-       resolve(this.userInfo);
-    }); 
+  public getUserData(){
+   return this.userInfo;
   }
 
   public setUserData(userData){
@@ -41,7 +37,7 @@ export class LoginServiceProvider {
      while(this.contas.length){
       this.contas.pop();
      }
-     
+     this.userInfo = undefined;
      
    }
 }

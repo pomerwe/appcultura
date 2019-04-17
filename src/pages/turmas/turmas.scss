@@ -1,0 +1,47 @@
+page-turmas {
+
+    ion-header{
+        ion-navbar{
+
+            .toolbar-content{
+                ion-title{
+                    .toolbar-title{
+                        font-size:15px !important;
+                    }
+                }
+                
+            }
+        }
+    }
+    .Message{
+        margin-top:10px;
+        font-size:10px;
+        color:rgba(0, 0, 0, 0.616);            
+        text-align: center;
+    }
+
+    ion-content{
+        background-color: rgb(242, 247, 248) !important;
+    }
+    .turmaCard{
+        background-color:rgba(218, 28, 28, 0.664);
+        border: 1px solid rgba(224, 103, 103, 0.637);
+        position: relative;
+        padding:15px;
+        margin:15px;
+        border-radius:0px 50px 50px 0px;
+        .turmaCardContent{
+            color:white;
+            font-size:15px;
+        }
+        .turmaArrow{
+            font-size:30px;
+            position:absolute;
+            top:50%;
+            transform: translateY(-50%);
+            right:0%;
+            color:white;
+            margin-right:25px;
+        }
+    }
+}

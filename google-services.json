@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "996329366895",
+    "firebase_url": "https://movelproject.firebaseio.com",
+    "project_id": "movelproject",
+    "storage_bucket": "movelproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996329366895:android:0ce8d11c36b8a154",
+        "android_client_info": {
+          "package_name": "com.culturainglesamg.appcultura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996329366895-4jscun352jv5sep3j1i4l2g1ncbkaa7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHv4jwB3rAgfYOgtIxYmH5MniNfDY4Pq8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,594 @@
+@media only screen and (max-aspect-ratio:13/9){
+page-financeiro {
+    .scroll-content{
+        overflow-y: hidden !important;
+        overflow-x: hidden !important;
+    }
+    .allContent{
+        padding:0px !important;
+    }
+    .hidden{
+        display:none;
+    }
+    .swipew{
+        height:90%;
+        background-color:transparent;
+        z-index:-1;
+    }
+    .contentBoleto{
+        height:70vh;
+    }
+    .floatLeft{
+        float:left;
+    }
+    .floatRight{
+        float:right;
+    }
+    .last{
+        border:none!important;
+    }
+    
+    .financeiroTitleDiv{
+        width:100%;
+        text-align: left; 
+        background-color:rgb(255, 255, 255); 
+        padding:0px; 
+        margin:0px;
+
+    
+        .bloco1{
+            display:inline-block; 
+            width:100%;
+            padding-left:15px;
+            .blocoTitle{
+                color: rgb(132, 123, 255); 
+                font-size:10px;
+            }
+            .blocoContent{                
+                color:skyblue ; 
+                font-size:10px;
+                margin-right:3px;
+            }
+        }
+        .bloco2{
+            display:inline-block; 
+            width:100%; 
+            padding-left:15px;
+            .blocoTitle{
+                color: rgb(132, 123, 255); 
+                font-size:10px;
+                margin-bottom: -10px;
+            }
+            .blocoContent{
+                color:skyblue ; 
+                font-size:10px;
+                margin-right:3px;
+            }
+        }
+    }
+    .historicoTitleDiv{
+        text-align:center;
+        border-bottom: 1px solid rgba(114, 114, 114,0.1);
+        border-top: 1px solid rgba(114, 114, 114, 0.1);
+        padding:10px;
+        margin:0px;
+        background-color: rgb(252, 247, 247);
+        .hide{
+            display:none;
+        }
+        .title{
+            color:rgb(37, 37, 37);
+            font-weight:lighter;
+        }
+        .arrow{
+            border-radius:100%;
+            margin-top:-3px;
+            padding:3px;
+            width:30px;
+            height:30px;
+            transition-duration: 0.23s;
+        }
+        // .arrow:hover{
+        //     transition-duration: 0.23s;
+        //     color:black;
+        //     background-color:rgba(169, 198, 204, 0.397);
+        //     border-radius:100%;
+        //     width:30px;
+        //     height:30px;
+        // }
+        
+    }
+    .swipe{
+        height:75vh;
+        .contentSwipe{
+            .scroll-content{
+                overflow-y: scroll !important;
+                overflow-x: hidden !important;
+                background-color:white;
+            }
+            .scroll-content::-webkit-scrollbar {
+                background-color: white;
+                width:5px;
+            }
+            .scroll-content::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, 0.479);
+                border-radius: 10px;
+            }   
+            width:100%;
+        }   
+        
+        
+        .historicoDiv{
+            position:relative;
+            width:100%;
+            height:75vh;
+            margin:0 auto;         
+        
+        }
+        .boletosDiv{
+            position:relative;
+            width:100%;
+            height:75vh;
+            margin:0 auto;  
+        
+        }
+        .boletosDiv.swipe{
+            position:relative;
+            left:100%;
+            top:0; 
+            -webkit-animation: boletosSwipe 0.25s ; /* Safari 4.0 - 8.0 */
+            animation: boletosSwipe 0.25s ;
+        }
+        .boletosDiv.swipeBack{
+            position:relative;
+            left:0px;
+            width:100%;
+            display:block; 
+            margin:0 auto;          
+            -webkit-animation: boletosSwipeBack 0.25s ; /* Safari 4.0 - 8.0 */
+            animation: boletosSwipeBack 0.25s ;
+        }
+        
+       
+        .historicoDiv.swipe{
+            position:relative;
+              
+            height:0px;
+            -webkit-animation: historicoSwipe 0.25s ; /* Safari 4.0 - 8.0 */
+            animation: historicoSwipe 0.25s ;
+        }
+        .historicoDiv.swipeBack{
+            position:absolute;
+            width:100%;
+            background-size:100%;
+            background-color:white;
+            margin:0 auto;  
+            right:0%;
+            -webkit-animation: historicoSwipeBack 0.25s ; /* Safari 4.0 - 8.0 */
+            animation: historicoSwipeBack 0.25s ;
+        }
+        @-webkit-keyframes boletosSwipeBack {
+            from {left: 100%;}
+            to {left: 0px;}
+        }
+        
+        /* Standard syntax */
+        @keyframes boletosSwipeBack {
+            from {left: 100%;}
+            to {left: 0px;}
+        }
+
+        @-webkit-keyframes boletosSwipe {
+            from {left: 0px;}
+            to {left: 100%;}
+        }
+        
+        /* Standard syntax */
+        @keyframes boletosSwipe  {
+            from {left: 0px;}
+            to {left: 100%;}
+        }
+    
+        @-webkit-keyframes historicoSwipeBack {
+            from {right: 100%;}
+            to {right: 0px;}
+        }
+        
+        /* Standard syntax */
+        @keyframes historicoSwipeBack {
+            from {right: 100%;}
+            to {right: 0px;}
+        }
+
+        @-webkit-keyframes historicoSwipe {
+            from {right: 0px;}
+            to {right: 100%;}
+        }
+        
+        /* Standard syntax */
+        @keyframes historicoSwipe  {
+            from {right: 0px;}
+            to {right: 100%;}
+        }
+    }
+
+    .historicoContent{
+        margin:10px;
+        border-right:1px solid rgba(0,0,0,0.1);
+        border-left:1px solid rgba(0,0,0,0.1);
+        border-top:1px solid rgba(0,0,0,0.1);
+        border-bottom:1px solid rgba(0,0,0,0.1);
+        .historicoContentDescricao{
+            background-color:rgba(219, 223, 220, 0.466);
+            font-size:12px;
+            text-align: center;
+            padding-left:11px;
+            border-bottom:1px solid rgba(0,0,0,0.1);
+        }
+        .historicoCol{
+            border-right: 1px solid rgba(0,0,0,0.1);
+            .historicoColtitle{
+                display:block;
+                font-size:12px;
+            }
+            .historicoColcontent{
+                font-size:10px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .boletosContent{
+        
+        margin-bottom:10px;
+        padding:15px;
+        border-bottom:1px solid rgba(0,0,0,0.1);
+        .boletosContentTitle{
+            display:block;
+            font-size:13px;
+            font-weight: bold;
+        }
+        .boletosContentInfo{
+            display:block;
+            font-size:12px;            
+        }
+       .boletosButtonDiv{
+            text-align: center;
+            .buttonContentDiv{
+                
+            }
+            .button{
+                color:rgb(255, 255, 255);
+                padding:5px;
+                margin-top:5px;
+                border-radius:5px;
+                background-color: rgb(117, 119, 252);
+                font-size:13px;
+                
+            }
+            .button:active{
+                background-color: rgb(158, 159, 255);
+                box-shadow:0px 5px 10px rgba(0, 0, 0, 0.87);
+                
+            }  
+            
+        }
+    }
+    .noConnectionMessage{
+        font-size:10px;
+        color:rgba(0, 0, 0, 0.616);
+        margin-top:10px;
+        text-align: center;
+    }
+    .noBoletoMessage{
+        font-size:10px;
+        color:rgba(0, 0, 0, 0.616);
+        margin-top:10px;
+        text-align: center;
+    }
+
+}
+}
+@media only screen and (min-aspect-ratio:13/9){
+    page-financeiro {
+        .scroll-content{
+            overflow-y: hidden !important;
+            overflow-x: hidden !important;
+        }
+        .allContent{
+            padding:0px !important;
+        }
+        .hidden{
+            display:none;
+        }
+        .swipew{
+            height:90%;
+            background-color:transparent;
+            z-index:-1;
+        }
+        .contentBoleto{
+            height:70vh;
+        }
+        .floatLeft{
+            float:left;
+        }
+        .floatRight{
+            float:right;
+        }
+        .last{
+            border:none!important;
+        }
+        
+        .financeiroTitleDiv{
+            width:100%;
+            text-align: left; 
+            background-color:rgb(255, 255, 255); 
+            padding:0px; 
+            margin:0px;
+    
+        
+            .bloco1{
+                display:inline-block; 
+                width:50%;
+                padding-left:15px;
+                .blocoTitle{
+                    display:block;
+                    color: rgb(132, 123, 255); 
+                    font-size:10px;
+                    margin-bottom: -10px;
+                }
+                .blocoContent{                
+                    color:skyblue ; 
+                    font-size:10px;
+                    margin-right:3px;
+                }
+            }
+            .bloco2{
+                display:inline-block; 
+                width:40%; 
+                .blocoTitle{
+                    display:block;
+                    color: rgb(132, 123, 255); 
+                    font-size:10px;
+                    margin-bottom: -10px;
+                }
+                .blocoContent{
+                    color:skyblue ; 
+                    font-size:10px;
+                    
+                    margin-right:3px;
+                }
+            }
+        }
+        .historicoTitleDiv{
+            text-align:center;
+            border-bottom: 1px solid rgba(114, 114, 114,0.1);
+            border-top: 1px solid rgba(114, 114, 114, 0.1);
+            padding:10px;
+            margin:0px;
+            background-color: rgb(252, 247, 247);
+            .hide{
+                display:none;
+            }
+            .title{
+                color:rgb(37, 37, 37);
+                font-weight:lighter;
+            }
+            .arrow{
+                border-radius:100%;
+                margin-top:-3px;
+                padding:3px;
+                width:30px;
+                height:30px;
+                transition-duration: 0.23s;
+            }
+            // .arrow:hover{
+            //     transition-duration: 0.23s;
+            //     color:black;
+            //     background-color:rgba(169, 198, 204, 0.397);
+            //     border-radius:100%;
+            //     width:30px;
+            //     height:30px;
+            // }
+            
+        }
+        
+        .swipe{
+            height:60vh;
+            .contentSwipe{
+                .scroll-content{
+                    overflow-y: scroll !important;
+                    overflow-x: hidden !important;
+                    background-color:white;
+                }
+                .scroll-content::-webkit-scrollbar {
+                    background-color: white;
+                    width:5px;
+                }
+                .scroll-content::-webkit-scrollbar-thumb {
+                    background:rgba(0, 0, 0, 0.479);
+                    border-radius: 10px;
+                }   
+                width:100%;
+            }
+            
+            
+            .historicoDiv{
+                position:relative;
+                width:100%;
+                margin:0 auto;         
+            
+            }
+            .boletosDiv{
+                position:relative;
+                width:100%;
+                margin:0 auto;  
+            
+            }
+            .boletosDiv.swipe{
+                position:relative;
+                left:100%;
+                top:0; 
+                height:0px;
+                -webkit-animation: boletosSwipe 0.25s ; /* Safari 4.0 - 8.0 */
+                animation: boletosSwipe 0.25s ;
+            }
+            .boletosDiv.swipeBack{
+                position:relative;
+                left:0px;
+                width:100%;
+                display:block; 
+                margin:0 auto;          
+                -webkit-animation: boletosSwipeBack 0.25s ; /* Safari 4.0 - 8.0 */
+                animation: boletosSwipeBack 0.25s ;
+            }
+            
+           
+            .historicoDiv.swipe{
+                position:relative;
+                  
+                height:0px;
+                -webkit-animation: historicoSwipe 0.25s ; /* Safari 4.0 - 8.0 */
+                animation: historicoSwipe 0.25s ;
+            }
+            .historicoDiv.swipeBack{
+                position:absolute;
+                width:100%;
+                background-size:100%;
+                background-color:white;
+                margin:0 auto;  
+                right:0%;
+                -webkit-animation: historicoSwipeBack 0.25s ; /* Safari 4.0 - 8.0 */
+                animation: historicoSwipeBack 0.25s ;
+            }
+            @-webkit-keyframes boletosSwipeBack {
+                from {left: 100%;}
+                to {left: 0px;}
+            }
+            
+            /* Standard syntax */
+            @keyframes boletosSwipeBack {
+                from {left: 100%;}
+                to {left: 0px;}
+            }
+    
+            @-webkit-keyframes boletosSwipe {
+                from {left: 0px;}
+                to {left: 100%;}
+            }
+            
+            /* Standard syntax */
+            @keyframes boletosSwipe  {
+                from {left: 0px;}
+                to {left: 100%;}
+            }
+        
+            @-webkit-keyframes historicoSwipeBack {
+                from {right: 100%;}
+                to {right: 0px;}
+            }
+            
+            /* Standard syntax */
+            @keyframes historicoSwipeBack {
+                from {right: 100%;}
+                to {right: 0px;}
+            }
+    
+            @-webkit-keyframes historicoSwipe {
+                from {right: 0px;}
+                to {right: 100%;}
+            }
+            
+            /* Standard syntax */
+            @keyframes historicoSwipe  {
+                from {right: 0px;}
+                to {right: 100%;}
+            }
+        }
+    
+        .historicoContent{
+            margin:5px;
+            margin-bottom:10px;
+            border-right:1px solid rgba(0,0,0,0.1);
+            border-left:1px solid rgba(0,0,0,0.1);
+            border-top:1px solid rgba(0,0,0,0.1);
+            border-bottom:1px solid rgba(0,0,0,0.1);
+            .historicoContentDescricao{
+                background-color:rgba(219, 223, 220, 0.466);
+                font-size:12px;
+                text-align: center;
+                padding-left:11px;
+                border-bottom:1px solid rgba(0,0,0,0.1);
+            }
+            .historicoCol{
+                border-right: 1px solid rgba(0,0,0,0.1);
+                .historicoColtitle{
+                    display:block;
+                    font-size:12px;
+                }
+                .historicoColcontent{
+                    font-size:10px;
+                    font-weight: bold;
+                }
+            }
+        }
+    
+        .boletosContent{
+            
+            margin-bottom:10px;
+            padding:15px;
+            border-bottom:1px solid rgba(0,0,0,0.1);
+            .boletosContentTitle{
+                display:block;
+                font-size:13px;
+                font-weight: bold;
+            }
+            .boletosContentInfo{
+                display:block;
+                font-size:12px;            
+            }
+           .boletosButtonDiv{
+                text-align: center;
+                .buttonContentDiv{
+                    
+                }
+                .button{
+                    color:rgb(255, 255, 255);
+                    padding:5px;
+                    margin-top:5px;
+                    border-radius:5px;
+                    background-color: rgb(117, 119, 252);
+                    font-size:13px;
+                
+                }
+                .button:active{
+                    background-color: rgb(158, 159, 255);
+                    box-shadow:0px 5px 10px rgba(0, 0, 0, 0.87);
+                    
+                }  
+                   
+                
+                
+            }
+        }
+        .noConnectionMessage{
+            padding-top:10px;
+            font-size:10px;
+            color:rgba(0, 0, 0, 0.616);
+            
+            
+            text-align: center;
+        }
+        .noBoletoMessage{
+            padding-top:10px;
+            font-size:10px;
+            color:rgba(0, 0, 0, 0.616);
+            height:59vh;
+            background: white;
+            text-align: center;
+        }
+    
+    }
+    }
+
+    

@@ -18,35 +18,43 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content (ionScrollStart)='scrollActive(ioncontent._scrollContent.nativeElement)'   (ionScrollEnd)='scrollInactive(ioncontent._scrollContent.nativeElement)' #ioncontent>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content
         pullingIcon="sync"
         pullingText="Recarregar"
-        refreshingSpinner="crescent"
-        refreshingText="Recarregando...">
+        refreshingSpinner="crescent">
       </ion-refresher-content>
     </ion-refresher>
-    <ion-card *ngFor= "let c of chamada">
-      <ion-card-header >
+  <div class='allContent'>
+    <div *ngIf='noConnectionTop' class='noConnectionMessage top'>
+        Não há conexão com a internet. Reconecte e recarregue...
+    </div>
+    
+    <ion-card *ngFor= "let c of chamadas">
+      <ion-card-header class='cardHeader' >
           <img src='../../assets/imgs/chamada.jpg' class="chamadaIcon" />
         <div style='display:inline-block; '>
-        <span class='chamadaTitle'>LESSON SUMMARY </span><br>
-        <span class='chamadaSubtitle'>{{c.nome}} - {{c.data | date:'dd/MM/yy' }}<br> {{c.horario}}</span><br>
+        <span class='chamadaTitle'>LESSON SUMMARY </span>
+        <span class='chamadaSubtitle'>{{c.nome}} - {{c.data | date:'dd/MM/yy' }} <br> {{c.horario}}</span>
         <span class='chamadaSubtitle'>{{c.periodo}} - {{c.codtur}}</span>
       </div>
       </ion-card-header>
-      <ion-card-content >
+      <ion-card-content  class='cardContent'>
         <span class='chamadaContentTitle'>Content: </span><span class='chamadaContent'> {{c.descricao}}</span><br>
         <span class='chamadaContentTitle'>Homework: </span><span class='chamadaContent'> {{c.tarefasdia}}</span><br>
         <span class='chamadaContentTitle'>Attendance: </span><span class='chamadaContent'> {{c.freq}}</span>
       </ion-card-content>
     </ion-card>
   
+    <div *ngIf='noConnectionBot' class='noConnectionMessage'>
+        Não há conexão com a internet. Reconecte e recarregue...
+    </div>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
         <ion-infinite-scroll-content
           loadingSpinner="bubbles"
           loadingText="Carregando...">
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
+    </div> 
 </ion-content>

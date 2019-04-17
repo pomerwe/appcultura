@@ -1,0 +1,152 @@
+<!--
+  Generated template for the CalendarioProfessorPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar color='blueNice'>
+        <ion-title>Calendário</ion-title>
+      </ion-navbar>
+
+</ion-header>
+
+<ion-content #ioncontent>
+
+<div *ngIf='helpActive' (click)='deactiveHelp(ioncontent._scrollContent.nativeElement)' class='overlayHelp'>
+   
+  <div class='positioning'>
+      <div (click)='deactiveHelp(ioncontent._scrollContent.nativeElement)' class='closeButton'>
+          <ion-icon name="close-circle"></ion-icon>
+      </div>
+      <div class='calendarHelp'>
+        <span class=' titleHelp'>Legenda</span><br><br>
+         <div class='squareDescription'><span class='square greenSquare'></span><span class='description'>Chamada finalizada</span></div>
+         <div class='squareDescription'><span class='square blueSquare'></span><span class='description'>Chamada aberta</span></div>
+         <div class='squareDescription'><span class='square graySquare'></span><span class='description'>Chamada bloqueada</span></div>
+         <div class='squareDescription'><span class='square redSquare'></span><span class='description'>Chamada pendente</span></div>
+      </div>
+  </div>
+  
+</div> 
+
+<div *ngIf='true'>
+    <div class='calendario'>
+        <div class='calendarioYear'>
+            <span class='calendarioYearTitle'>{{currentYear}}</span> 
+            <div (click)='activeHelp(ioncontent._scrollContent.nativeElement)' class='help'>
+                <ion-icon class='icon' name="help-circle"></ion-icon>
+            </div>
+            
+        </div>
+        <div class='calendarioMonth'>
+          <div class='buttonClickBack'>
+            <ion-icon class='arrowBack' (touchstart)='decreaseMonth()' name="arrow-back"></ion-icon>
+          </div>
+          <div class='calendarioMonthTitle'>
+              <div *ngIf='carregando' class="lds-dual-ring"></div><span>{{mesLabel}}</span>  
+          </div>
+          
+          <div class='buttonClickForward' >
+            <ion-icon class='arrowForward'  (touchstart)='increaseMonth()' name="arrow-forward" ></ion-icon>
+          </div>   
+          
+            
+        </div>
+        <div class=calendarioDaysTitle>
+          <div class='calendarioDaysTitleDayDiv' ion-row>
+            <span class='calendarioDaysTitleDay' ion-col>Dom</span>
+            <span class='calendarioDaysTitleDay' ion-col>Seg</span>
+            <span class='calendarioDaysTitleDay' ion-col>Ter</span>
+            <span class='calendarioDaysTitleDay' ion-col>Qua</span>
+            <span class='calendarioDaysTitleDay' ion-col>Qui</span>
+            <span class='calendarioDaysTitleDay' ion-col>Sex</span>
+            <span class='calendarioDaysTitleDay' ion-col>Sab</span>        
+          </div>
+        </div>
+        <div class='calendarioDays' ion-row>
+          <div class='calendarioDaysDayDiv' ion-col>
+            <ion-row *ngFor="let fakeDomTop of calendarFakeDaysDisplayIndexedTop['dom'].days" class='calendarioDaysDivDayRow fake'>
+              <span class='calendarioDaysDay'>{{fakeDomTop}}</span>
+            </ion-row>
+            <ion-row (click)='showEvents(dom)' *ngFor="let dom of calendarDaysDisplayIndexed['dom'].days"  class='calendarioDaysDivDayRow' [id]='dom'>
+              <span class='calendarioDaysDay'>{{dom}}</span>
+            </ion-row>
+            <ion-row *ngFor="let fakeDomBot of calendarFakeDaysDisplayIndexedBottom['dom'].days" class='calendarioDaysDivDayRow fake'>
+                <span class='calendarioDaysDay'>{{fakeDomBot}}</span>
+              </ion-row>
+          </div>
+          <div class='calendarioDaysDayDiv' ion-col>
+          <ion-row *ngFor="let fakeSegTop of calendarFakeDaysDisplayIndexedTop['seg'].days" class='calendarioDaysDivDayRow fake'>
+              <span class='calendarioDaysDay'>{{fakeSegTop}}</span>
+            </ion-row>
+            <ion-row (click)='showEvents(seg)'  *ngFor="let seg of calendarDaysDisplayIndexed['seg'].days"  class='calendarioDaysDivDayRow' [id]='seg'>
+              <span class='calendarioDaysDay'>{{seg}}</span>
+            </ion-row>
+            <ion-row *ngFor="let fakeSegBot of calendarFakeDaysDisplayIndexedBottom['seg'].days" class='calendarioDaysDivDayRow fake'>
+                <span class='calendarioDaysDay'>{{fakeSegBot}}</span>
+              </ion-row>
+          </div>
+          <div class='calendarioDaysDayDiv' ion-col>
+          <ion-row *ngFor="let fakeTerTop of calendarFakeDaysDisplayIndexedTop['ter'].days" class='calendarioDaysDivDayRow fake'>
+              <span class='calendarioDaysDay'>{{fakeTerTop}}</span>
+            </ion-row>
+            <ion-row (click)='showEvents(ter)'  *ngFor="let ter of calendarDaysDisplayIndexed['ter'].days"  class='calendarioDaysDivDayRow' [id]='ter'>
+              <span class='calendarioDaysDay'>{{ter}}</span>
+            </ion-row>
+            <ion-row *ngFor="let fakeTerBot of calendarFakeDaysDisplayIndexedBottom['ter'].days" class='calendarioDaysDivDayRow fake'>
+                <span class='calendarioDaysDay'>{{fakeTerBot}}</span>
+              </ion-row>
+          </div>
+          <div class='calendarioDaysDayDiv' ion-col>
+          <ion-row *ngFor="let fakeQuaTop of calendarFakeDaysDisplayIndexedTop['qua'].days" class='calendarioDaysDivDayRow fake'>
+              <span class='calendarioDaysDay'>{{fakeQuaTop}}</span>
+            </ion-row>
+            <ion-row (click)='showEvents(qua)'  *ngFor="let qua of calendarDaysDisplayIndexed['qua'].days"  class='calendarioDaysDivDayRow' [id]='qua'>
+              <span class='calendarioDaysDay'>{{qua}}</span>
+            </ion-row>
+            <ion-row *ngFor="let fakeQuaBot of calendarFakeDaysDisplayIndexedBottom['qua'].days" class='calendarioDaysDivDayRow fake'>
+                <span class='calendarioDaysDay'>{{fakeQuaBot}}</span>
+              </ion-row>
+          </div>
+          <div class='calendarioDaysDayDiv' ion-col>
+          <ion-row *ngFor="let fakeQuiTop of calendarFakeDaysDisplayIndexedTop['qui'].days" class='calendarioDaysDivDayRow fake'>
+              <span class='calendarioDaysDay'>{{fakeQuiTop}}</span>
+            </ion-row>
+            <ion-row (click)='showEvents(qui)'  *ngFor="let qui of calendarDaysDisplayIndexed['qui'].days"  class='calendarioDaysDivDayRow' [id]='qui'>
+              <span class='calendarioDaysDay'>{{qui}}</span>
+            </ion-row>
+            <ion-row *ngFor="let fakeQuiBot of calendarFakeDaysDisplayIndexedBottom['qui'].days" class='calendarioDaysDivDayRow fake'>
+                <span class='calendarioDaysDay'>{{fakeQuiBot}}</span>
+              </ion-row>
+          </div>
+          <div class='calendarioDaysDayDiv' ion-col>
+          <ion-row *ngFor="let fakeSexTop of calendarFakeDaysDisplayIndexedTop['sex'].days" class='calendarioDaysDivDayRow fake'>
+              <span  class='calendarioDaysDay'>{{fakeSexTop}}</span>
+            </ion-row>
+            <ion-row (click)='showEvents(sex)'  *ngFor="let sex of calendarDaysDisplayIndexed['sex'].days"  class='calendarioDaysDivDayRow' [id]='sex'>
+              <span class='calendarioDaysDay'>{{sex}}</span>
+            </ion-row>
+            <ion-row *ngFor="let fakeSexBot of calendarFakeDaysDisplayIndexedBottom['sex'].days" class='calendarioDaysDivDayRow fake'>
+                <span class='calendarioDaysDay'>{{fakeSexBot}}</span>
+              </ion-row>
+          </div>
+          <div class='calendarioDaysDayDiv' ion-col>
+          <ion-row *ngFor="let fakeSabTop of calendarFakeDaysDisplayIndexedTop['sáb'].days" class='calendarioDaysDivDayRow fake'>
+              <span class='calendarioDaysDay'>{{fakeSabTop}}</span>
+            </ion-row>
+            <ion-row (click)='showEvents(sab)' *ngFor="let sab of calendarDaysDisplayIndexed['sáb'].days"  class='calendarioDaysDivDayRow' [id]='sab'>
+              <span class='calendarioDaysDay'>{{sab}}</span>
+            </ion-row>
+            <ion-row  *ngFor="let fakeSabBot of calendarFakeDaysDisplayIndexedBottom['sáb'].days" class='calendarioDaysDivDayRow fake'>
+                <span class='calendarioDaysDay'>{{fakeSabBot}}</span>
+              </ion-row>
+          </div>
+        </div>
+      </div>
+      <div class='events' id='events' ion-row>
+      </div>
+</div>
+
+</ion-content>

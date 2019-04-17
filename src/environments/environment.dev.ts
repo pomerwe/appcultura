@@ -1,12 +1,12 @@
 export var environment = {   //THIS IS FOR DEFAULT VALUES
     BASE_URL:'http://localhost:22001',
     urlApi:'http://localhost:22001',
-    uriApi:'/movel',
+    urnApi:'/movel',
     username:'movel',
     password:'m0v310',
-    uriLogin: '/oauth/token',
-    uriLogout: '/oauth/revoke',
-    uriRemember: '/remember',
-    urlPhoto: '/public/photo'
+    urnLogin: '/oauth/token',
+    urnLogout: '/oauth/revoke',
+    urnRemember: '/remember',
+    urnPhoto: '/public/photo'
     
 }

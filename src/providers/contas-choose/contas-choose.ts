@@ -13,6 +13,8 @@ import { AlertController } from 'ionic-angular';
 */
 @Injectable()
 export class ContasChooseProvider {
+
+  //Variável que será a conta escolhida da lista de contas vinculadas
   private conta;
 
   constructor(public http: HttpClient, private alert:AlertController,
@@ -20,7 +22,12 @@ export class ContasChooseProvider {
     private loginService:LoginServiceProvider) {
    
   }
+
+  //Variável que controla se está selecionado ou não na div Popover
   check = false;
+
+  //Função que retorna um alert para escolha de contas caso haja mais de um dependente, 
+  //caso contrário, apenas dá set nas informações do aluno
   public contasChoose(): Promise<any> { 
    
     
@@ -35,13 +42,14 @@ export class ContasChooseProvider {
         label:this.functions.nomes(acc.nome),
         value:acc,
         checked:false,
+      
         
       });
 
     }
     
 
-    alert.addButton('Cancel');
+   
     alert.addButton({
       text: 'OK',
       handler: data => {

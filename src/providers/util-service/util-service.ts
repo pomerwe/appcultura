@@ -8,7 +8,7 @@ export class UtilServiceProvider {
 
     getFoto(foto: string): string {
         if (foto) {
-            return `${environment.urlApi}${environment.urlPhoto}/foto/${foto}`;
+            return `${environment.urlApi}${environment.urnPhoto}/foto/${foto}`;
         }
 
         return '/assets/images/user-profile.png';
@@ -16,7 +16,7 @@ export class UtilServiceProvider {
 
     getFotoPorPessoa(idPessoa: number) {
         if (idPessoa) {
-            return `${environment.urlApi}${environment.urlPhoto}/pessoa/${idPessoa}`;
+            return `${environment.urlApi}${environment.urnPhoto}/pessoa/${idPessoa}`;
         }
 
         return '/assets/images/user-profile.png';

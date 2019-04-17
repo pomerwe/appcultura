@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, List, MenuController, Navbar } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { Functions } from '../../functions/functions';
 import { AlunoProvider } from '../../providers/aluno/aluno';
+import { ISubscription } from '../../../node_modules/rxjs/Subscription';
+import * as __ from 'underscore';
+import { TransitionsProvider } from '../../providers/transitions/transitions';
 
 /**
  * Generated class for the NotasPage page.
@@ -17,53 +20,124 @@ import { AlunoProvider } from '../../providers/aluno/aluno';
   templateUrl: 'notas.html',
 })
 export class NotasPage {
-  notasCursosParams;
+
+  
+  @ViewChild(Navbar) navBar:Navbar; 
+
+  //Parâmetros que serão enviados na requisição para URN cursos
+  cursosParams;
+
+  //Representa a matrícula selecionada nessa page
   matricula;
+
+  //Representa o codperlet selecionado no momento na page
   codperlet;
+
+  //Armazena todos os codperlets buscados na API que o aluno já estudou na Cultura
   codperlets = [];
+
+  //Variável que controla qual bimestre será mostrado na página
   bimestre=0;
+
+  //Array de bimestres
   bimestres=[
     {bimestre:'1º', value:0},
     {bimestre:'2º', value:1},
     {bimestre:'Notas Finais',value:2}
   ]
+
+  //Rpresenta o nome do aluno na page
   nome;
+
+  //Variável que armazena a lista de notas que o aluno obteve nas demais avaliações durante o semestre
   notasConceitoList;
+
+  //Variável que vai mostrar as notas de acordo com o bimestre selecionado
   notasConceito;
 
+  //Array de cursos que estão sendo cursados junto com seus respectivos codperlets
   cursos =[];
+
+  //Curso selecionado no combobox
   curso;
+
+  //Representa o idmatriculaperlet do curso selecionado no combobox
   idmatriculaperlet;
 
+  //Array com todas as notas do primeiro bimestre
   provasNotas1;
+
+  //Array com a nota final do primeiro bimestre
   notaFinalB1;
+
+  //Array com todas as notas do segundo bimestre
   provasNotas2;
+
+  //Array com a nota final do seungo bimestre
   notaFinalB2;
+
+  //Array com todas as notas finais
   provasNotasFinais;
+
+  //Array com todas a nota final juntando todos os conceitos
   notaFinal;
+
+  //Será set com um loader
   loader;
 
+  //Variável que armazena subscrições de Observables
+  subscriptions:Array<ISubscription> = [];
+
+  bimestreCLicked;
   
   constructor(public navCtrl: NavController, 
     public navParams: NavParams , 
     private http:HttpServiceProvider , 
     private functions:Functions,
     private alunos:AlunoProvider,
-    private loadingCtrl:LoadingController) {
+    private loadingCtrl:LoadingController,
+    private menu:MenuController,
+    private transitions:TransitionsProvider
+  
+  ) {
+  }
+  ionViewWillEnter(){
+    let pushParam = this.navParams.get('push');
+    if(pushParam!=undefined){
+      if(pushParam==true) {
+        this.transitions.push();
+        this.navParams.data = {push:false};
+      }  
+    } 
   }
 
   ionViewDidLoad() {
+    //Cancela a animação feita pelo Ionic
+    this.navBar.backButtonClick = (e:UIEvent) => {
+      this.navCtrl.pop({animate:false});
+    };
+
+    //Bloquea a interação com o menu
+    this.menu.swipeEnable(false);
+
+    //Função que chama os dados do aluno selecionado
     this.alunos.getAluno2()
     .subscribe(
       data=>{
-        console.log(data);
+        //Aqui o nome é transformado de CapsLock pra normal
         this.nome =this.functions.nomes(data.nome);
         this.matricula=data.matricula;
       }
     )
     this.carregarDados();
   }
-
+  ionViewWillLeave(){
+    this.transitions.back();
+    this.menu.swipeEnable(true);
+    this.subscriptions.forEach(
+      subs=>{subs.unsubscribe();}
+    );
+  }
   carregarDados(){
     //47874 , 59245 ,114023
     this.createloader();
@@ -80,48 +154,52 @@ export class NotasPage {
 
   }
 
+  //Função que vai fazer a requisição à api buscando os codperlets que o aluno já esteve na Cultura
   getCodperlet(uri,param){
-    this.http.get(uri,param)
+    this.subscriptions.push(this.http.get(uri,param)
     .subscribe(
       codperlet =>{
         
-        this.codperlets = codperlet;
+        //Função Underscore que tira duplicações de acordo com o parâmetro passado
+        this.codperlets = __.uniq(codperlet,'codperlet');
         
+        //Auto-seleciona o primeiro codperlet da lista de codperlets, que vêm de forma decrescente.
         if(this.codperlet == undefined){
           this.codperlet = this.codperlets[0].codperlet;
 
         }
         let uri = '/cursos';
-        this.notasCursosParams = {
-          'matricula':this.matricula,
-          'codperlet':this.codperlet,
-          'example':''
-        };
-        console.log(this.notasCursosParams);
-        this.getCursosList(uri , this.notasCursosParams);
+        this.setCursosParam( this.matricula,this.codperlet);
+
+      
+        this.getCursosList(uri , this.cursosParams);
     }
       ,
       error=>{console.log(error);}
 
-    )
+    ));
   }
 
+  //Requisção HTTP à api buscando a lista de cursos que o aluno está cursando em determinado codperlet
   getCursosList(uri,params){
-    this.http.get(uri,params)
-  .subscribe(
-    cursos =>{
-      this.cursos = cursos;     
-       this.idmatriculaperlet = cursos[0].id;
-       let uri =`/notas/${this.idmatriculaperlet}`;
-       this.getNotasConceito(uri);
-       console.log(this.cursos);
-    },
-    error=>{console.log(error)}
-  )  
+   this.subscriptions.push(
+     this.http.get(uri,params)
+        .subscribe(
+          cursos =>{
+          this.cursos = cursos; 
+          //Pega o idmatriculaperlet do primeiro curso da lista caso não esteja definido
+          if(this.idmatriculaperlet == undefined || this.idmatriculaperlet == null){ this.idmatriculaperlet = cursos[0].id}
+          let uri =`/notas/${this.idmatriculaperlet}`;
+          this.getNotasConceito(uri);
+        },
+          error=>{console.log(error)}
+  )); 
 }
 
+//requisição HTTP à api buscando a lista de notas que o aluno obteve 
+//durante todo o codperlet referente à um idmatriculaperlet
 getNotasConceito(uri):any{
-  this.http.get(uri)
+  this.subscriptions.push(this.http.get(uri)
   .subscribe(
     notasConceito=>{
       this.notasConceito = notasConceito;
@@ -139,7 +217,7 @@ getNotasConceito(uri):any{
       {prova:'Speaking Skills', conceito: this.notasConceito.speaking2},
       {prova:'Writing Skills', conceito: this.notasConceito.writing2}, 
       {prova:'Listening Skills', conceito: this.notasConceito.listening2},
-      {prova:'Reading skills', conceito: this.notasConceito.reading2}
+      {prova:'Reading Skills', conceito: this.notasConceito.reading2}
     ]  
     this.notaFinalB2={prova:'Nota Bimestre', conceito: this.notasConceito.bimestre2}; 
 
@@ -153,12 +231,21 @@ getNotasConceito(uri):any{
     this.loader.dismiss();
     },
     error=>{console.log(error)}
-  )
+  ));
 
 
 }
 
+//Função que set os parâmtros pra requisição em cursos
+setCursosParam(matricula,codperlet){
+  this.cursosParams = {
+    'matricula':matricula,
+    'codperlet':codperlet,
+    'example':''
+  };
+}
 
+//função que instancia um loader na variável loader
 createloader(){
     
   this.loader = this.loadingCtrl.create({
@@ -168,7 +255,51 @@ createloader(){
  }
 
 
+ setBimestre(bimestre,value){
+   
+  if(this.bimestreCLicked==undefined){
+    let element = document.getElementsByClassName('clicked')[0];
+    element.classList.remove('clicked');
+  }
+  if(this.bimestreCLicked!=undefined) this.bimestreCLicked.classList.remove('clicked');
+  bimestre.classList.add('clicked');
+  if(this.bimestre < value){
+    let element = document.getElementsByClassName('tabelaNotasDiv')[0];
+    element.classList.remove('animation2');
+    element.classList.remove('animation1');
+    element.classList.remove('animation4');
+    element.classList.remove('animation3');
+    if(this.bimestre==1 && value==2)element.classList.add('animation4');
+    else element.classList.add('animation2');
+   
+  }
+  else if(this.bimestre == value){}
+  else{
+    let element = document.getElementsByClassName('tabelaNotasDiv')[0];
+    element.classList.remove('animation1');
+    element.classList.remove('animation2');
+    element.classList.remove('animation4');
+    element.classList.remove('animation3');
+    if(this.bimestre==1 && value==0)element.classList.add('animation3');
+    else element.classList.add('animation1');
+    
+  }
+  this.bimestre = value;
+  this.bimestreCLicked = bimestre;
+ }
 
+ swipe(event){
+    let elements = document.getElementsByClassName('bimestres');
+   if(event.deltaX<0){
+     
+    if(this.bimestre == 2){}
+    else this.setBimestre(elements[this.bimestre+1],this.bimestre + 1);
+    }
+   else{
+     if(this.bimestre == 0){}
+     else this.setBimestre(elements[this.bimestre-1],this.bimestre - 1);
+  }
+ }
 }
 
 

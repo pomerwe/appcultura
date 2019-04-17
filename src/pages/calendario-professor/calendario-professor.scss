@@ -1,0 +1,339 @@
+page-calendario-professor {
+    ion-content{
+        background-color: rgb(242, 247, 248) !important;
+    }
+    .selected{
+        background-color: rgba(161, 221, 245, 0.39) !important;
+    }
+    
+    .events{
+        padding:15px;
+        .eventsDay{
+            color:rgba(0, 0, 0, 0.650);
+        }
+        .event{
+            border-radius:10px;
+            font-size:15px;
+            margin:10px;
+        }
+        .grayEvent{
+            border: 1px rgba(0, 0, 0, 0.150) solid;
+            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.274);
+            background-color:gray;
+            color:white;
+        }
+        .redEvent{
+            border: 1px rgba(0, 0, 0, 0.150) solid;
+            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.274);
+            background-color:red;
+            color:white;
+        }
+        .blueEvent{
+            border: 1px rgba(0, 0, 0, 0.150) solid;
+            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.274);
+            background-color:rgb(106, 220, 248);;
+            color:Black;
+        }
+        .greenEvent{
+            border: 1px rgba(0, 0, 0, 0.150) solid;
+            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.274);
+            background-color:green ;
+            color:white;
+        }
+        .noEventsMsg{
+            border: 1px rgba(0, 0, 0, 0.150) solid;
+            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.274);
+            background-color:white ;
+            color:black;
+        }
+    }
+    .hoje{
+        
+        background-color:rgba(255, 255, 255, 0.137);
+      
+        span{
+            color:rgb(0, 195, 255) ;
+        }
+    }
+    .blue{
+        box-shadow:inset 0px 0px 0px 1px rgb(106, 220, 248);
+      
+        span{
+            color:rgb(0, 0, 0);
+        }
+    }
+    .green{
+        box-shadow:inset 0px 0px 0px 1px rgb(75, 255, 75);
+      
+        span{
+            color:rgb(0, 0, 0);
+        }
+    }
+    .gray{
+        box-shadow:inset 0px 0px 0px 1px rgb(163, 163, 163);
+      
+        span{
+            color:rgb(0, 0, 0);
+        }
+    }
+    .red{
+        box-shadow:inset 0px 0px 0px 1px red ;
+      
+        span{
+            color:rgb(0, 0, 0);
+        }
+    }
+
+    .calendario{
+        margin-top:5px;
+        text-align: center;
+        padding: 0px 10px 0px 10px;
+
+        .calendarioYear{
+            position:relative;
+            color:white;
+            background-color:rgb(125, 193, 248);
+            border-radius:20px 20px 0px 0px;
+            border-bottom: 1px solid rgba(96, 96, 255, 0.377);
+            text-align: center;
+            
+            padding:10px;
+            .calendarioYearTitle{
+            position:relative;
+            }
+            .help{
+                position:absolute;
+                right:0;
+                top:0;
+                margin-right:12px;
+                margin-top:8px;
+                vertical-align: middle;
+                .icon{
+                    color:black;
+                    font-size:30px;
+                    
+                }
+            }
+        }
+        .calendarioMonth{
+            position:relative;
+            background-color:rgb(125, 193, 248);
+            text-align: center;
+            padding:10px;
+           
+            .calendarioMonthTitle{
+                position:relative;
+                display:inline-block;
+                height: 30px;
+                
+                span{
+                    display:inline-block;
+                    vertical-align: middle;
+                }
+            }
+            
+            .buttonClickBack{
+                position:relative;
+                float:left;
+                width:30px;
+                height: 30px;
+                border-radius: 100%;
+                transform: scale(1.2,1.2);
+                
+                ion-icon{
+                    display:inline-block;
+                    vertical-align: middle;
+                }
+            }
+            .buttonClickForward{
+                position:relative;
+                float:right;
+                width:30px;
+                height: 30px;
+                border-radius: 100%;
+                transform: scale(1.2,1.2);
+                ion-icon{
+                    display:inline-block;
+                    vertical-align: middle;
+                }
+                
+            }
+            .click{
+
+                animation: click 0.3s ease-out;
+                
+            }
+            @keyframes click{
+                50%{background-color:aliceblue; transform: scale(1.8,1.8)}
+                99%{background-color:transparent;transform: scale(1,1)}
+                100%{background-color:transparent;transform: scale(1,1)}
+            }
+            
+            
+
+        }
+        .calendarioDaysTitle{
+            .calendarioDaysTitleDayDiv{
+                background-color:white;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.150);
+                .calendarioDaysTitleDay{
+                    font-size:12px;
+                }
+            }
+        }
+        .calendarioDays{
+            background-color:white;
+            .calendarioDaysDayDiv{
+                border-radius: 100%;
+                .calendarioDaysDivDayRow{
+                    background-color:rgba(255, 255, 255, 0.247);
+                    color:black;
+                    border-radius:10px;
+                    text-align: center;
+                    justify-content: center;
+                    margin-bottom:5px;
+                   .calendarioDaysDay{
+                        margin:10px;
+                        font-size:14px;
+                        
+                        
+                        
+                    }
+                }
+                .calendarioDaysDivDayRow.fake{
+                    background-color:white;
+                    color:rgba(0, 0, 0, 0.5);
+                    text-align: center;
+                    justify-content: center;
+                    margin-bottom:5px;
+                   .calendarioDaysDay{
+                        margin:10px;
+                        font-size:14px;
+                        
+                        
+                        
+                    }
+                }
+            }
+        }
+    }
+
+    .lds-dual-ring {
+        display: inline-block;
+      }
+      .lds-dual-ring:after {
+        content: " ";
+        display: block;
+        height:20%;
+        margin: 1px;
+        border-radius: 50%;
+        border: 5px solid #fff;
+        border-color: #fff transparent #fff transparent;
+        animation: lds-dual-ring 0.7s linear infinite;
+      }
+      @keyframes lds-dual-ring {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      
+    .overlayHelp{
+        position:absolute;
+        right:0;
+        left:0;
+        height:100%;
+        vertical-align: center;
+        background-color:rgba(0, 0, 0, 0.521);
+        z-index:20;
+        top: 50%;
+        transform: translateY(-50%);
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        .positioning{
+            position: relative;
+            z-index:21;
+            width:60%;
+            height:100%;
+            .closeButton{
+                z-index:999;
+                position:absolute;
+                color:white;
+                font-size:35px;
+                
+                width:40px;
+                height:40px;
+                left:130%;
+                ion-icon{
+                    z-index:999;
+                }
+            }
+            .calendarHelp{
+                
+                
+                overflow-y:scroll !important; 
+                z-index:22;
+                position: absolute;
+                top: 50%;
+                left: 35%;
+                width:100%;
+                height:50%;
+                border-radius:2px;
+                background-color: white;
+                transform: translate(-00%, -60%);
+                border:1px solid rgba(0, 0, 0, 0.150);
+                box-shadow: 20px 20px 25px rgba(0, 0, 0, 0.650) ;
+                text-align: left;
+                padding:15px;
+                .titleHelp{
+                    color:rgba(0, 0, 0, 0.650);
+
+                }
+                .squareDescription{
+                    display:block;
+                    margin-bottom:3px;
+                }
+                .description{
+                    font-size:15px;
+                    display:inline-block;
+                    vertical-align: middle;
+                    height:25px;
+                }
+                .square{
+                    height:25px;
+                    width:25px;
+                    display:inline-block;
+                    z-index:30;
+                    margin-right:4px;
+                    border-radius:3px;
+                    
+                    
+                }
+                
+                .redSquare{
+                    background-color:red;
+                    border: 1px solid rgb(199, 15, 15);
+                }
+                .blueSquare{
+                    background-color:rgb(34, 201, 243);
+                    border: 1px solid rgb(106, 220, 248);;
+                }
+                .graySquare{
+                    background-color:rgb(163, 163, 163);
+                    border: 1px solid rgb(126, 125, 125);;
+                }
+                .greenSquare{
+                    background-color:rgb(75, 255, 75);
+                    border: 1px solid rgb(30, 230, 30);;
+                }
+            }
+        }
+        
+    }
+    .scroll-content.helpActive{
+        overflow-y:hidden !important; 
+    }
+}
