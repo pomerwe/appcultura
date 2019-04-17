@@ -101,12 +101,14 @@ export class CalendarioProfessorPage {
   }
 
   ionViewWillLeave(){
-    this.transitions.back();
+    let pushParam = this.navParams.get('push');
+    if(pushParam==undefined) this.transitions.back();
+    else if(pushParam!=true) this.transitions.back();
     this.subscriptions.forEach(
       subs=>{subs.unsubscribe();}
     );
-
   }
+  
   getFullYear(year){
   //getFullYear(yearStart,yearEnd){
     // this.backYearRange = yearStart;
@@ -483,7 +485,14 @@ export class CalendarioProfessorPage {
           cods.push(medidadrastica);
         }
       );
-      cods.forEach(t=>{document.getElementById(t.codigoAula).addEventListener("click",this.chamada.bind(this,t.evento))})  
+      cods.forEach(
+        t=>{
+          if(t.codigoAula !==null){
+            document.getElementById(t.codigoAula).addEventListener("click",this.chamada.bind(this,t.evento));
+          }
+        }
+        );
+
     }
     else{
        document.getElementById('events').innerHTML += `<span class='noEventsMsg event' ion-col col-12>Você não possui eventos nesse dia!</span>`
@@ -511,7 +520,7 @@ export class CalendarioProfessorPage {
   }
 
   chamada(evento){
-    console.log(evento);
+   this.navCtrl.push('ChamadaPage',{push:true,chamada:evento});
   }
 
   activeHelp(scrollContent){
@@ -522,4 +531,7 @@ export class CalendarioProfessorPage {
     scrollContent.classList.remove('helpActive');
     this.helpActive = false;
   }
+
+  
+
 }
