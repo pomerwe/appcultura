@@ -38,6 +38,7 @@
     "@ionic-native/navigation-bar": "^4.20.0",
     "@ionic-native/network": "^4.20.0",
     "@ionic-native/push": "^4.20.0",
+    "@ionic-native/screen-orientation": "^4.20.0",
     "@ionic-native/splash-screen": "~4.18.0",
     "@ionic-native/status-bar": "~4.18.0",
     "@ionic/storage": "2.2.0",
@@ -64,10 +65,12 @@
     "cordova-plugin-nativestorage": "2.3.2",
     "cordova-plugin-navigationbar": "1.0.31",
     "cordova-plugin-network-information": "2.0.1",
+    "cordova-plugin-screen-orientation": "3.0.1",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-support-google-services": "1.1.0",
+    "es6-promise-plugin": "4.2.2",
     "file-saver": "^2.0.1",
     "ion-ripple": "^1.1.0",
     "ionic-angular": "3.9.2",
@@ -114,7 +117,8 @@
       "cordova-plugin-navigationbar": {},
       "cordova-plugin-local-notification": {},
       "cordova-plugin-background-mode": {},
-      "com.telerik.plugins.nativepagetransitions": {}
+      "com.telerik.plugins.nativepagetransitions": {},
+      "cordova-plugin-screen-orientation": {}
     },
     "platforms": [
       "browser",

@@ -406,9 +406,9 @@ export class CalendarioProfessorPage {
       }
     )
     let findClasses = [];
-    document.getElementById(dia.toString()).classList.forEach(
-      cl => findClasses.push(cl)
-    );
+    for(let i = 0 ; i < document.getElementById(dia.toString()).classList.length ; i++){
+      findClasses.push(document.getElementById(dia.toString()).classList[i])
+    }
     if(__.indexOf(findClasses,'red')!=-1){
       document.getElementById(dia.toString()).classList.remove('green');
       document.getElementById(dia.toString()).classList.remove('gray');
@@ -451,10 +451,12 @@ export class CalendarioProfessorPage {
                 detalheEvento:evento.detalheEvento,
                 corEvento:corEvento,
                 codigoAula:evento.codigoAula,
-                base:evento.base
+                base:evento.base,
+                codigoTurma:evento.codigoTurma,
+                dataHoraInicio:evento.dataHoraInicio
               }
               this.eventsDisplay[dia].eventos.push(eventoObj);
-
+              this.eventsDisplay[dia].eventos = __.sortBy(this.eventsDisplay[dia].eventos,'dataHoraInicio');
             }
           )
           this.calendario = data;
@@ -477,18 +479,36 @@ export class CalendarioProfessorPage {
       let cods = [];
       this.eventsDisplay[dia].eventos.forEach(
         evento=>{
-          document.getElementById('events').innerHTML += `<span class='event ${evento.corEvento}' ion-col col-5 id='${evento.codigoAula}'> ${evento.detalheEvento}</span>`;
+          document.getElementById('events').innerHTML += `<span class='event ${evento.corEvento}' ion-col col-5 id='${evento.codigoAula == null ? evento.codigoTurma+evento.dataHoraInicio : evento.codigoAula }'> ${evento.detalheEvento}</span>`;
           let medidadrastica= {
             evento:evento,
-            codigoAula:evento.codigoAula
+            codigoAula:evento.codigoAula,
+            cor:evento.corEvento,
+            base:evento.base,
+            codigoTurma:evento.codigoTurma,
+            dataHoraInicio:evento.dataHoraInicio
+            
           }
           cods.push(medidadrastica);
         }
       );
       cods.forEach(
         t=>{
+          //TODO: Assim que abrir a chamada, gerar um código aula caso não tenha ainda
           if(t.codigoAula !==null){
-            document.getElementById(t.codigoAula).addEventListener("click",this.chamada.bind(this,t.evento));
+            
+              document.getElementById(t.codigoAula).addEventListener("click",this.chamada.bind(this,t.evento));
+            
+          }
+           else{
+            this.setCodigoAula(t)
+              .then(
+                t=>{
+                  document.getElementById(t.codigoTurma+t.dataHoraInicio).addEventListener("click",this.chamada.bind(this,t.evento));
+
+                }
+              )
+          
           }
         }
         );
@@ -532,6 +552,31 @@ export class CalendarioProfessorPage {
     this.helpActive = false;
   }
 
-  
+  setCodigoAula(evento):Promise<any>{
+    let url = env.BASE_URL;
+    let urn = '/classe/aula';
+    let params = {
+      'codigoTurma' : evento.codigoTurma,
+      'base' : evento.base,
+      'dataHoraInicio' : evento.dataHoraInicio
+    }
+    let eventoObj={
+      evento:evento.evento,
+      codigoAula:evento.codigoAula,
+      codigoTurma:evento.codigoTurma,
+      dataHoraInicio:evento.dataHoraInicio
+    }
+    return new Promise((resolve)=>{
+      this.http.specialGet(url,urn,params)
+      .subscribe(
+        evento=>{
+          eventoObj.codigoAula = evento.codigoAula;
+          eventoObj.evento.codigoAula = evento.codigoAula;
+          resolve(eventoObj);
+        }
+      );
+    });
+    
+  }
 
 }
