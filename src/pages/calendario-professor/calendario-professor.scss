@@ -8,12 +8,11 @@ page-calendario-professor {
     .events{
         overflow-y:scroll !important; 
         padding:10px;
-        height:32vh;
+        height:28vh;
         margin:15px;
         background-color:rgb(208, 230, 245);
         border-radius:10px;
         border: 1px solid rgb(190, 190, 190);
-        justify-content: center;
         .eventsDay{
             color:rgba(0, 0, 0, 0.650);
         }
@@ -39,7 +38,7 @@ page-calendario-professor {
         .blueEvent{
             border: 1px rgba(0, 0, 0, 0.150) solid;
             box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.274);
-            background-color:rgb(106, 220, 248);;
+            background-color:rgb(106, 220, 248);
             color:Black;
         }
         .greenEvent{

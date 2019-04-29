@@ -1,11 +1,12 @@
 import { Component, ViewChild, } from '@angular/core';
-import { IonicPage, NavController, NavParams, Navbar, DateTime } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Navbar, DateTime, MenuController } from 'ionic-angular';
 import { TransitionsProvider } from '../../providers/transitions/transitions';
 import * as __ from 'underscore';
 import { Functions } from '../../functions/functions';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { environment as env } from '../../environments/environment';
 import { ISubscription } from 'rxjs/Subscription';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 /**
  * Generated class for the CalendarioProfessorPage page.
  *
@@ -70,7 +71,10 @@ export class CalendarioProfessorPage {
     private transitions:TransitionsProvider,
     private functions:Functions,
     private http:HttpServiceProvider,
+    private screenOrientation: ScreenOrientation,
+    private menu:MenuController
     ) {
+     
      this.mesLabel = this.functions.nomes(this.hoje.toLocaleDateString('pt-BR',this.mesLocaleDateStringOptions));
      this.currentMonthIndex = this.hoje.getMonth();
      this.currentYear = this.hoje.getFullYear();
@@ -81,7 +85,8 @@ export class CalendarioProfessorPage {
   }
 
   ionViewWillEnter(){
-    
+    this.menu.swipeEnable(false);
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     let pushParam = this.navParams.get('push');
     if(pushParam!=undefined){
       if(pushParam==true) {
@@ -101,6 +106,8 @@ export class CalendarioProfessorPage {
   }
 
   ionViewWillLeave(){
+    this.menu.swipeEnable(true);
+    this.screenOrientation.unlock();
     let pushParam = this.navParams.get('push');
     if(pushParam==undefined) this.transitions.back();
     else if(pushParam!=true) this.transitions.back();
@@ -567,14 +574,14 @@ export class CalendarioProfessorPage {
       dataHoraInicio:evento.dataHoraInicio
     }
     return new Promise((resolve)=>{
-      this.http.specialGet(url,urn,params)
+      this.subscriptions.push(this.http.specialGet(url,urn,params)
       .subscribe(
         evento=>{
           eventoObj.codigoAula = evento.codigoAula;
           eventoObj.evento.codigoAula = evento.codigoAula;
           resolve(eventoObj);
         }
-      );
+      ))
     });
     
   }

@@ -34,7 +34,7 @@ import { LocalStorageProvider } from '../providers/local-storage/local-storage';
 import { ProfessorProvider } from '../providers/professor/professor';
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { TransitionsProvider } from '../providers/transitions/transitions';
-
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 @NgModule({
   declarations: [
     MyApp,
@@ -85,7 +85,8 @@ import { TransitionsProvider } from '../providers/transitions/transitions';
     LocalStorageProvider,
     ProfessorProvider,
     NativePageTransitions,
-    TransitionsProvider
+    TransitionsProvider,
+    ScreenOrientation
   ]
 })
 export class AppModule {}
