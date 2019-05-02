@@ -21,6 +21,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 })
 export class CalendarioProfessorPage {
   @ViewChild(Navbar) navBar:Navbar; 
+  arrowBack = false;
+  arrowForward = false;
   helpActive = false;
   carregando = false;
   mesLocaleDateStringOptions = { month: 'long' };
@@ -583,6 +585,19 @@ export class CalendarioProfessorPage {
         }
       ))
     });
+    
+  }
+  button(arrow){
+    if(arrow.match('arrowForward')){ 
+      this.arrowForward = true ; 
+      setTimeout(()=>this.arrowForward=false,
+      600);
+    }
+    else if(arrow.match('arrowBack')){ 
+      this.arrowBack = true ; 
+      setTimeout(()=>this.arrowBack=false,
+      600);
+    }
     
   }
 

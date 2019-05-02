@@ -154,4 +154,8 @@ export class TurmaPage {
   enableRefresh(event){
     console.log(event);
   }
+
+  alunoPage(aluno){
+    this.navCtrl.push('AlunoPage',{aluno:aluno,push:true});
+  }
 }

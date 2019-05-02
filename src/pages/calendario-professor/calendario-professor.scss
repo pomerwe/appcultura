@@ -144,25 +144,55 @@ page-calendario-professor {
                 float:left;
                 width:30px;
                 height: 30px;
-                border-radius: 100%;
-                transform: scale(1.2,1.2);
                 
                 ion-icon{
                     display:inline-block;
                     vertical-align: middle;
                 }
+                .buttonEffect{
+                    background-color:rgba(0, 0, 0, 0.404);
+                    z-index:111;
+                    bottom:0;
+                    top:0;
+                    position: absolute; 
+                    left: 0; 
+                    right: 0; 
+                    margin-left: auto; 
+                    margin-right: auto; 
+                    width: 30px; 
+                    height:30px; 
+                    border-radius:100%;
+                    animation: 1s efeitoButtonAnimation ;
+    
+                }
+                
             }
             .buttonClickForward{
                 position:relative;
                 float:right;
                 width:30px;
                 height: 30px;
-                border-radius: 100%;
-                transform: scale(1.2,1.2);
                 ion-icon{
                     display:inline-block;
                     vertical-align: middle;
                 }
+                .buttonEffect{
+                    background-color:rgba(0, 0, 0, 0.404);
+                    z-index:111;
+                    bottom:0;
+                    top:0;
+                    position: absolute; 
+                    left: 0; 
+                    right: 0; 
+                    margin-left: auto; 
+                    margin-right: auto; 
+                    width: 30px; 
+                    height:30px; 
+                    border-radius:100%;
+                    animation: 1s efeitoButtonAnimation ;
+    
+                }
+                
                 
             }
             .click{

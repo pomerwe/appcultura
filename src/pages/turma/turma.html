@@ -34,7 +34,7 @@
       
       <div class='alunoCard' ion-row>
 
-        <div *ngFor='let aluno of alunos' class='aluno' ion-col col-5>
+        <div *ngFor='let aluno of alunos' (click)='alunoPage(aluno)' class='aluno' ion-col col-5>
         <div class='alunoAvatar' [style.background-image]='getStylePhoto(aluno.photo)'>
 
         </div>

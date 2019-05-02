@@ -42,14 +42,16 @@
         </div>
         <div class='calendarioMonth'>
           <div class='buttonClickBack'>
-            <ion-icon class='arrowBack' (touchstart)='decreaseMonth()' name="arrow-back"></ion-icon>
+            <ion-icon class='arrowBack' (touchstart)='decreaseMonth();button("arrowBack");' name="arrow-back"></ion-icon>
+            <div *ngIf="arrowBack==true" class='buttonEffect'></div>
           </div>
           <div class='calendarioMonthTitle'>
               <div *ngIf='carregando' class="lds-dual-ring"></div><span>{{mesLabel}}</span>  
           </div>
           
           <div class='buttonClickForward' >
-            <ion-icon class='arrowForward'  (touchstart)='increaseMonth()' name="arrow-forward" ></ion-icon>
+            <ion-icon class='arrowForward'  (touchstart)='increaseMonth();button("arrowForward");' name="arrow-forward" ></ion-icon>
+            <div *ngIf="arrowForward==true" class='buttonEffect'></div>
           </div>   
           
             

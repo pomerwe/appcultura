@@ -1,0 +1,47 @@
+<!--
+  Generated template for the AlunoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color='blueNice'>
+    <ion-title>{{aluno.nome}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <div class='aluno'>
+    <div class='alunoPhoto'>
+        <img [src]='aluno.photo != undefined ? aluno.photo : ""' />
+    </div>
+    
+    <br>
+    <span>{{aluno.nome != undefined ? aluno.nome : ""}}</span>
+  </div>
+  <div class='contato' ion-row>
+      <div class='contatoButtonDiv'  ion-col col-4>
+          <div (click)='button("buttonEffect1")' class='contatoButton'>
+              <ion-icon name="chatboxes"></ion-icon>
+          </div>
+          <div *ngIf="buttonEffect1==true" class='buttonEffect'></div>
+      </div>
+    <div class='contatoButtonDiv'  ion-col col-4>
+        <div (click)='button("buttonEffect2")' class='contatoButton'>
+            <ion-icon name="chatboxes"></ion-icon>
+        </div>
+        <div *ngIf="buttonEffect2==true" class='buttonEffect'></div>
+    </div>
+    <div class='contatoButtonDiv'  ion-col col-4>
+        <div (click)='button("buttonEffect3")' class='contatoButton'>
+            <ion-icon name="chatboxes"></ion-icon>
+        </div>
+        <div *ngIf="buttonEffect3==true" class='buttonEffect'></div>
+    </div>
+      
+  </div>
+</ion-content>
