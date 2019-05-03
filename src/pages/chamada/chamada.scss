@@ -57,6 +57,10 @@ page-chamada {
                 border-bottom: 1px solid rgb(194, 194, 194);
                 .alunoInfo{
                     border-right: 1px solid rgb(194, 194, 194);
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
                     .photo{
                         background-position: top bottom;
                         background-size:cover;
@@ -65,17 +69,11 @@ page-chamada {
                     .alunoInfoText{
                         display:inline-block;
                         font-size:13px;
-                        line-height: 12px;
-                        margin:0 auto;
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-50%);
                         
                     }
                     .radioRow{
                         top: 50%;
                         .radioText{
-                            padding-left:3px;
                             font-size:12px;
                         }
                     }
@@ -87,7 +85,9 @@ page-chamada {
     }
 
     .help{
+        
         float: right;
+        font-size:30px;
         margin-right:20px;
     }
     .overlayHelp{
@@ -149,5 +149,70 @@ page-chamada {
     .present{
         color:rgb(48, 180, 48);
     }
+
+    .realizarChamadaButton{
+        position:relative;
+        margin-right:10px;
+        float:right;
+        margin-bottom:15px;
+        border-radius:3px;
+        box-shadow: 1px 1px 3px rgb(133, 133, 133);
+        border:1px solid rgb(9, 76, 223);
+        background-color:rgb(14, 90, 255);
+        .realizarChamadaButtonInner{
+            padding:10px;
+            .realizarChamadaText{
+                color:white;
+            }
+        }
+        .realizarChamadaButtonEffect{
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            background-color:rgba(255, 255, 255, 0.568);
+            z-index:99;
+            animation: 1s efeitoButtonAnimation infinite;
+        }
+
+        
+    }
+        .lds-ring {
+            display: block;
+            position: relative;
+            margin:0 auto;
+            width: 64px;
+            height: 64px;
+        }
+        .lds-ring div {
+            box-sizing: border-box;
+            display: block;
+            position: absolute;
+            width: 51px;
+            height: 51px;
+            margin: 6px;
+            border: 6px solid rgb(59, 58, 58);
+            border-radius: 50%;
+            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: rgb(90, 89, 89) transparent transparent transparent;
+        }
+        .lds-ring div:nth-child(1) {
+            animation-delay: -0.45s;
+        }
+        .lds-ring div:nth-child(2) {
+            animation-delay: -0.3s;
+        }
+        .lds-ring div:nth-child(3) {
+            animation-delay: -0.15s;
+        }
+        @keyframes lds-ring {
+            0% {
+            transform: rotate(0deg);
+            }
+            100% {
+            transform: rotate(360deg);
+            }
+        }
 }
 

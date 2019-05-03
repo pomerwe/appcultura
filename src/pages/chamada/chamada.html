@@ -18,18 +18,19 @@
     <div  class='photo' >
         <img [src]='photo(profPhoto)' />
       </div>
-  Professor: <span class='info'>{{turma.nomeProfessor == undefined ? '' : turma.nomeProfessor }}</span><br>
-  Curso: <span class='info'>{{turma.curso == undefined ? '' : turma.curso }}</span><br>
-  Filial: <span class='info'>{{turma.filial == undefined ? '' : turma.filial }}</span><br>
-  Dia: <span class='info'> {{turma.data == undefined ? '' : turma.data | date: "dd/MM/yyyy" }}</span><br>
-  Horário: <span class='info'>{{turma.horario == undefined ? '' : turma.horario }}</span><br>
-  Estado: <span class='info' id='status'>{{turma.situacao == undefined ? '' : turma.situacao}}</span><br>
-  Preenchimento: <span class='info'>{{turma.dataHora == undefined ? '' : turma.dataHora | date : "dd/MM/yyyy HH/mm/ss"}}</span><br>
-  Substituto: <span class='info'>{{turma.nomeProfessorSubstituto == undefined ? '' : turma.nomeProfessorSubstituto}}</span><br>
+  Professor: <span class='info'>{{aula.nomeProfessor == undefined ? '' : aula.nomeProfessor }}</span><br>
+  Curso: <span class='info'>{{aula.curso == undefined ? '' : aula.curso }}</span><br>
+  Filial: <span class='info'>{{aula.filial == undefined ? '' : aula.filial }}</span><br>
+  Dia: <span class='info'> {{aula.data == undefined ? '' : aula.data | date: "dd/MM/yyyy" }}</span><br>
+  Horário: <span class='info'>{{aula.horario == undefined ? '' : aula.horario }}</span><br>
+  Estado: <span class='info' id='status'>{{aula.situacao == undefined ? '' : aula.situacao}}</span><br>
+  Preenchimento: <span class='info'>{{aula.dataHora == undefined ? '' : aula.dataHora | date : "dd/MM/yyyy HH/mm/ss"}}</span><br>
+  Substituto: <span class='info'>{{aula.nomeProfessorSubstituto == undefined ? '' : aula.nomeProfessorSubstituto}}</span><br>
 </div>
 <div (click)='activeHelp(ioncontent._scrollContent.nativeElement)' class='help'>
     <ion-icon class='icon' name="help-circle"></ion-icon>
 </div>
+<div *ngIf='loading' class="lds-ring"><div></div><div></div><div></div><div></div></div>
 <div class='alunos' ion-grid>
   <div class='alunosGrid'>
   <div class='rowTitleDiv' ion-row>
@@ -38,35 +39,48 @@
     <span class='rowTitle' ion-col col-3>Nome</span>
     <span class='rowTitle' ion-col col-4>Chamada</span>
   </div>
-  <div *ngFor='let a of chamada' class='aluno' ion-row>
-    <div ion-col col-2 class='alunoInfo'>
-      <!-- [style.background-image]='photo(a.foto)' -->
-      <div  class='photo' >
-        <img [src]='getPhotoUrl(a.foto)' />
-      </div>
-    </div>
-    <div class='alunoInfo matricula' ion-col col-3> <span class='alunoInfoText'>{{a.matricula}}</span></div>
-    <div class='alunoInfo' ion-col col-3> <span class='alunoInfoText'>{{a.alunoNome}}</span></div>
-    <div class='alunoInfo' ion-col col-4> 
-      <div ion-row radio-group class='radioRow'>
-        <div ion-col ion-col-4>
-          <span class='radioText present'>P</span><br>
-          <ion-radio></ion-radio>
+ 
+      <div *ngFor='let a of chamada' class='aluno' ion-row>
+          <div ion-col col-2 class='alunoInfo'>
+            <!-- [style.background-image]='photo(a.foto)' -->
+            <div  class='photo' >
+              <img [src]='getPhotoUrl(a.foto)' />
+            </div>
+          </div>
+          <div class='alunoInfo matricula' ion-col col-3> <span class='alunoInfoText'>{{a.matricula}}</span></div>
+          <div class='alunoInfo' ion-col col-3> <span class='alunoInfoText'>{{a.alunoNome}}</span></div>
+          <div class='alunoInfo' ion-col col-4> 
+            <div ion-row radio-group [disabled]='radioDisabled' class='radioRow'  (ionChange)="setarChamada($event,a.matricula)" [(ngModel)]="alunosChamada != undefined ? alunosChamada[a.matricula].chamada : waiter " >
+              <div ion-col ion-col-4>
+                <span class='radioText present'>P</span><br>
+                <ion-radio value='PRESENCA'></ion-radio>
+              </div>
+              <div ion-col ion-col-4>
+                  <span class='radioText abscent'>A</span><br>
+                <ion-radio value='FALTA'></ion-radio>
+              </div>
+              <div ion-col ion-col-4>
+                  <span class='radioText late'>L</span><br>
+                <ion-radio value='ATRASO'></ion-radio>
+              </div>
+            </div>
+            
+          </div>
         </div>
-        <div ion-col ion-col-4>
-            <span class='radioText abscent'>A</span><br>
-          <ion-radio></ion-radio>
-        </div>
-        <div ion-col ion-col-4>
-            <span class='radioText late'>L</span><br>
-          <ion-radio></ion-radio>
-        </div>
-      </div>
-      
-    </div>
+ 
+  
+</div>
+</div>
+<button [disabled]='radioDisabled' (touchstart)='realizarChamadaButtonClickActivate()' (touchend)='realizarChamadaButtonClickDeactivate()' (click)='realizarChamada()' class='realizarChamadaButton'> 
+  <div class='realizarChamadaButtonInner'>
+      <span class='realizarChamadaText'>
+          Realizar chamada
+      </span>
   </div>
-</div>
-</div>
+  <div *ngIf='realizarChamadaButtonClick' class='realizarChamadaButtonEffect'>
+      
+  </div>
+</button>
 
 
 </ion-content>

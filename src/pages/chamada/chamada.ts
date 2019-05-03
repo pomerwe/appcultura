@@ -10,6 +10,7 @@ import { UtilServiceProvider } from '../../providers/util-service/util-service';
 import { Functions } from '../../functions/functions';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
+import * as __ from 'underscore';
 /**
  * Generated class for the ChamadaPage page.
  *
@@ -26,11 +27,18 @@ export class ChamadaPage {
   @ViewChild(Navbar) navBar:Navbar; 
   chamada;
   chamadaParams;
-  turma;
+  aula;
   alunos;
   subscriptions:Array<ISubscription> = [];
   profPhoto;
   cor;
+  radioDisabled = false;
+  alunosChamadaPattern  = [];
+  alunosChamada;
+  postChamadaParams;
+  waiter;
+  loading = false;
+  realizarChamadaButtonClick = false;
   helpActive = false;
   constructor(
     public navCtrl: NavController, 
@@ -46,15 +54,13 @@ export class ChamadaPage {
     ) {
       let params = navParams.get('chamada');
       this.chamadaParams = {
-        "codigoAula": '1039065', //params.codigoAula,
-        "base": 'CULTURA' , //params.base
+        "codigoAula": params.codigoAula, //'1039065',// 
+        "base":  params.base  //CULTURA' ,//
       }
+      this.cor = params.corEvento; // "grayEvent"; // 
+      this.aula = params; //this.chamadaParams;// 
       console.log(params);
-      this.cor = "grayEvent";//params.corEvento;
-      this.turma = this.chamadaParams //params;
       this.profPhoto = this.professor.getPhoto();
-      console.log(this.profPhoto);
-      console.log(this.turma);
   }
 
   ionViewWillEnter(){
@@ -94,7 +100,7 @@ export class ChamadaPage {
 
 
   getChamada(){
-
+    this.loading = true;
     let url = env.BASE_URL;
     let urn = '/classe/chamada';
     let params = this.chamadaParams;
@@ -102,15 +108,27 @@ export class ChamadaPage {
     this.http.specialGet(url,urn,params)
       .subscribe(
         chamada=>{
-          console.log(chamada);
           let alunos = [];
+          console.log(chamada);
           chamada.forEach(
             aluno=>{
+              
+              let alunosChamadaPattern = 
+                {
+                  matricula:aluno.matricula,
+                  chamada:aluno.frequencia
+                }
+              ;
+              this.alunosChamadaPattern.push(alunosChamadaPattern);
+              
               aluno.alunoNome = this.functions.nomes(aluno.alunoNome);
               alunos.push(aluno);
             }
+            
           );
+          this.alunosChamada = __.indexBy(this.alunosChamadaPattern,'matricula');
           this.chamada = alunos;
+          this.loading = false;
           
         },
         error=>{
@@ -123,15 +141,20 @@ export class ChamadaPage {
     let url = env.BASE_URL;
     let urn = '/classe/aula';
     let params = {
-      'codigoTurma' : '122199', //this.turma.codigoTurma,
-      'base' : 'CULTURA',// this.turma.base,
-      'dataHoraInicio' :'2019-04-10T17:00:00',// this.turma.dataHoraInicio
+      'codigoTurma' : this.aula.codigoTurma,// //'122199', //
+      'base' : this.aula.base, //// 'CULTURA',// 
+      'dataHoraInicio' : this.aula.dataHoraInicio //,// '2019-04-10T17:00:00'// 
     }
       this.subscriptions.push(this.http.specialGet(url,urn,params)
       .subscribe(
-        turma =>{
-          this.turma = turma;
-          console.log(this.turma);
+        aula =>{
+          this.aula = aula;
+          if(this.aula.situacao.match("ABERTA")!==null){
+            this.radioDisabled = false;
+          }
+          else{
+            this.radioDisabled = true;
+          }
           document.getElementById('status').classList.add(this.cor);
         }
         
@@ -155,6 +178,33 @@ export class ChamadaPage {
     deactiveHelp(scrollContent){
       scrollContent.classList.remove('helpActive');
       this.helpActive = false;
+    }
+
+    realizarChamadaButtonClickActivate(){
+      this.realizarChamadaButtonClick = true;
+      
+    }
+
+    realizarChamadaButtonClickDeactivate(){
+      setTimeout(()=>this.realizarChamadaButtonClick=false,300);
+    }
+
+    realizarChamada(){
+     let realizarChamadaParam = {
+       aula:this.aula,
+       chamada:[]
+     }
+     Object.keys(this.alunosChamada).forEach(
+       chamada=>realizarChamadaParam.chamada.push(this.alunosChamada[chamada])
+     )
+     
+     console.log(realizarChamadaParam);
+       
+      
+    }
+
+    setarChamada(value,matricula){
+      this.alunosChamada[matricula].chamada = value;
     }
   }
 
