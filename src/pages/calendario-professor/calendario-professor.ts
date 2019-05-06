@@ -483,7 +483,7 @@ export class CalendarioProfessorPage {
     let diasemana = this.functions.nomes(
       new Date(this.currentYear,this.currentMonthIndex,dia).toLocaleDateString('pt-BR',{weekday:'long'}));
     document.getElementById('events').innerHTML = '';
-    document.getElementById('events').innerHTML = `<span class='eventsDay' ion-col col-12>${dia < 10 ? '0'+dia : dia}/${this.currentMonthIndex < 10 ? '0'+this.currentMonthIndex : this.currentMonthIndex} - ${dia == this.hoje.getDate() && this.currentMonth == this.hoje.getMonth() && this.currentYear == this.hoje.getFullYear()  ? "Hoje - ": ''} ${diasemana}</span> `;
+    document.getElementById('events').innerHTML = `<span class='eventsDay' ion-col col-12>${dia < 10 ? '0'+dia : dia}/${(this.currentMonthIndex+1) < 10 ? '0'+(this.currentMonthIndex+1) : (this.currentMonthIndex+1)} - ${dia == this.hoje.getDate() && this.currentMonth.month == this.hoje.getMonth() && this.currentYear == this.hoje.getFullYear()  ? "Hoje - ": ''} ${diasemana}</span> `;
     if(this.eventsDisplay[dia].eventos.length>0){
       let cods = [];
       this.eventsDisplay[dia].eventos.forEach(

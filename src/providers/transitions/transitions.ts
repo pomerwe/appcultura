@@ -40,4 +40,27 @@ export class TransitionsProvider {
   back(){
     this.nativePageTransitions.slide(this.backAnimationOptions);
   }
+
+  quickPush(){
+    let pushAnimationOptions={
+      direction: 'left',
+      duration: 320,
+      slowdownfactor: 4,
+      iosdelay: 50,
+      androiddelay: 50,
+      fixedPixelsTop: 56,
+    }; 
+    this.nativePageTransitions.slide(pushAnimationOptions);
+  }
+  quickBack(){
+    let backAnimationOptions={
+      direction: 'right',
+      duration: 320,
+      slowdownfactor: 4,
+      iosdelay: 50,
+      androiddelay: 50,
+      fixedPixelsTop: 56,
+    }; 
+    this.nativePageTransitions.slide(backAnimationOptions);
+  }
 }

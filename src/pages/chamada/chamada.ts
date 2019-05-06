@@ -32,6 +32,8 @@ export class ChamadaPage {
   subscriptions:Array<ISubscription> = [];
   profPhoto;
   cor;
+  zoomPhoto = '';
+  alunoZoomPhotoDiv= false;
   radioDisabled = false;
   alunosChamadaPattern  = [];
   alunosChamada;
@@ -40,6 +42,11 @@ export class ChamadaPage {
   loading = false;
   realizarChamadaButtonClick = false;
   helpActive = false;
+  mes = undefined;
+  freqMeses = [];
+  tab = 'chamada';
+
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -55,9 +62,9 @@ export class ChamadaPage {
       let params = navParams.get('chamada');
       this.chamadaParams = {
         "codigoAula": params.codigoAula, //'1039065',// 
-        "base":  params.base  //CULTURA' ,//
+        "base":  params.base  //'CULTURA' ,//
       }
-      this.cor = params.corEvento; // "grayEvent"; // 
+      this.cor =  params.corEvento; //"grayEvent"; // 
       this.aula = params; //this.chamadaParams;// 
       console.log(params);
       this.profPhoto = this.professor.getPhoto();
@@ -129,7 +136,7 @@ export class ChamadaPage {
           this.alunosChamada = __.indexBy(this.alunosChamadaPattern,'matricula');
           this.chamada = alunos;
           this.loading = false;
-          
+          this.setFrequencias();
         },
         error=>{
           console.log(error);
@@ -141,7 +148,7 @@ export class ChamadaPage {
     let url = env.BASE_URL;
     let urn = '/classe/aula';
     let params = {
-      'codigoTurma' : this.aula.codigoTurma,// //'122199', //
+      'codigoTurma' :this.aula.codigoTurma,// //'122199', // 
       'base' : this.aula.base, //// 'CULTURA',// 
       'dataHoraInicio' : this.aula.dataHoraInicio //,// '2019-04-10T17:00:00'// 
     }
@@ -149,6 +156,7 @@ export class ChamadaPage {
       .subscribe(
         aula =>{
           this.aula = aula;
+          this.mes=aula.mes;
           if(this.aula.situacao.match("ABERTA")!==null){
             this.radioDisabled = false;
           }
@@ -170,14 +178,12 @@ export class ChamadaPage {
       return this.util.getFotoPorPessoa(photo);
     }
 
-    activeHelp(scrollContent){
-      scrollContent.classList.add('helpActive');
+    activeHelp(){
       this.helpActive = true;
     }
 
-    deactiveHelp(scrollContent){
-      scrollContent.classList.remove('helpActive');
-      this.helpActive = false;
+    deactiveHelp(){
+     this.helpActive = false;
     }
 
     realizarChamadaButtonClickActivate(){
@@ -205,6 +211,63 @@ export class ChamadaPage {
 
     setarChamada(value,matricula){
       this.alunosChamada[matricula].chamada = value;
+    }
+
+    showAlunoPhotoZoom(photoUrl){
+      this.zoomPhoto = photoUrl;
+      this.alunoZoomPhotoDiv = true;
+    }
+
+    closeAlunoPhotoZoom(){
+      this.alunoZoomPhotoDiv = false;
+      this.zoomPhoto = ''
+    }
+
+    setFrequencias(){
+      if(this.mes!=undefined){
+        if(this.mes<7){
+          let meses = ['JAN','FEV','MAR','ABR','MAI','JUN'];
+          this.freqMeses = meses;
+        }
+        else{
+          let meses = ['JUL','AGO','SET','OUT','NOV','DEZ'];
+          this.freqMeses = meses;
+        }
+      }
+      else{
+        setTimeout(()=>this.setFrequencias(),500);
+      }
+        
+    }
+
+    changeToDetails(){
+      this.transitions.quickPush();
+      this.tab = 'details';
+      
+    }
+
+    changeToChamada(){
+      this.transitions.quickBack();
+      this.tab = 'chamada';
+      
+    }
+
+
+    swipe(event){
+    
+    
+      if(event.deltaX < 0){
+        if(this.tab!='details'){
+          this.changeToDetails();
+        }
+       
+      }
+      if(event.deltaX > 0){
+        if(this.tab!='chamada'){
+          this.changeToChamada();
+        }
+        
+      }
     }
   }
 

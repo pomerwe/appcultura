@@ -13,8 +13,10 @@
 </ion-header>
 
 
-<ion-content #ioncontent>
-<div class='turmaTitle'>
+<ion-content *ngIf='tab === "chamada"' #ioncontent>
+<div (swipe)='swipe($event)'  class='swipe'>
+     
+<div (swipe)='swipe($event)' class='turmaTitle'>
     <div  class='photo' >
         <img [src]='photo(profPhoto)' />
       </div>
@@ -27,11 +29,13 @@
   Preenchimento: <span class='info'>{{aula.dataHora == undefined ? '' : aula.dataHora | date : "dd/MM/yyyy HH/mm/ss"}}</span><br>
   Substituto: <span class='info'>{{aula.nomeProfessorSubstituto == undefined ? '' : aula.nomeProfessorSubstituto}}</span><br>
 </div>
-<div (click)='activeHelp(ioncontent._scrollContent.nativeElement)' class='help'>
-    <ion-icon class='icon' name="help-circle"></ion-icon>
-</div>
 <div *ngIf='loading' class="lds-ring"><div></div><div></div><div></div><div></div></div>
-<div class='alunos' ion-grid>
+<div (click)='activeHelp()' class='help'>
+    <ion-icon class='icon' name="help-circle"></ion-icon>
+</div><br><br>
+
+<div (click)='changeToDetails()' class='moreInformation'>Mais informações <ion-icon name="arrow-round-forward"></ion-icon></div>
+<div (swipe)='swipe($event)' class='alunos' ion-grid>
   <div class='alunosGrid'>
   <div class='rowTitleDiv' ion-row>
     <span class='rowTitle' ion-col col-2>Foto</span>
@@ -50,18 +54,18 @@
           <div class='alunoInfo matricula' ion-col col-3> <span class='alunoInfoText'>{{a.matricula}}</span></div>
           <div class='alunoInfo' ion-col col-3> <span class='alunoInfoText'>{{a.alunoNome}}</span></div>
           <div class='alunoInfo' ion-col col-4> 
-            <div ion-row radio-group [disabled]='radioDisabled' class='radioRow'  (ionChange)="setarChamada($event,a.matricula)" [(ngModel)]="alunosChamada != undefined ? alunosChamada[a.matricula].chamada : waiter " >
+            <div ion-row radio-group  class='radioRow'  (ionChange)="setarChamada($event,a.matricula)" [(ngModel)]="alunosChamada != undefined ? alunosChamada[a.matricula].chamada : waiter " >
               <div ion-col ion-col-4>
                 <span class='radioText present'>P</span><br>
-                <ion-radio value='PRESENCA'></ion-radio>
+                <ion-radio [disabled]='radioDisabled' value='PRESENCA'></ion-radio>
               </div>
               <div ion-col ion-col-4>
                   <span class='radioText abscent'>A</span><br>
-                <ion-radio value='FALTA'></ion-radio>
+                <ion-radio [disabled]='radioDisabled' value='FALTA'></ion-radio>
               </div>
               <div ion-col ion-col-4>
                   <span class='radioText late'>L</span><br>
-                <ion-radio value='ATRASO'></ion-radio>
+                <ion-radio [disabled]='radioDisabled' value='ATRASO'></ion-radio>
               </div>
             </div>
             
@@ -82,14 +86,15 @@
   </div>
 </button>
 
-
+</div>
 </ion-content>
-<div *ngIf='helpActive' (click)='deactiveHelp(ioncontent._scrollContent.nativeElement)' class='overlayHelp'>
+
+<div *ngIf='helpActive' (click)='deactiveHelp()' class='overlayHelp'>
    
-    <div (click)='deactiveHelp(ioncontent._scrollContent.nativeElement)' class='closeButton'>
+    <div (click)='deactiveHelp()' class='closeButton'>
         <ion-icon name="close-circle"></ion-icon>
     </div>
-    <div class='calendarHelp'>
+    <div class='chamadaHelp'>
         <div class='titleHelp'>
             <span class='titleHelpText'>Legenda</span>
           </div>
@@ -98,4 +103,122 @@
         <span class='legendaInfo'><span class='late'>L</span> = <span class='late'>Late</span></span><br>
     </div>
     
-  </div> 
+</div> 
+
+<ion-content *ngIf='tab === "details"'>
+  <div (swipe)='swipe($event)'  class='swipe'>
+    <div (click)='changeToChamada()' class='moreInformationBack'><ion-icon name="arrow-round-back"></ion-icon>Voltar</div><br>
+    <div (swipe)='swipe($event)' class='alunosMoreInformation'>
+        <div class='alunosMoreInformationAluno' *ngFor='let a of chamada' ion-row>
+          <div  class='alunosMoreInformationAlunoPhoto' ion-col col-3 >
+            <div (click)='showAlunoPhotoZoom(getPhotoUrl(a.foto))' class='alunosMoreInformationAlunoPhotoZoom'>
+                <ion-icon name="search"></ion-icon>
+            </div>
+              
+              <img [src]='getPhotoUrl(a.foto)' />
+          </div>
+          <div class='alunosMoreInformationAlunoNome' ion-col col-9>
+              <span>{{a.alunoNome}}</span>
+          </div>
+          <div class='alunosMoreInformationAlunoFrequenciaGrid' ion-grid>
+              <div class='alunosMoreInformationAlunoTitle' ion-row>
+                <span>Faltas</span>
+              </div>
+              <div class='alunosMoreInformationAlunoFrequencia' ion-row ion-col col-12>
+                  <div class='alunosMoreInformationAlunoFrequenciaCol' ion-col col-2>
+                    <div class='alunosMoreInformationAlunoFrequenciaMes'>
+                      <span>{{freqMeses[0]}}</span>
+                    </div>
+                    <div class='alunosMoreInformationAlunoFrequenciaFaltas'>
+                      <span>{{a.faltas1}}</span>
+                    </div>
+                  </div>
+                  <div class='alunosMoreInformationAlunoFrequenciaCol' ion-col col-2>
+                    <div class='alunosMoreInformationAlunoFrequenciaMes'>
+                      <span>{{freqMeses[1]}}</span>
+                    </div>
+                    <div class='alunosMoreInformationAlunoFrequenciaFaltas'>
+                      <span>{{a.faltas2}}</span>
+                    </div>
+                  </div>
+                  <div class='alunosMoreInformationAlunoFrequenciaCol' ion-col col-2>
+                    <div class='alunosMoreInformationAlunoFrequenciaMes'>
+                      <span>{{freqMeses[2]}}</span>
+                    </div>
+                    <div class='alunosMoreInformationAlunoFrequenciaFaltas'>
+                      <span>{{a.faltas3}}</span>
+                    </div>
+                  </div>
+                  <div class='alunosMoreInformationAlunoFrequenciaCol' ion-col col-2>
+                    <div class='alunosMoreInformationAlunoFrequenciaMes'>
+                      <span>{{freqMeses[3]}}</span>
+                    </div>
+                    <div class='alunosMoreInformationAlunoFrequenciaFaltas'>
+                      <span>{{a.faltas4}}</span>
+                    </div>
+                  </div>
+                  <div class='alunosMoreInformationAlunoFrequenciaCol' ion-col col-2>
+                    <div class='alunosMoreInformationAlunoFrequenciaMes'>
+                      <span>{{freqMeses[4]}}</span>
+                    </div>
+                    <div class='alunosMoreInformationAlunoFrequenciaFaltas'>
+                      <span>{{a.faltas5}}</span>
+                    </div>
+                  </div>
+                  <div class='alunosMoreInformationAlunoFrequenciaCol' ion-col col-2>
+                    <div class='alunosMoreInformationAlunoFrequenciaMes'>
+                      <span>{{freqMeses[5]}}</span>
+                    </div>
+                    <div class='alunosMoreInformationAlunoFrequenciaFaltas'>
+                      <span>{{a.faltas6}}</span>
+                    </div>
+                  </div>
+             </div>
+          </div>
+          
+          <div class='alunosMoreInformationAlunoContatos'>
+            <div class='alunosMoreInformationAlunoContatosTitle'>
+              <span>Contatos</span>
+            </div>
+            <div>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Celular Aluno: </span><span>{{a.alunoCelular}}</span>
+            </div>
+            <div>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Telefone Aluno: </span><span>{{a.alunoTelefone}}</span>
+            </div>
+            <div>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Responsável Academico: </span><span>{{a.resonsavelNome}}</span>
+            </div>
+            <div>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Email Responsável: </span><span>{{a.resonsavelEmail}}</span>
+            </div>
+            <div>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Celular Responsável: </span><span>{{a.resonsavelCelular}}</span>
+            </div>
+            <div>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Telefone Responsável: </span><span>{{a.resonsavelTelefone}}</span>
+            </div>
+              
+              
+              
+          </div>
+         
+          
+          
+          
+         
+          
+         
+         
+          
+    
+        </div>
+    </div>
+  </div>
+</ion-content>
+<div *ngIf='alunoZoomPhotoDiv' (click)='closeAlunoPhotoZoom()' class='alunoZoomPhotoContainer'>
+    <div class='alunoZoomPhotoDiv'>
+        <img [src]='zoomPhoto' />
+    </div>
+ 
+</div>
