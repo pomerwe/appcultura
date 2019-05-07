@@ -113,7 +113,8 @@ export class MyApp {
        funcao:'USUARIO',
        pages:  [
       { title: 'Notas', component: 'NotasPage' },
-      { title: 'Financeiro', component: 'FinanceiroPage'}
+      { title: 'Financeiro', component: 'FinanceiroPage'},
+      { title: 'Chat', component: 'ChatPage'}
       ]},
       {
 
@@ -140,7 +141,7 @@ export class MyApp {
       this.backgroundMode.enable();
       this.backgroundMode.setDefaults(this.backgroundOptions);
       
-      let autoHide: boolean = true;
+      let autoHide: boolean = false;
       this.navBar.setUp(autoHide);
       this.localStorage.keys().then(data=>console.log(data));
       this.localStorage.getItem('keepConnected')

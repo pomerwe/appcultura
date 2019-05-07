@@ -32,6 +32,7 @@
     "@ionic-native/file-opener": "^4.20.0",
     "@ionic-native/file-transfer": "^4.20.0",
     "@ionic-native/http": "^4.20.0",
+    "@ionic-native/keyboard": "^4.20.0",
     "@ionic-native/local-notifications": "^4.20.0",
     "@ionic-native/native-page-transitions": "^4.20.0",
     "@ionic-native/native-storage": "^4.20.0",

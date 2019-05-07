@@ -1,0 +1,88 @@
+page-chat {
+
+    .chatContainer{
+        position:relative;
+        
+        width:100%;
+        height:100%;
+        background-color:red;
+        padding-top:5px;
+        .messages{
+            height:90%;
+            .messagesScroll{
+                height: 100%;;
+                position:relative;
+                overflow-y: scroll;
+                .leftMessageDiv{
+                    font-size:15px;
+                    position:relative;
+                    display:block;
+                    color:white;
+                    padding:5px;
+                    .message{
+                        display:inline-block;
+                        background-color:skyblue;
+                        border-radius: 3px;
+                        padding:10px;
+                        max-width:70%;
+                    }
+                }
+                .rightMessageDiv{
+                    font-size:15px;
+                    position:relative;
+                    display:block;
+                    color:black;
+                    padding:5px;
+                    text-align:right;
+                    .message{
+                        display:inline-block;
+                        background-color:white;
+                        border-radius: 3px;
+                        padding:10px;
+                        max-width:70%;
+                    }
+                }
+            }
+            
+        }
+        
+        .chatInputTextDiv{
+            position:absolute;
+            bottom:0;
+            left:0;
+            background-color:transparent;
+            padding:10px;
+            width:100%;
+            .chatSendButton{
+                position:absolute;
+                bottom:0; 
+                right:0;
+                font-size:40px;
+                margin-right:10px;  
+            }
+            .inputDiv{
+                width:87%;
+                border-radius:13px;
+                background-color:white;
+                font-size:15px;
+                padding-left:20px;
+                padding-right:20px;
+                padding-top:7px;
+                padding-bottom:7px;
+                textarea{
+                    display:inline-block;
+                    vertical-align: middle;
+                    border:none;
+                    resize:none;
+                    width:100%;
+                    margin:0px;
+                    padding:0px;
+                    height:17px;
+                }
+    
+            }
+        }
+    }
+
+    
+}

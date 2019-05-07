@@ -35,6 +35,7 @@ import { ProfessorProvider } from '../providers/professor/professor';
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { TransitionsProvider } from '../providers/transitions/transitions';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { Keyboard } from '@ionic-native/keyboard';
 @NgModule({
   declarations: [
     MyApp,
@@ -86,7 +87,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
     ProfessorProvider,
     NativePageTransitions,
     TransitionsProvider,
-    ScreenOrientation
+    ScreenOrientation,
+    Keyboard
   ]
 })
 export class AppModule {}

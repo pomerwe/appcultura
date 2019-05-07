@@ -1,0 +1,82 @@
+<!--
+  Generated template for the ChatPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color='danger'>
+    <ion-title></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content #ioncontent>
+<div class='chatContainer' id='chatContainer'>
+  <div class='messages' >
+    <div class='messagesScroll' id='messagesScroll' >
+        <div class='leftMessageDiv'>
+            <div class='message'><span>Mensagem professor</span></div>
+          </div>
+          <div class='rightMessageDiv'>
+            <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+          </div>
+          <div class='leftMessageDiv'>
+              <div class='message'><span>Mensagem professor</span></div>
+            </div>
+            <div class='rightMessageDiv'>
+              <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+            </div><div class='leftMessageDiv'>
+                <div class='message'><span>Mensagem professor</span></div>
+              </div>
+              <div class='rightMessageDiv'>
+                <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+              </div><div class='leftMessageDiv'>
+            <div class='message'><span>Mensagem professor</span></div>
+          </div>
+          <div class='rightMessageDiv'>
+            <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+          </div><div class='leftMessageDiv'>
+              <div class='message'><span>Mensagem professor</span></div>
+            </div>
+            <div class='rightMessageDiv'>
+              <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+            </div><div class='leftMessageDiv'>
+            <div class='message'><span>Mensagem professor</span></div>
+          </div>
+          <div class='rightMessageDiv'>
+            <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+          </div><div class='leftMessageDiv'>
+            <div class='message'><span>Mensagem professor</span></div>
+          </div>
+          <div class='rightMessageDiv'>
+            <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+          </div><div class='leftMessageDiv'>
+              <div class='message'><span>Mensagem professor</span></div>
+            </div>
+            <div class='rightMessageDiv'>
+              <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+            </div><div class='leftMessageDiv'>
+            <div class='message'><span>Mensagem professor</span></div>
+          </div>
+          <div class='rightMessageDiv'>
+            <div class='message'><span>MensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAlunoMensagemAluno</span></div>
+          </div>
+    </div>
+      
+  </div>
+    
+  <div class='chatInputTextDiv' #divInput>
+      <div class='inputDiv'>
+        <textarea style='position:absolute;z-index:-50;display:block;' [(ngModel)]='textAreaText' id='hiddenTextArea' #hiddenTextArea></textarea>
+        <textarea (focus)='inputFocused(ioncontent)' [(ngModel)]='textAreaText' (blur)='inputBlur(divInput,textarea)' (click)='inputText(divInput,textarea,hiddenTextArea)' (keyup)='inputText(divInput,textarea,hiddenTextArea)' (input)='inputText(divInput,textarea,hiddenTextArea)' rows='1' #textarea id='textarea'></textarea>
+      </div>
+      <div class='chatSendButton' ><ion-icon name="arrow-dropright-circle"></ion-icon></div>
+
+    </div>   
+</div>
+          
+
+</ion-content>

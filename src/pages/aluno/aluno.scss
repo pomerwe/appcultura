@@ -44,6 +44,7 @@ page-aluno {
         text-align: center;
         .contatoButtonDiv{
             position:relative;
+            height:80px;
             .contatoButton{
                 margin: 0 auto;
                 width:40px;
@@ -55,7 +56,7 @@ page-aluno {
                 z-index:111;
                 bottom:0;
                 top:0;
-                height:100%;
+                height:40px;
                 position: absolute; 
                 left: 0; 
                 right: 0; 
