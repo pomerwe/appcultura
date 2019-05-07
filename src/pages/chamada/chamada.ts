@@ -163,7 +163,7 @@ export class ChamadaPage {
           else{
             this.radioDisabled = true;
           }
-          document.getElementById('status').classList.add(this.cor);
+          setTimeout(()=>document.getElementById('status').classList.add(this.cor),300);
         }
         
       ))
@@ -249,7 +249,7 @@ export class ChamadaPage {
     changeToChamada(){
       this.transitions.quickBack();
       this.tab = 'chamada';
-      
+      setTimeout(()=>document.getElementById('status').classList.add(this.cor),300);
     }
 
 

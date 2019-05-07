@@ -18,16 +18,16 @@ export class TransitionsProvider {
     ) {
     this.pushAnimationOptions={
       direction: 'left',
-      duration: 320,
+      duration: 300,
       slowdownfactor: 4,
-      iosdelay: 0,
+      iosdelay: 65,
       androiddelay: 0,
     }; 
     this.backAnimationOptions={
       direction: 'right',
-      duration: 320,
+      duration: 300,
       slowdownfactor: 4,
-      iosdelay: 0,
+      iosdelay: 65,
       androiddelay: 0,
     }; 
   }
@@ -44,10 +44,10 @@ export class TransitionsProvider {
   quickPush(){
     let pushAnimationOptions={
       direction: 'left',
-      duration: 320,
+      duration: 220,
       slowdownfactor: 4,
-      iosdelay: 50,
-      androiddelay: 50,
+      iosdelay: 130,
+      androiddelay: 130,
       fixedPixelsTop: 56,
     }; 
     this.nativePageTransitions.slide(pushAnimationOptions);
@@ -55,10 +55,10 @@ export class TransitionsProvider {
   quickBack(){
     let backAnimationOptions={
       direction: 'right',
-      duration: 320,
+      duration: 220,
       slowdownfactor: 4,
-      iosdelay: 50,
-      androiddelay: 50,
+      iosdelay: 130,
+      androiddelay: 130,
       fixedPixelsTop: 56,
     }; 
     this.nativePageTransitions.slide(backAnimationOptions);
