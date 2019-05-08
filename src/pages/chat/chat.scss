@@ -14,7 +14,7 @@ page-chat {
                 position:relative;
                 overflow-y: scroll;
                 .leftMessageDiv{
-                    font-size:15px;
+                    font-size:16px;
                     position:relative;
                     display:block;
                     color:white;
@@ -28,13 +28,14 @@ page-chat {
                     }
                 }
                 .rightMessageDiv{
-                    font-size:15px;
+                    font-size:16px;
                     position:relative;
                     display:block;
                     color:black;
                     padding:5px;
                     text-align:right;
                     .message{
+                        text-align:left;
                         display:inline-block;
                         background-color:white;
                         border-radius: 3px;
@@ -58,17 +59,17 @@ page-chat {
                 bottom:0; 
                 right:0;
                 font-size:40px;
-                margin-right:10px;  
+                margin-right:8px;  
             }
             .inputDiv{
                 width:87%;
                 border-radius:13px;
                 background-color:white;
-                font-size:15px;
+                font-size:16px;
                 padding-left:20px;
                 padding-right:20px;
-                padding-top:7px;
-                padding-bottom:7px;
+                padding-top:10px;
+                padding-bottom:10px;
                 textarea{
                     display:inline-block;
                     vertical-align: middle;
