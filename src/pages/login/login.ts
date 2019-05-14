@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
@@ -8,17 +9,34 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ISubscription } from '../../../node_modules/rxjs/Subscription';
 import { NetworkCheckServiceProvider } from '../../providers/network-check-service/network-check-service';
-
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { LocalNotifications } from '../../../node_modules/@ionic-native/local-notifications';
 import { MyApp } from '../../app/app.component';
 import { LocalStorageProvider } from '../../providers/local-storage/local-storage';
+import { FirebaseAuthentication } from '@ionic-native/firebase-authentication';
+import { Platform } from 'ionic-angular/platform/platform';
+import { AngularFireModule } from 'angularfire2';
+import { FcmProvider } from '../../providers/fcm/fcm';
+import * as firebase from 'firebase';
+import { tap } from 'rxjs/operators';
 /**
  * Generated class for the LoginPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
+
+
+ export class FirebaseUser{
+    email:string;
+    password:string;
+
+    constructor(email:string,password:string){
+      this.email = email;
+      this.password = password;
+    }
+ }
+
 
 @IonicPage()
 @Component({
@@ -57,45 +75,18 @@ export class LoginPage {
               private aluno:AlunoProvider,
               private localStorage:NativeStorage,
               private netCheck:NetworkCheckServiceProvider,
-              private push: Push,
               private myApp:MyApp,
-              private localStorageProvider:LocalStorageProvider
-            ) {
+              private localStorageProvider:LocalStorageProvider,
+              private fcm:FcmProvider,
+              private localNotifications: LocalNotifications,
+            ) 
+            {
               
-              this.push.hasPermission()
-              .then((res: any) => {
-            
-                if (res.isEnabled) {
-                  const options: PushOptions = {
-                    android: {},
-                    ios: {
-                        alert: 'true',
-                        badge: true,
-                        sound: 'false'
-                    },
-                    windows: {},
-                    browser: {
-                        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-                    }
-                 };
-
-                 const pushObject: PushObject = this.push.init(options);
-                 pushObject.on('notification')
-                 .subscribe((notification: any) => {
-                  window.alert(notification.message); 
-                 });
-
-                 pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
-
-                 pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-                } else {
-                  console.log('We do not have permission to send push notifications');
-                }
-            
-              });
             
            
   }
+
+
   ionViewWillEnter(){
    
   }
@@ -146,6 +137,7 @@ export class LoginPage {
   login(role){ 
     this.keepConnectedRoutine(role);
     this.saveEmailRoutine();
+    
     if(role.match("FUNCIONARIO")===null){
        this.navCtrl.setRoot('FeedPage');
 
@@ -221,16 +213,21 @@ export class LoginPage {
       this.auth.login(credentials)
         .subscribe(
             data=>{
-
+              console.log(data);
               
               if(this.keepConnected==true) this.localStorage.setItem('user',data);
               //Checa se o usuário é ou não um funcionário
               if(data.role.match("FUNCIONARIO")!== null){
+                let firebaseUser:FirebaseUser = new FirebaseUser(`${data.username}@culturabh.com.br`,`${credentials.senha}`);
+                
+                this.fcm.firebaseCreateUser(firebaseUser);
                 this.myApp.funcao=data.role;
                 this.loginService.setUserData(data);
                 this.login(data.role)
               }
               else{
+                let firebaseUser:FirebaseUser = new FirebaseUser(`${data.username}`,`${credentials.senha}`);
+                this.fcm.firebaseCreateUser(firebaseUser);
                 this.myApp.funcao= 'USUARIO';
                 this.loginService.setUserData(data);
                 let uri='/contas';
@@ -302,6 +299,6 @@ export class LoginPage {
       }
 
 
-    
 
+    
 }

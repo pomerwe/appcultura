@@ -4,6 +4,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 import { ContasChooseProvider } from '../../providers/contas-choose/contas-choose';
 import 'rxjs/add/operator/toPromise';
+import * as firebase from 'firebase';
 import { AlunoProvider } from '../../providers/aluno/aluno';
 import { MyApp } from '../../app/app.component';
 import { UtilServiceProvider } from '../../providers/util-service/util-service';
@@ -14,6 +15,7 @@ import * as __ from 'underscore';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { AutoReloadDiaDiaProvider } from '../../providers/auto-reload-dia-dia/auto-reload-dia-dia';
 import { NativePageTransitions } from '../../../node_modules/@ionic-native/native-page-transitions';
+import { HttpClient } from '@angular/common/http';
 /**
  * Generated class for the FeedPage page.
  *
@@ -91,6 +93,7 @@ export class FeedPage {
     private autoReload:AutoReloadDiaDiaProvider,
     private sanitizer: DomSanitizer,
     private nativePageTransitions: NativePageTransitions,
+    private httpNormal:HttpClient
     
     
     ) {
@@ -388,6 +391,43 @@ export class FeedPage {
     this.functions.scrollInactive(event);
   }
 
-  
+  // async not(){
+  //       let urn= 'https://fcm.googleapis.com/fcm/send';
+  //       let db= firebase.firestore();
+  //       let devicesRef =  db.collection('devices').where('userId','==','j2GF88PZ56fLvjJBfjdrfg1dUeR2');
+  //       let devices = await devicesRef.get();
+  //       let tokens=[];
+  //       devices.forEach(
+  //         result=>{
+  //           const token = result.data().token;
+  //           tokens.push( token );
+  //         }
+  //       );
+  //       let payload = {
+  //         'registration_ids': [],
+
+  //         'notification': {
+  //             'title': 'New Subscriber',
+  //             'body': `is following your content!`,
+  //             'icon': 'https://goo.gl/Fz9nrQ'
+  //         }
+  //       };
+  //       tokens.forEach(
+  //         tokens=>{
+  //           payload.registration_ids.push(tokens);
+  //         }
+  //       );
+  //       let options = {
+  //         headers:{
+  //           'Content-Type': 'application/json',
+  //           'Authorization': 'key=AAAA5_nbpW8:APA91bE5H_YiuYQtuntTvBQIzbA7sqBB-LPfLQDyjSfOCvde8GSJOjxeV4AtcGXxI5nO_oXPnzZTyzH-JFyr_xF5bJXxh6fs9ILelH7U1FaumE32dUMOgQirwLsIWoteedIZAywNMdoX'
+  //         }
+  //       };
+  //       this.httpNormal.post(urn,payload,options)
+  //       .subscribe(
+  //         data=>console.log(data)
+  //       );
+            
+  //     }
   
 }

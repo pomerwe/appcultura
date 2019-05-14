@@ -36,6 +36,22 @@ import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { TransitionsProvider } from '../providers/transitions/transitions';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Keyboard } from '@ionic-native/keyboard';
+import { FirebaseAuthentication } from '@ionic-native/firebase-authentication';
+import { Firebase } from '@ionic-native/firebase';
+import { FcmProvider } from '../providers/fcm/fcm';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+
+const firebase = {
+    apiKey: "AIzaSyDHv4jwB3rAgfYOgtIxYmH5MniNfDY4Pq8",
+    authDomain: "movelproject.firebaseapp.com",
+    databaseURL: "https://movelproject.firebaseio.com",
+    projectId: "movelproject",
+    messagingSenderId: "996329366895",
+    storageBucket:"gs://movelproject.appspot.com/"
+ }
+
+ 
 @NgModule({
   declarations: [
     MyApp,
@@ -48,7 +64,8 @@ import { Keyboard } from '@ionic-native/keyboard';
       scrollAssist: false
     }),
     HttpClientModule,
-    
+    AngularFireModule.initializeApp(firebase), 
+    AngularFirestoreModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -88,7 +105,10 @@ import { Keyboard } from '@ionic-native/keyboard';
     NativePageTransitions,
     TransitionsProvider,
     ScreenOrientation,
-    Keyboard
+    Keyboard,
+    FirebaseAuthentication,
+    Firebase,
+    FcmProvider
   ]
 })
 export class AppModule {}

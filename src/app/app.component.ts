@@ -19,6 +19,11 @@ import * as __ from 'underscore';
 import { DomSanitizer } from '../../node_modules/@angular/platform-browser';
 import { ProfessorProvider } from '../providers/professor/professor';
 import { TransitionsProvider } from '../providers/transitions/transitions';
+import { FcmProvider } from '../providers/fcm/fcm';
+import { tap } from 'rxjs/operators';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { FirebaseAuthentication } from '@ionic-native/firebase-authentication';
+import * as firebase from 'firebase'
 
 
 
@@ -31,6 +36,7 @@ export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
   
+
   //Variável que determina se as contas já foram carregadas 
   //na div Popover, que é a div onde o usuário troca de conta
   carregado=false;
@@ -100,12 +106,37 @@ export class MyApp {
     private localStorageProvider:LocalStorageProvider,
     private sanitizer:DomSanitizer,
     private professor:ProfessorProvider,
-    private transition:TransitionsProvider
+    private transition:TransitionsProvider,
+    private fcm: FcmProvider,
+    private localNotifications: LocalNotifications,
+    private firebaseAuth:FirebaseAuthentication
 
     ) {
     this.initializeApp();
-    
-    
+    firebase.auth().onAuthStateChanged(
+      user=>{
+        if(user){
+
+           // Listen to incoming messages
+           this.fcm.listenToNotifications().pipe(
+             tap(msg => {
+               this.localNotifications.schedule({
+                 id: 1,
+                 title:msg.title,
+                 text:msg.body,
+                 vibrate: true,
+                 priority: 2,
+                 silent: false,
+                 wakeup: true,
+                 icon:""
+                 
+               });
+             })
+           )
+           .subscribe();   
+        }
+      }
+    );
 
     // used for an example of ngFor and navigation
     this.pages = [{
@@ -125,7 +156,6 @@ export class MyApp {
     ];
 
     this.pages =__.indexBy(this.pages,'funcao');
-    console.log(this.pages);
     
   
 
@@ -133,6 +163,9 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+
+     
+ 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.deviceServ.setPlatform(this.device.platform);
@@ -140,10 +173,9 @@ export class MyApp {
       this.splashScreen.hide();
       this.backgroundMode.enable();
       this.backgroundMode.setDefaults(this.backgroundOptions);
-      
       let autoHide: boolean = false;
       this.navBar.setUp(autoHide);
-      this.localStorage.keys().then(data=>console.log(data));
+      // this.localStorage.keys().then(data=>console.log(data));
       this.localStorage.getItem('keepConnected')
       .then(
         enabled =>{
@@ -151,10 +183,13 @@ export class MyApp {
           if(this.localStorageProvider.isEnabled()) this.localStorage.getItem('user')
           .then(
             user=>{
+              console.log(user);
               this.loginService.setUserData(user);
+
               user.role.match('FUNCIONARIO') !== null ? this.funcao = user.role : this.funcao = 'USUARIO';
               if(this.loginService.getUserData().role.match("FUNCIONARIO")!==null){
                   this.professor.setProfessor(this.loginService.getUserData());
+                  
               }
               else{
                 this.localStorage.getItem('contas')
@@ -166,6 +201,7 @@ export class MyApp {
               this.localStorage.getItem('rootPage')
                 .then(
                     rp=>{
+                      
                       console.log(rp);
                       this.nav.setRoot(rp);
                     }
@@ -178,11 +214,9 @@ export class MyApp {
       .catch(()=>{
         this.localStorageProvider.keepConnected = false
       });
-      
-
-
-
       timer(1200).subscribe(()=> this.showSplash = false);
+      
+       
     });
     //Função, da variável Platform, que registra as ações
     // do botão de voltar do navBar nativo do android
@@ -323,6 +357,10 @@ export class MyApp {
     logout(){
      if(confirm("Deseja mesmo sair?")===true){
       
+      //Firebase logout
+      this.fcm.firebaseSignOut();
+        
+
       //Série de remoções do nativeStorage
       this.localStorageProvider.logout();
 
@@ -350,25 +388,25 @@ export class MyApp {
       loader.present();
 
       //Função que remove o Token do NativeStorage
-      this.auth.logout()
-      .subscribe(
-        data=>{
-           setTimeout(()=>{
-        
-            loader.dismiss();
-             
-             this.nav.setRoot('LoginPage');
-           },1200);
-        }
-        ,
-        error=>{
-          console.log(error);
-          localStorage.removeItem('access_token');
-          loader.dismiss();
-          this.nav.setRoot('LoginPage');
-        }
+      setTimeout(()=>{
+        this.auth.logout()
+          .subscribe(
+            data=>{
+              
+                loader.dismiss();
+                this.nav.setRoot('LoginPage');
+            
+            }
+            ,
+            error=>{
+              console.log(error);
+              localStorage.removeItem('access_token');
+              loader.dismiss();
+              this.nav.setRoot('LoginPage');
+            }
 
-      )
+          );
+      },1600);
       
       
     }
