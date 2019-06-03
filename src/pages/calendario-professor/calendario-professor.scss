@@ -308,17 +308,16 @@ page-calendario-professor {
         .positioning{
             position: relative;
             z-index:21;
-            width:60%;
+            width:70%;
             height:100%;
             .closeButton{
                 z-index:999;
                 position:absolute;
                 color:white;
                 font-size:35px;
-                
                 width:40px;
                 height:40px;
-                left:130%;
+                left:115%;
                 ion-icon{
                     z-index:999;
                 }
@@ -335,7 +334,7 @@ page-calendario-professor {
                 height:50%;
                 border-radius:2px;
                 background-color: rgb(255, 255, 255);
-                transform: translate(-00%, -60%);
+                transform: translate(-10%, -60%);
                 box-shadow: 20px 20px 25px rgba(0, 0, 0, 0.650) ;
                 text-align: left;
                 

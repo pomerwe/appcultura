@@ -7,7 +7,7 @@
 <ion-header>
 
     <ion-navbar color='blueNice'>
-        <ion-title>Chamada</ion-title>
+        <ion-title>{{'chamada_titulo' | translate}}</ion-title>
       </ion-navbar>
 
 </ion-header>
@@ -20,29 +20,29 @@
     <div  class='photo' >
         <img [src]='photo(profPhoto)' />
       </div>
-  Professor: <span class='info'>{{aula.nomeProfessor == undefined ? '' : aula.nomeProfessor }}</span><br>
-  Curso: <span class='info'>{{aula.curso == undefined ? '' : aula.curso }}</span><br>
-  Filial: <span class='info'>{{aula.filial == undefined ? '' : aula.filial }}</span><br>
-  Dia: <span class='info'> {{aula.data == undefined ? '' : aula.data | date: "dd/MM/yyyy" }}</span><br>
-  Horário: <span class='info'>{{aula.horario == undefined ? '' : aula.horario }}</span><br>
-  Estado: <span class='info' id='status'>{{aula.situacao == undefined ? '' : aula.situacao}}</span><br>
-  Preenchimento: <span class='info'>{{aula.dataHora == undefined ? '' : aula.dataHora | date : "dd/MM/yyyy HH/mm/ss"}}</span><br>
-  Substituto: <span class='info'>{{aula.nomeProfessorSubstituto == undefined ? '' : aula.nomeProfessorSubstituto}}</span><br>
+  {{'chamada_professor' | translate}}: <span class='info'>{{aula.nomeProfessor == undefined ? '' : aula.nomeProfessor }}</span><br>
+  {{'chamada_curso' | translate}}: <span class='info'>{{aula.curso == undefined ? '' : aula.curso }}</span><br>
+  {{'chamada_filial' | translate}}: <span class='info'>{{aula.filial == undefined ? '' : aula.filial }}</span><br>
+  {{'chamada_dia' | translate}}: <span class='info'> {{aula.data == undefined ? '' : aula.data | date: "dd/MM/yyyy" }}</span><br>
+  {{'chamada_horario' | translate}}: <span class='info'>{{aula.horario == undefined ? '' : aula.horario }}</span><br>
+  {{'chamada_estado' | translate}}: <span class='info' id='status'>{{aula.situacao == undefined ? '' : aula.situacao}}</span><br>
+  {{'chamada_preenchimento' | translate}}: <span class='info'>{{aula.dataHora == undefined ? '' : aula.dataHora | date : "dd/MM/yyyy HH/mm/ss"}}</span><br>
+  {{'chamada_substituto' | translate}}: <span class='info'>{{aula.nomeProfessorSubstituto == undefined ? '' : aula.nomeProfessorSubstituto}}</span><br>
 </div>
 <div *ngIf='loading' class="lds-ring"><div></div><div></div><div></div><div></div></div>
 <div (click)='activeHelp()' class='help'>
     <ion-icon class='icon' name="help-circle"></ion-icon>
 </div><br><br>
 
-<div (click)='changeToDetails()' class='moreInformation'>Mais informações <ion-icon name="arrow-round-forward"></ion-icon></div>
+<div (click)='changeToDetails()' class='moreInformation'>{{'chamada_maisinformacao' | translate}} <ion-icon name="arrow-round-forward"></ion-icon></div>
 <br><br>
 <div class='classWork' ion-row>
     <div ion-col col-6>
-        <span class='title'>Conteúdo</span><br>
+        <span class='title'>{{'chamada_conteudo' | translate}}</span><br>
         <textarea [disabled]='radioDisabled' maxlength='100' class='conteudo' [(ngModel)]='aula.conteudo'></textarea>
     </div>
     <div ion-col col-6>
-        <span class='title'>Dever</span><br>
+        <span class='title'>{{'chamada_dever' | translate}}</span><br>
         <textarea [disabled]='radioDisabled' maxlength='100'  class='dever' [(ngModel)]='aula.dever'></textarea>
     </div>
     
@@ -51,17 +51,17 @@
 <div class='allPresent'>
   <div class='content' (touchstart)='marcarTodosButtonClickActivate()' (touchend)='marcarTodosButtonClickDectivate()' (click)='setarTodosPresentes()'>
     <div *ngIf='marcarTodosButtonClick' class='buttonEffect'></div>   
-    <label class='title'  >Marcar presença para todos</label>
+    <label class='title'  >{{"chamada_marcarpresenca" | translate}}</label>
   </div>
  
 </div>
 <div (swipe)='swipe($event)' class='alunos' ion-grid>
   <div class='alunosGrid'>
   <div class='rowTitleDiv' ion-row>
-    <span class='rowTitle' ion-col col-2>Foto</span>
-    <span class='rowTitle' ion-col col-3>Matricula</span>
-    <span class='rowTitle' ion-col col-3>Nome</span>
-    <span class='rowTitle' ion-col col-4>Chamada</span>
+    <span class='rowTitle' ion-col col-2>{{'chamada_foto' | translate}}</span>
+    <span class='rowTitle' ion-col col-3>{{'chamada_matricula' | translate}}</span>
+    <span class='rowTitle' ion-col col-3>{{'chamada_nome' | translate}}</span>
+    <span class='rowTitle' ion-col col-4>{{'chamada_presenca' | translate}}</span>
   </div>
 
       <div *ngFor='let a of chamada' class='aluno' ion-row>
@@ -76,15 +76,15 @@
           <div class='alunoInfo' ion-col col-4> 
             <div ion-row radio-group  class='radioRow'  (ionChange)="setarFrequencia($event,a.matricula)" [(ngModel)]="alunosChamada != undefined ? alunosChamada[a.matricula].frequencia : waiter " >
               <div ion-col ion-col-4>
-                <span class='radioText present'>P</span><br>
+                <span class='radioText present'>{{'chamada_p' | translate}}</span><br>
                 <ion-radio [disabled]='radioDisabled' value='PRESENCA'></ion-radio>
               </div>
               <div ion-col ion-col-4>
-                  <span class='radioText abscent'>A</span><br>
+                  <span class='radioText abscent'>{{'chamada_f' | translate}}</span><br>
                 <ion-radio [disabled]='radioDisabled' value='FALTA'></ion-radio>
               </div>
               <div ion-col ion-col-4>
-                  <span class='radioText late'>L</span><br>
+                  <span class='radioText late'>{{'chamada_a' | translate}}</span><br>
                 <ion-radio [disabled]='radioDisabled' value='ATRASO'></ion-radio>
               </div>
             </div>
@@ -98,7 +98,7 @@
 <button [disabled]='radioDisabled' (touchstart)='realizarChamadaButtonClickActivate()' (touchend)='realizarChamadaButtonClickDeactivate()' (click)='realizarChamada()' class='realizarChamadaButton'> 
   <div class='realizarChamadaButtonInner'>
       <span class='realizarChamadaText'>
-          Realizar chamada
+          {{'chamada_realizarchamada' | translate}}
       </span>
   </div>
   <div *ngIf='realizarChamadaButtonClick' class='realizarChamadaButtonEffect'>
@@ -116,18 +116,18 @@
     </div>
     <div class='chamadaHelp'>
         <div class='titleHelp'>
-            <span class='titleHelpText'>Legenda</span>
+            <span class='titleHelpText'>{{'chamada_label' | translate}}</span>
           </div>
-        <span class='legendaInfo'><span class='present'>P</span> = <span class='present'>Present</span></span><br>
-        <span class='legendaInfo'><span class='abscent'>A</span> = <span class='abscent'>Abscent</span></span><br>
-        <span class='legendaInfo'><span class='late'>L</span> = <span class='late'>Late</span></span><br>
+        <span class='legendaInfo'><span class='present'>{{'chamada_p' | translate}}</span> = <span class='present'>{{'chamada_presenca' | translate}}</span></span><br>
+        <span class='legendaInfo'><span class='abscent'>{{'chamada_f' | translate}}</span> = <span class='abscent'>{{'chamada_falta' | translate}}</span></span><br>
+        <span class='legendaInfo'><span class='late'>{{'chamada_a' | translate}}</span> = <span class='late'>{{'chamada_atraso' | translate}}</span></span><br>
     </div>
     
 </div> 
 
 <ion-content *ngIf='tab === "details"'>
   <div (swipe)='swipe($event)'  class='swipe'>
-    <div (click)='changeToChamada()' class='moreInformationBack'><ion-icon name="arrow-round-back"></ion-icon>Voltar</div><br>
+    <div (click)='changeToChamada()' class='moreInformationBack'><ion-icon name="arrow-round-back"></ion-icon>{{'chamada_voltar' | translate}}</div><br>
     <div (swipe)='swipe($event)' class='alunosMoreInformation'>
         <div class='alunosMoreInformationAluno' *ngFor='let a of chamada' ion-row>
           <div  class='alunosMoreInformationAlunoPhoto' ion-col col-3 >
@@ -142,7 +142,7 @@
           </div>
           <div class='alunosMoreInformationAlunoFrequenciaGrid' ion-grid>
               <div class='alunosMoreInformationAlunoTitle' ion-row>
-                <span>Faltas</span>
+                <span>{{'chamada_faltas' | translate}}</span>
               </div>
               <div class='alunosMoreInformationAlunoFrequencia' ion-row ion-col col-12>
                   <div class='alunosMoreInformationAlunoFrequenciaCol' ion-col col-2>
@@ -198,25 +198,25 @@
           
           <div class='alunosMoreInformationAlunoContatos'>
             <div class='alunosMoreInformationAlunoContatosTitle'>
-              <span>Contatos</span>
+              <span>{{'chamada_contatos' | translate}}</span>
             </div>
             <div>
-                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Celular Aluno: </span><span>{{a.alunoCelular}}</span>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>{{'chamada_celularaluno' | translate}}: </span><span>{{a.alunoCelular}}</span>
             </div>
             <div>
-                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Telefone Aluno: </span><span>{{a.alunoTelefone}}</span>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>{{'chamada_telefonealuno' | translate}}:</span><span>{{a.alunoTelefone}}</span>
             </div>
             <div>
-                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Responsável Academico: </span><span>{{a.resonsavelNome}}</span>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>{{'chamada_responsavelacad' | translate}}:</span><span>{{a.resonsavelNome}}</span>
             </div>
             <div>
-                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Email Responsável: </span><span>{{a.resonsavelEmail}}</span>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>{{'chamada_emailresponsavel' | translate}}:</span><span>{{a.resonsavelEmail}}</span>
             </div>
             <div>
-                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Celular Responsável: </span><span>{{a.resonsavelCelular}}</span>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>{{'chamada_celularresponsavel' | translate}}:</span><span>{{a.resonsavelCelular}}</span>
             </div>
             <div>
-                <span class='alunosMoreInformationAlunoContatosInfoTitle'>Telefone Responsável: </span><span>{{a.resonsavelTelefone}}</span>
+                <span class='alunosMoreInformationAlunoContatosInfoTitle'>{{'chamada_telefoneresponsavel' | translate}}:</span><span>{{a.resonsavelTelefone}}</span>
             </div>
               
               

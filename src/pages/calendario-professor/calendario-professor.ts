@@ -7,6 +7,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { environment as env } from '../../environments/environment';
 import { ISubscription } from 'rxjs/Subscription';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { TranslateService } from '@ngx-translate/core';
 /**
  * Generated class for the CalendarioProfessorPage page.
  *
@@ -111,10 +112,16 @@ export class CalendarioProfessorPage {
     private functions:Functions,
     private http:HttpServiceProvider,
     private screenOrientation: ScreenOrientation,
-    private menu:MenuController
+    private menu:MenuController,
+    private translate:TranslateService
     ) {
-     
-     this.mesLabel = this.functions.nomes(this.hoje.toLocaleDateString('pt-BR',this.mesLocaleDateStringOptions));
+     translate.get('calendario_meslabelparam')
+      .subscribe(
+        data=>{
+          this.mesLabel = this.functions.nomes(this.hoje.toLocaleDateString(data,this.mesLocaleDateStringOptions));
+
+        }
+      );
      this.currentMonthIndex = this.hoje.getMonth();
      this.currentYear = this.hoje.getFullYear();
      this.calendarDaysDisplayIndexed = __.indexBy(this.calendarDaysDisplay,'day');
@@ -359,8 +366,14 @@ export class CalendarioProfessorPage {
       this.getMonth(this.currentMonthIndex);
 
     }
+    this.translate.get('calendario_meslabelparam')
+      .subscribe(
+        data=>{
+          this.mesLabel = this.functions.nomes(new Date(this.currentYear , this.currentMonthIndex).toLocaleDateString(data,this.mesLocaleDateStringOptions));
+
+        }
+      );
     
-    this.mesLabel = this.functions.nomes(new Date(this.currentYear , this.currentMonthIndex).toLocaleDateString('pt-BR',this.mesLocaleDateStringOptions));
 
   
   }
@@ -386,8 +399,14 @@ export class CalendarioProfessorPage {
 
     } 
     
+    this.translate.get('calendario_meslabelparam')
+      .subscribe(
+        data=>{
+          this.mesLabel = this.functions.nomes(new Date(this.currentYear , this.currentMonthIndex).toLocaleDateString(data,this.mesLocaleDateStringOptions));
+
+        }
+      );
     
-    this.mesLabel = this.functions.nomes(new Date(this.currentYear , this.currentMonthIndex).toLocaleDateString('pt-BR',this.mesLocaleDateStringOptions));
 
 
     
@@ -537,10 +556,15 @@ export class CalendarioProfessorPage {
   showEvents(dia){
     if(this.previousSelected!= undefined && this.previousSelected!=dia) document.getElementById(this.previousSelected).classList.remove('selected');
     document.getElementById(dia).classList.add('selected');
-    let diasemana = this.functions.nomes(
-      new Date(this.currentYear,this.currentMonthIndex,dia).toLocaleDateString('pt-BR',{weekday:'long'}));
-    document.getElementById('events').innerHTML = '';
-    document.getElementById('events').innerHTML = `<span class='eventsDay' ion-col col-12>${dia < 10 ? '0'+dia : dia}/${(this.currentMonthIndex+1) < 10 ? '0'+(this.currentMonthIndex+1) : (this.currentMonthIndex+1)} - ${dia == this.hoje.getDate() && this.currentMonth.month == this.hoje.getMonth() && this.currentYear == this.hoje.getFullYear()  ? "Hoje - ": ''} ${diasemana}</span> `;
+    this.translate.get(['calendario_meslabelparam','calendario_displayhoje'])
+    .subscribe(data=>{
+      let diasemana = this.functions.nomes(
+        new Date(this.currentYear,this.currentMonthIndex,dia).toLocaleDateString(data.calendario_meslabelparam,{weekday:'long'}));
+        document.getElementById('events').innerHTML = '';
+        document.getElementById('events').innerHTML = `<span class='eventsDay' ion-col col-12>${dia < 10 ? '0'+dia : dia}/${(this.currentMonthIndex+1) < 10 ? '0'+(this.currentMonthIndex+1) : (this.currentMonthIndex+1)} - ${dia == this.hoje.getDate() && this.currentMonth.month == this.hoje.getMonth() && this.currentYear == this.hoje.getFullYear()  ? `${data.calendario_displayhoje} - `: ''} ${diasemana}</span> `;
+    });
+    
+    
     if(this.eventsDisplay[dia].eventos.length>0){
       let cods = [];
       this.eventsDisplay[dia].eventos.forEach(
@@ -581,7 +605,13 @@ export class CalendarioProfessorPage {
 
     }
     else{
-       document.getElementById('events').innerHTML += `<span class='noEventsMsg event' ion-col col-12>Você não possui eventos nesse dia!</span>`
+      this.translate.get('calendario_noeventstoday')
+      .subscribe(
+        semeventoshoje=>{
+          document.getElementById('events').innerHTML += `<span class='noEventsMsg event' ion-col col-12>${semeventoshoje}</span>`
+
+        }
+      )
     }
     
     this.previousSelected = dia;

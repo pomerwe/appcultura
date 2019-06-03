@@ -10,6 +10,7 @@ import { Functions } from '../../functions/functions';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import * as __ from 'underscore';
+import { TranslateService } from '@ngx-translate/core';
 /**
  * Generated class for the ChamadaPage page.
  *
@@ -119,6 +120,8 @@ export class ChamadaPage {
 
     //Controller do alert de loading
     private loadingCtrl: LoadingController,
+
+    private translate:TranslateService
     ) {
       //Seta a variável com os dados que vem no navParams
       this.chamadaFromNavParams = navParams.get('chamada');
@@ -372,19 +375,38 @@ export class ChamadaPage {
 
     //Seta a variavel de freqMeses que mostrará as frequencias dos alunos
     setFrequencias(){
-      if(this.mes!=undefined){
-        if(this.mes<7){
-          let meses = ['JAN','FEV','MAR','ABR','MAI','JUN'];
-          this.freqMeses = meses;
+      this.translate.get(["chamada_jan",
+      "chamada_fev",
+      "chamada_mar",
+      "chamada_abr",
+      "chamada_mai",
+      "chamada_jun",
+      "chamada_jul",
+      "chamada_ago",
+      "chamada_set",
+      "chamada_out",
+      "chamada_nov",
+      "chamada_dez"])
+      .subscribe(
+        data=>{
+          if(this.mes!=undefined){
+            if(this.mes<7){
+              let meses = [data.chamada_jan,data.chamada_fev,data.chamada_mar,
+              data.chamada_abr,data.chamada_mai,data.chamada_jun];
+              this.freqMeses = meses;
+            }
+            else{
+              let meses = [data.chamada_jul,data.chamada_ago,data.chamada_set,
+              data.chamada_out,data.chamada_nov,data.chamada_dez];
+              this.freqMeses = meses;
+            }
+          }
+          else{
+            setTimeout(()=>this.setFrequencias(),500);
+          }
         }
-        else{
-          let meses = ['JUL','AGO','SET','OUT','NOV','DEZ'];
-          this.freqMeses = meses;
-        }
-      }
-      else{
-        setTimeout(()=>this.setFrequencias(),500);
-      }
+      )
+      
         
     }
 

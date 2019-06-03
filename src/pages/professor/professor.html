@@ -11,7 +11,7 @@
      <div style='padding:10px;font-size:20px;'>
          <ion-icon name="menu" menuToggle></ion-icon>
       </div>
-      <ion-title>Filiais</ion-title>
+      <ion-title>{{'professor_titulo' | translate}}</ion-title>
     </ion-row>
   </ion-navbar>
 
@@ -21,7 +21,7 @@
 <ion-content has-bouncing="false">
     <div ion-fixed class='divTitleFiliais'>
       <span class='titleFiliais'>
-          Lista de Filiais
+        {{'professor_listafiliais' | translate}}
 
       </span>
        
@@ -41,14 +41,14 @@
             <!-- <ion-icon style='font-size:20px;position:relative;top:3px;' item-end name="arrow-forward" ></ion-icon> -->
             <button class='filialButton' ion-item *ngFor="let f of filiais" (click)='pushTurmasPage(f.filial)'>
               <span class='filialName'>{{ f.filial }} </span>
-              <span class='turmasQuantity'>{{f.turmas.length}} {{f.turmas.length == 1 ? "Turma" : "Turmas" }} </span>
+              <span class='turmasQuantity'>{{f.turmas.length}} {{f.turmas.length == 1 ? ('professor_turma' | translate) : ('professor_turmas' | translate) }} </span>
             </button>  
             
         </ion-list>
 
-        <div *ngIf='errorMsg' class='Message'>Houve algum erro com a requisição...</div>
+        <div *ngIf='errorMsg' class='Message'>{{'reqerror' | translate}}</div>
         <div *ngIf='noConnection' class='Message'>
-            Não há conexão com a internet. Reconecte e recarregue...
+          {{'semconexao' | translate}}
         </div>
         <div style='height:90px;'></div>
     </ion-content>

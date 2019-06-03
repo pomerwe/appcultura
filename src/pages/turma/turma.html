@@ -17,7 +17,7 @@
 <ion-content>
     <div ion-fixed class='divTitleTurma'>
         <span class='titleTurma'>
-        Alunos
+        {{'turma_alunos' | translate}}
     
         </span>
       
@@ -41,9 +41,9 @@
           <span class='nomeAluno'>{{aluno.nome}}</span>
         </div>
       </div>
-      <div *ngIf='errorMsg'  class='Message'>Houve algum erro com a requisição...</div>
+      <div *ngIf='errorMsg'  class='Message'>{{'reqerror' | translate}}</div>
       <div *ngIf='noConnection' class='Message'>
-        Não há conexão com a internet. Reconecte e recarregue...
+        {{'semconexao' | translate}}      
       </div>
       <div *ngIf='loading' class="lds-ring"><div></div><div></div><div></div><div></div></div>
       <div style='height:50px;'></div>

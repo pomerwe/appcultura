@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color='blueNice'>
-    <ion-title>Turmas - {{filial}}</ion-title>
+    <ion-title>{{'turmas_titulo' | translate}} - {{filial}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -19,9 +19,9 @@
 
 
 
-    <div *ngIf='errorMsg' class='Message'>Houve algum erro com a requisição...</div>
+    <div *ngIf='errorMsg' class='Message'>{{'reqerror' | translate}}</div>
     <div *ngIf='noConnection' class='Message'>
-        Não há conexão com a internet. Reconecte e recarregue...
+        {{'semconexao' | translate}}
     </div>
 
     <div *ngFor='let t of turmas' (click)="pushTurmaPage(t)" class='turmaCard'>
