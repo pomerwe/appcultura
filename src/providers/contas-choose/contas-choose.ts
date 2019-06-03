@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { LoginServiceProvider } from '../login-service/login-service';
 import { Functions } from '../../functions/functions';
 import { AlertController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 /*
   Generated class for the ContasChooseProvider provider.
 
@@ -17,10 +18,14 @@ export class ContasChooseProvider {
   //Variável que será a conta escolhida da lista de contas vinculadas
   private conta;
 
+  alertChooseTitle = '' ;
   constructor(public http: HttpClient, private alert:AlertController,
     private functions:Functions,
-    private loginService:LoginServiceProvider) {
-   
+    private loginService:LoginServiceProvider,
+    private translate:TranslateService
+    
+    ) 
+    {
   }
 
   //Variável que controla se está selecionado ou não na div Popover
@@ -30,11 +35,12 @@ export class ContasChooseProvider {
   //caso contrário, apenas dá set nas informações do aluno
   public contasChoose(): Promise<any> { 
    
+    this.loadTranslatedVariables();
     
    return new Promise((resolve , reject) => { 
      if(this.loginService.getContas().length>1){
     let alert = this.alert.create({enableBackdropDismiss: false});
-    alert.setTitle('Escolha a conta');
+    alert.setTitle(this.alertChooseTitle);
     
     for(let acc of this.loginService.getContas()){
       alert.addInput({
@@ -88,4 +94,15 @@ export class ContasChooseProvider {
     this.check = false;
     this.setConta(undefined);
   }
+
+  loadTranslatedVariables(){
+    this.translate.get(['contaschoose_alerttitle'])
+          .subscribe(
+            data => {
+              this.alertChooseTitle = data.contaschoose_alerttitle;
+          
+             
+            }
+          );
+      }
 }

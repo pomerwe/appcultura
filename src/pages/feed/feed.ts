@@ -13,6 +13,7 @@ import { Functions } from '../../functions/functions';
 import * as __ from 'underscore';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { AutoReloadDiaDiaProvider } from '../../providers/auto-reload-dia-dia/auto-reload-dia-dia';
+import { TranslateService } from '@ngx-translate/core';
 
 
 /**
@@ -44,7 +45,7 @@ import { AutoReloadDiaDiaProvider } from '../../providers/auto-reload-dia-dia/au
 })
 export class FeedPage {
 
- 
+  loaderCarregandoLabel = '';
 
   //Variável array que carrega objetos Chamada;
   chamadas: Array<Chamada>;
@@ -91,15 +92,17 @@ export class FeedPage {
     private functions:Functions,
     private autoReload:AutoReloadDiaDiaProvider,
     private sanitizer: DomSanitizer,
+    private translate:TranslateService
     
     ) {
    
+      this.loadTranslatedVariables();
   
   }
       // Função que cria um loader na página;
       loader = this.loadingCtrl.create({
       spinner: "crescent",
-      content:"Carregando..."
+      content:this.loaderCarregandoLabel
     });
 
 
@@ -387,6 +390,17 @@ export class FeedPage {
   scrollInactive(event){
     this.functions.scrollInactive(event);
   }
+
+  loadTranslatedVariables(){
+    this.translate.get(['loader_carregando'])
+          .subscribe(
+            data => {
+              this.loaderCarregandoLabel = data.loader_carregando;
+          
+             
+            }
+          );
+      }
 
   // async not(){
   //       let urn= 'https://fcm.googleapis.com/fcm/send';

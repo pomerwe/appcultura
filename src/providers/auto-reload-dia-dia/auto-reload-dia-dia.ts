@@ -9,6 +9,7 @@ import { LoginServiceProvider } from '../login-service/login-service';
 import { Functions } from '../../functions/functions';
 import { LoadingController } from '../../../node_modules/ionic-angular/';
 import { HttpParams } from '../../../node_modules/@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 /*
   Generated class for the AutoReloadDiaDiaProvider provider.
 
@@ -29,7 +30,7 @@ export class AutoReloadDiaDiaProvider {
   top10;
   notificationsId = 0;
   toSchedule = [];
- 
+  loaderCarregandoLabel = '';
   constructor(
     private http:HttpServiceProvider,    
     private localNotifications:LocalNotifications,
@@ -37,8 +38,10 @@ export class AutoReloadDiaDiaProvider {
     private loginServ:LoginServiceProvider,
     private functions:Functions,
     private loadingCtrl:LoadingController,  
+    private translate:TranslateService
   ) {
     
+    this.loadTranslatedVariables();
   }
 
   carregarVariaveis(){
@@ -208,9 +211,20 @@ export class AutoReloadDiaDiaProvider {
   createLoader(){
     this.loader=this.loadingCtrl.create({
         spinner: "crescent",
-        content:"Carregando..."
+        content:this.loaderCarregandoLabel
+
       });
 }
 
   
+loadTranslatedVariables(){
+  this.translate.get(['loader_carregando'])
+        .subscribe(
+          data => {
+            this.loaderCarregandoLabel = data.loader_carregando;
+        
+           
+          }
+        );
+    }
 }

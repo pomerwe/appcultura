@@ -2,6 +2,8 @@
     "semconexao":"Não há conexão com a internet. Reconecte e recarregue...",
     "botaosair":"Sair",
     "loader_saindo":"Saindo...",
+    "loader_carregando":"Carregando...",
+    "loader_entrando":"Entrando...",
     "alert_desejamesmosair":"Deseja mesmo sair?",
 
     "menu_usuario":"Usuário",
@@ -45,5 +47,12 @@
     "login_esqueciminhasenha":"Esqueci minha senha",
     "login_manterconectado":"Manter conectado",
     "login_lembrar":"Lembrar",
-    "login_entrar":"ENTRAR"
+    "login_entrar":"ENTRAR",
+    "login_alertAuthError":"Erro de Autenticação",
+    "login_alertAuthMessage":"Verifique as informações e tente novamente",
+
+    "contaschoose_alerttitle":"Escolha uma conta",
+    "netcheck_notconnectedtitle":"Erro de Autenticação",
+    "netcheck_notconnectedmessage":"Verifique sua conexão com a internet"
+    
 }

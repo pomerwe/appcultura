@@ -2,6 +2,8 @@
     "semconexao":"You have no internet connection. Please reconnect and try again...",
     "botaosair":"Log out",
     "loader_saindo":"Exiting...",
+    "loader_carregando":"Loading...",
+    "loader_entrando":"Loging in...",
     "alert_desejamesmosair":"Do you really want to exit?",
 
     "menu_usuario":"Username",
@@ -45,5 +47,11 @@
     "login_esqueciminhasenha":"Forgot my password",
     "login_manterconectado":"Keep connected",
     "login_lembrar":"Remember",
-    "login_entrar":"LOGIN"
+    "login_entrar":"LOGIN",
+    "login_alertAuthError":"Auth Error",
+    "login_alertAuthMessage":"Verify your data and try again",
+
+    "contaschoose_alerttitle":"Choose an account",
+    "netcheck_notconnectedtitle":"Auth Error",
+    "netcheck_notconnectedmessage":"Verify your internet connection"
 }

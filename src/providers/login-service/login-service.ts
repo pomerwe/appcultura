@@ -1,6 +1,5 @@
 
 import { Injectable } from '@angular/core';
-import { AlunoProvider } from '../aluno/aluno';
 
 /*
   Generated class for the LoginServiceProvider provider.

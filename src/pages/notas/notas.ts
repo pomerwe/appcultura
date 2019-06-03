@@ -25,6 +25,8 @@ export class NotasPage {
   
   @ViewChild(Navbar) navBar:Navbar; 
 
+  loaderCarregandoLabel = '';
+
   //Parâmetros que serão enviados na requisição para URN cursos
   cursosParams;
 
@@ -136,13 +138,7 @@ export class NotasPage {
       }
     )
     this.carregarDados();
-    this.translate.get(['notas_notabimestre','notas_notafinal'])
-    .subscribe(
-      data=>{
-        this.notasFinaisTitles['notabimestre'] = data.notas_notabimestre;
-        this.notasFinaisTitles['notafinal'] = data.notas_notafinal;
-      }
-    )
+    this.loadTranslatedVariables();
   }
   ionViewWillLeave(){
     this.transitions.back();
@@ -262,7 +258,7 @@ createloader(){
     
   this.loader = this.loadingCtrl.create({
    spinner: "crescent",
-   content:"Carregando..."
+   content:this.loaderCarregandoLabel
  });
  }
 
@@ -312,6 +308,18 @@ createloader(){
      else this.setBimestre(elements[this.bimestre-1],this.bimestre - 1);
   }
  }
+
+ loadTranslatedVariables(){
+  this.translate.get(['loader_carregando','notas_notabimestre','notas_notafinal'])
+        .subscribe(
+          data => {
+            this.loaderCarregandoLabel = data.loader_carregando;
+            this.notasFinaisTitles['notabimestre'] = data.notas_notabimestre;
+            this.notasFinaisTitles['notafinal'] = data.notas_notafinal;
+           
+          }
+        );
+    }
 }
 
 

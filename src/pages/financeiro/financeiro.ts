@@ -29,6 +29,9 @@ export class FinanceiroPage {
 
   @ViewChild(Navbar) navBar:Navbar; 
 
+  loaderCarregandoLabel;
+
+
   //Define o parâmetro de página do pageable, que será enviado na requisição;
   page=0;
 
@@ -91,14 +94,9 @@ export class FinanceiroPage {
     private translate: TranslateService
 
   ) {
-    this.translate.get('financeiro_historico')
-    .subscribe(
-      data=>this.title.push(data)
-    );
-    this.translate.get('financeiro_boletos')
-    .subscribe(
-      data=>this.title.push(data)
-    );
+    
+    this.loadTranslatedVariables();
+    
   }
 
   ionViewDidLoad() {
@@ -156,7 +154,7 @@ export class FinanceiroPage {
     
     this.loader = this.loadingCtrl.create({
      spinner: "crescent",
-     content:"Carregando..."
+     content:this.loaderCarregandoLabel
    });
    }
 
@@ -432,4 +430,23 @@ export class FinanceiroPage {
 
   }
   
+
+  loadTranslatedVariables(){
+    this.translate.get('financeiro_historico')
+    .subscribe(
+      data=>this.title.push(data)
+    );
+    this.translate.get('financeiro_boletos')
+    .subscribe(
+      data=>this.title.push(data)
+    );
+    this.translate.get(['loader_carregando'])
+          .subscribe(
+            data => {
+              this.loaderCarregandoLabel = data.loader_carregando;
+          
+             
+            }
+          );
+      }
 }

@@ -37,6 +37,12 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+
+  alertAuthErrorTitle = '';
+  alertAuthErrorMessage ='';
+  loaderEntrandoLabel = '';
+
+
   ptEffect = false;
   enEffect = false;
   //Controla a Div que mostra mensagem de email inválido
@@ -89,7 +95,7 @@ export class LoginPage {
               private translate:TranslateService
             ) 
             {
-              
+              this.loadTranslatedVariables();
             
            
   }
@@ -137,7 +143,7 @@ export class LoginPage {
     
    this.loader = this.loadingCtrl.create({
     spinner: "crescent",
-    content:"Entrando..."
+    content:this.loaderEntrandoLabel
   });
   }
   
@@ -279,8 +285,8 @@ export class LoginPage {
   //Alerta de erro de login por autenticação incorreta
   loginErrorAlert(){
     let alert = this.alert.create({
-      title:'Erro de Autenticação',
-      message: 'Verifique as informações e tente novamente',
+      title:this.alertAuthErrorTitle,
+      message:this.alertAuthErrorMessage,
       buttons:[
         {text:'OK',role:'cancel'}
       ]
@@ -335,5 +341,15 @@ export class LoginPage {
         } 
       }
 
-    
+      loadTranslatedVariables(){
+        this.translate.get(['loader_entrando','login_alertAuthError','login_alertAuthMessage'])
+              .subscribe(
+                data => {
+                  this.loaderEntrandoLabel = data.loader_entrando;
+                  this.alertAuthErrorTitle = data.login_alertAuthError;
+                  this.alertAuthErrorMessage = data.login_alertAuthMessage;
+                 
+                }
+              );
+          }
 }
