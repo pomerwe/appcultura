@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController, IonicApp, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -42,6 +42,8 @@ export class MyApp {
   notasPageTitle:string = '';
   financeiroPageTitle:string = '';
   calendarioPageTitle:string = '';
+  loaderExitingLabel = '';
+  alertDesejaMesmoSair = '';
 
   //Variável que determina se as contas já foram carregadas 
   //na div Popover, que é a div onde o usuário troca de conta
@@ -146,8 +148,8 @@ export class MyApp {
     );
     translate.setDefaultLang('en');
     // used for an example of ngFor and navigation
+    this.loadTranslatedVariables();
     this.setTitlePages();
-
     
     this.pages = [{
 
@@ -240,7 +242,7 @@ export class MyApp {
         return;
       }
       else if(this.nav.getActive().id.match("LoginPage")!==null && pop == true){
-        if(window.confirm('Tem certeza que deseja sair do app?')===true) this.platform.exitApp();
+        if(window.confirm(this.alertDesejaMesmoSair)===true) this.platform.exitApp();
       }
       else if(this.nav.getActive().id.match("ProfessorPage")!==null && pop == true || this.nav.getActive().id.match("FeedPage")!==null && pop == true){
         
@@ -365,7 +367,7 @@ export class MyApp {
     //Função que faz logout. Basicamente chama várias funções 
     //que unset as variáveis de providers e remove o token do NativeStorage(LocalStorage)
     logout(){
-     if(confirm("Deseja mesmo sair?")===true){
+     if(confirm(this.alertDesejaMesmoSair)===true){
       
       //Firebase logout
       this.fcm.firebaseSignOut();
@@ -377,7 +379,7 @@ export class MyApp {
       //Função que cria um loader novamente, pois toda vez que ele é dismiss(), deixa de existir.
       let loader = this.loadingCtrl.create({
         spinner: "crescent",
-        content:"Saindo..."
+        content:this.loaderExitingLabel
       });
       //Unset na variável contas
       while(this.contas.length){
@@ -421,7 +423,17 @@ export class MyApp {
       
     }
   }
-  
+  loadTranslatedVariables(){
+this.translate.get(['loader_saindo','alert_desejamesmosair'])
+      .subscribe(
+        data => {
+          this.loaderExitingLabel = data.loader_saindo;
+          this.alertDesejaMesmoSair = data.alert_desejamesmosair;
+      
+         
+        }
+      );
+  }
   setTitlePages(data?){
     if(data==undefined){
       this.translate.get(['menu_notas','menu_financeiro','menu_calendario'])

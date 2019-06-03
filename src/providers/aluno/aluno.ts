@@ -129,7 +129,7 @@ export class AlunoProvider {
     this.photo = photo;
   }
 
-  //Função que unset todas as variáveis
+  //Função que unset todas as variáveis 
   public unsetAluno(){
     this.setMatricula(undefined);
     this.setChecked(undefined);

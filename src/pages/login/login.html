@@ -11,7 +11,17 @@
   <div class='title'>
       <img src='../../assets/imgs/LOGO VERTICAL.png' class='logo'>
   </div>
-  
+  <div class='language'>
+      <div class='buttonDiv'>
+          <button class='button pt' (click)='changeLanguage("pt");buttonEffects("ptEffect");' > </button>
+          <div class='effect' *ngIf='ptEffect'></div>
+      </div>
+      <div class='buttonDiv'>
+          <button class='button en' (click)='changeLanguage("en");buttonEffects("enEffect");' > </button>
+          <div class='effect' *ngIf='enEffect'></div>
+      </div>
+      
+    </div>
  <div padding class='loginForm'>
 <form #entrar='ngForm' (ngSubmit)='getAccess(entrar.form.value)'>
     
@@ -25,18 +35,18 @@
     <div class='senhaDiv'>
     <ion-list>
     <ion-item >
-      <ion-label floating>Login</ion-label>
+      <ion-label floating>{{'login_usuario' | translate}}</ion-label>
       <ion-input (ionBlur)='emailLostFocus=true' [ngModel]='setEmail' name='email' type='email' 
       #email='ngModel' required #emailinput></ion-input>
       <button style='position:relative;top:15px;' ion-button clear color='dark' type="button" item-right (click)='emailinput.value=""'> <ion-icon  class='mostrarSenha' name="close"> </ion-icon> </button>
     </ion-item>
     
     <ion-item >
-      <ion-label floating>Senha</ion-label>
+      <ion-label floating>{{'login_senha' | translate}}</ion-label>
       <ion-input ngModel name='senha' clearOnEdit="false" [type]='passwordInput' #senha='ngModel' required></ion-input>
       <button style='position:relative;top:15px;' ion-button clear color='dark' type="button" item-right (click)='mostrarSenha(eye)'> <ion-icon  class='mostrarSenha' name="eye" #eye> </ion-icon> </button>
     </ion-item>
-    <span class='rememberPassword'>Esqueci minha senha</span>
+    <span class='rememberPassword'>{{'login_esqueciminhasenha' | translate}}</span>
     </ion-list>
   </div>
     
@@ -45,18 +55,18 @@
     <div class='landscapeShowPassAndButtonDiv'>
       <div class='checkboxDiv' ion-row>
       <ion-item no-lines class='checkbox' ion-col col-12>
-              <ion-label>Manter conectado</ion-label>
+              <ion-label>{{'login_manterconectado' | translate}}</ion-label>
               <ion-toggle item-start (ionChange)='keepConnected = keep.checked;' [checked]='keepConnected' #keep></ion-toggle>
       </ion-item>
       
       <ion-item no-lines class='checkbox' ion-col col-12>
-        <ion-label>Lembrar</ion-label>
+        <ion-label>{{'login_lembrar' | translate}}</ion-label>
         <ion-toggle item-start (ionChange)='saveChecked = save.checked;' [checked]='saveChecked' #save></ion-toggle>
       </ion-item>
       </div>
       
       <div class='loginButtonDiv'>
-      <button [disabled]='entrar.invalid' type='submit' class='loginButton' >ENTRAR</button>
+      <button [disabled]='entrar.invalid' type='submit' class='loginButton' >{{'login_entrar' | translate}}</button>
       </div>
     </div>
   </form>

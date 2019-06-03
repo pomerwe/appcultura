@@ -3,22 +3,15 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
-import { ContasChooseProvider } from '../../providers/contas-choose/contas-choose';
-import { AlunoProvider } from '../../providers/aluno/aluno';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ISubscription } from '../../../node_modules/rxjs/Subscription';
 import { NetworkCheckServiceProvider } from '../../providers/network-check-service/network-check-service';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
-import { LocalNotifications } from '../../../node_modules/@ionic-native/local-notifications';
 import { MyApp } from '../../app/app.component';
 import { LocalStorageProvider } from '../../providers/local-storage/local-storage';
-import { FirebaseAuthentication } from '@ionic-native/firebase-authentication';
-import { Platform } from 'ionic-angular/platform/platform';
-import { AngularFireModule } from 'angularfire2';
 import { FcmProvider } from '../../providers/fcm/fcm';
-import * as firebase from 'firebase';
-import { tap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -44,6 +37,8 @@ import { tap } from 'rxjs/operators';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  ptEffect = false;
+  enEffect = false;
   //Controla a Div que mostra mensagem de email inválido
   emailLostFocus=false;
 
@@ -70,15 +65,28 @@ export class LoginPage {
               private http:HttpServiceProvider,
               private auth:AuthServiceProvider,
               private alert:AlertController,
+
+              //Classe de serviço do login
               private loginService:LoginServiceProvider,
               public loadingCtrl: LoadingController,
-              private aluno:AlunoProvider,
+
+              //LocalStorage nativo do celular
               private localStorage:NativeStorage,
+
+              //Classe que utiliza plugin nativo que verifica conectividade com a internet
               private netCheck:NetworkCheckServiceProvider,
+
+              //Importando a app component page
               private myApp:MyApp,
+
+              //Classe de serviço pra algumas utilidades do nativeStorage
               private localStorageProvider:LocalStorageProvider,
+
+              //Classe de serviço do firebase
               private fcm:FcmProvider,
-              private localNotifications: LocalNotifications,
+
+              //Classe de serviço translate
+              private translate:TranslateService
             ) 
             {
               
@@ -133,7 +141,7 @@ export class LoginPage {
   });
   }
   
-  //Função que após todos os procedimentos, passa o root pra FeedPage
+  //Função que após todos os procedimentos, passa o root pra Page relativa à quem está logado
   login(role){ 
     this.keepConnectedRoutine(role);
     this.saveEmailRoutine();
@@ -151,7 +159,7 @@ export class LoginPage {
    
   
   }
-
+  //Rotina que ocorre quando usuário escolhe se manter conectado
   keepConnectedRoutine(role){
     
     if(this.keepConnected==true){
@@ -174,6 +182,7 @@ export class LoginPage {
     }
 
   }
+  //Rotina que ocorre quando o usuário escolhe manter o email salvo
   saveEmailRoutine(){
     //Checa se o checkbox estava marcado e então toma ações de acordo com a escolha do usuário
    if(this.saveChecked==true){
@@ -191,10 +200,6 @@ export class LoginPage {
   }
 
 
-  showIt(show){
-    console.log(show);
-    console.log(this.saveChecked);
-  }
  
   //Faz com que o checkbox mostre ou não a senha
   mostrarSenha(eye){
@@ -213,22 +218,33 @@ export class LoginPage {
       this.auth.login(credentials)
         .subscribe(
             data=>{
-              console.log(data);
-              
+              //Se o usuário escolher manter conectado set no nativeStorage os dados dele
               if(this.keepConnected==true) this.localStorage.setItem('user',data);
-              //Checa se o usuário é ou não um funcionário
+
+              //Checa se o usuário é ou não um funcionário da cultura
               if(data.role.match("FUNCIONARIO")!== null){
+                //Aqui vai ocorrer uma série de fatores:
+                //Criar uma variável de usuario do firebase com base no login realizado
+                //Criar um usuário no firebase com os dados, caso já exista usuário, realiza login no firebase
                 let firebaseUser:FirebaseUser = new FirebaseUser(`${data.username}@culturabh.com.br`,`${credentials.senha}`);
-                
                 this.fcm.firebaseCreateUser(firebaseUser);
                 this.myApp.funcao=data.role;
+
+                //Seta os dados do usuario no login service
                 this.loginService.setUserData(data);
+
+                //Realiza login
                 this.login(data.role)
               }
               else{
+                //Aqui vai ocorrer uma série de fatores:
+                //Criar uma variável de usuario do firebase com base no login realizado
+                //Criar um usuário no firebase com os dados, caso já exista usuário, realiza login no firebase
                 let firebaseUser:FirebaseUser = new FirebaseUser(`${data.username}`,`${credentials.senha}`);
                 this.fcm.firebaseCreateUser(firebaseUser);
                 this.myApp.funcao= 'USUARIO';
+
+                //Seta os dados do usuario no login service
                 this.loginService.setUserData(data);
                 let uri='/contas';
                 let params = {
@@ -236,6 +252,8 @@ export class LoginPage {
                   'example':'',
                   'sort':'nome,asc'
                 }
+
+                
                 this.contasVinculo(uri,params);
               }
             }
@@ -298,7 +316,24 @@ export class LoginPage {
 
       }
 
-
+      changeLanguage(string){
+        this.translate.use(string);
+        this.myApp.setTitlePages();
+      }
+      buttonEffects(effect){
+        if(effect.match('ptEffect')!==null){
+          this.ptEffect = true;
+          setTimeout(()=>{
+            this.ptEffect = false;
+          },300);
+        } 
+        else if(effect.match('enEffect')!==null){
+          this.enEffect = true;
+          setTimeout(()=>{
+            this.enEffect = false;
+          },300);
+        } 
+      }
 
     
 }

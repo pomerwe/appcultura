@@ -5,7 +5,6 @@ import { ISubscription } from 'rxjs/Subscription';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import {environment as env} from '../../environments/environment'
 import { ProfessorProvider } from '../../providers/professor/professor';
-import { DomSanitizer } from '@angular/platform-browser';
 import { UtilServiceProvider } from '../../providers/util-service/util-service';
 import { Functions } from '../../functions/functions';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
@@ -25,60 +24,130 @@ import * as __ from 'underscore';
 })
 export class ChamadaPage {
   @ViewChild(Navbar) navBar:Navbar; 
+
+  //Variável que controla a div do efeito do botão de marcar todos
   marcarTodosButtonClick = false;
+
+  //Variável que define se o alert de "todos devem estar marcados" aparecerá
   nullAlert = false  ;
+
+  //Variável que vai receber chamada do navParams
   chamadaFromNavParams;
+
+  //Variável que vai receber a chamada
   chamada;
+
+  //Parâmetros pra enviar na requisição de chamada
   chamadaParams;
+
+  //Variável que vai receber a aula
   aula;
+
+  //Variável que lista os alunos na chamada
   alunos;
+
+  //Array de subscriptions
   subscriptions:Array<ISubscription> = [];
+
+  //Url da foto do professor
   profPhoto;
+
+  //Cor do status da chamada
   cor;
+
+  //Variável que receberá um loader
   loader;
+
+  //Vai receber a url da foto do aluno que dará zoom;
   zoomPhoto = '';
+  
+  //Controla a div de zoom de foto
   alunoZoomPhotoDiv= false;
+
+  //Controla os radio buttons da chamada
   radioDisabled = false;
+
+  /*Array que servirá de padrão pra aplicar o indexBy da biblioteca underscore 
+  (aqui no caso, pra poder usar o array alunosChamada puxando pela matricula. ex: alunosChamada[59245].frequencia)
+  */
+
   alunosChamadaPattern  = [];
+  //Array que receberá os alunos da requisição chamada de forma com que os valores poderão 
+  //ser acessado através da matrícula;
   alunosChamada;
+
+  //Parametros que serão enviados pra realizar a chamada
   postChamadaParams;
-  waiter;
+
+  //Variáfvel de controle do gif de loading
   loading = false;
+
+  //Variável de controle do efeito do botão de realizar chamada
   realizarChamadaButtonClick = false;
+
+  //Variável de controle da div de help;
   helpActive = false;
+
+  //Variável que representa o mês da aula escolhida
   mes = undefined;
+
+  //Array de meses de frequência do semestre
   freqMeses = [];
+
+  //Variável que controla a tab mostrada
   tab = 'chamada';
 
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+
+    //Classe de serviço que executa animações de transição nativas
     private transitions:TransitionsProvider,
     private http:HttpServiceProvider,
+
+    //Classe de serviço de professor (mantém variáveis globais com os dados do professor)
     private professor:ProfessorProvider,
-    private sanitizer:DomSanitizer,
     private util:UtilServiceProvider,
+
+    //Classe provider com algumas funções de utilidade
     private functions:Functions,
+
+    //Plugin nativo do cordova que gerencia orientação de tela
     private screenOrientation: ScreenOrientation,
     private menu:MenuController,
+
+    //Controller do alert de loading
     private loadingCtrl: LoadingController,
     ) {
+      //Seta a variável com os dados que vem no navParams
       this.chamadaFromNavParams = navParams.get('chamada');
-      console.log(this.chamadaFromNavParams);
+
+      //Seta a variável de parâmetros a serem enviados na requisição
       this.chamadaParams = {
         "codigoAula": this.chamadaFromNavParams.codigoAula, //'1039065',// 
         "base":  this.chamadaFromNavParams.base  //'CULTURA' ,//
       }
+
+      //Seta a cor do STATUS da chamada
       this.cor =  this.chamadaFromNavParams.corEvento; //"grayEvent"; // 
+
+      //Seta a variável aula com os parâmetros pra requisição em getTurmas()
       this.aula = this.chamadaFromNavParams; //this.chamadaParams;// 
+
+      //Pega a foto do professor do serviço professor.ts
       this.profPhoto = this.professor.getPhoto();
   }
 
   ionViewWillEnter(){
-    
+    //Proibe que o menu seja aberto
     this.menu.swipeEnable(false);
+
+    //Trava a orientação da tela pra PORTRAIT
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+
+    //Aqui em baixo ocorre validação de animação da tela 
+    //se vai ou não fazer animação e qual tipo de animação vai ser(ou ida ou retorno)
     let pushParam = this.navParams.get('push');
     let reloadParam = this.navParams.get('reload');
     if(pushParam!=undefined){
@@ -96,7 +165,7 @@ export class ChamadaPage {
   
   ionViewDidLoad() {
     
-    //Cancela a animação feita pelo Ionic
+    //Cancela a animação padrão feita pelo Ionic ao clickar no botão de retorno
     this.navBar.backButtonClick = (e:UIEvent) => {
       this.navCtrl.pop({animate:false});
     };
@@ -105,9 +174,13 @@ export class ChamadaPage {
   }
 
   ionViewWillLeave(){
-    
+    //Ao sair da viww permite que o menu seja aberto novamente
     this.menu.swipeEnable(true);
+
+    //Ao sair da view permite que a tela troque de orientação
     this.screenOrientation.unlock();
+
+    //Em baixo rola uma validação de qual animação será executada e se será executada
     let pushParam = this.navParams.get('push');
     let reload = this.navParams.get('reload');
     if(pushParam==undefined) this.transitions.back();
@@ -124,7 +197,9 @@ export class ChamadaPage {
 
 
   getChamada(){
+    //Ativa a div de loading que mostrará um gif de carregamento
     this.loading = true;
+
     let url = env.BASE_URL;
     let urn = '/classe/chamada';
     let params = this.chamadaParams;
@@ -132,11 +207,12 @@ export class ChamadaPage {
     this.http.specialGet(url,urn,params)
       .subscribe(
         chamada=>{
+          //Array que vai receber os alunos da requisição
           let alunos = [];
-          console.log(chamada);
+          
           chamada.forEach(
             aluno=>{
-              
+              //Padrão criado pra colocar no array alunos
               let alunosChamadaPattern = 
                 {
                   matricula:aluno.matricula,
@@ -150,8 +226,17 @@ export class ChamadaPage {
             }
             
           );
+          /*Função que recebe os valores de alunosChamadaPattern indexados pela matricula 
+           ex: alunosChamadaPattern[4] = matricula:59245 , frequencia: null => vai virar
+           alunosChamada[59245] = matricula:59245 , frequencia: null 
+           ESSA É A VARIÁVEL QUE REALIZA A CHAMADA
+           */
           this.alunosChamada = __.indexBy(this.alunosChamadaPattern,'matricula');
+
+          //Variável que vai mostrar os alunos no html
           this.chamada = alunos;
+
+          //Esconde a div de loading
           this.loading = false;
           this.setFrequencias();
         },
@@ -285,6 +370,7 @@ export class ChamadaPage {
       this.zoomPhoto = ''
     }
 
+    //Seta a variavel de freqMeses que mostrará as frequencias dos alunos
     setFrequencias(){
       if(this.mes!=undefined){
         if(this.mes<7){
@@ -302,19 +388,26 @@ export class ChamadaPage {
         
     }
 
+    //Troca a tab pra tab de detalhe dos alunos
     changeToDetails(){
+      //Faz uma animação de ida
       this.transitions.quickPush();
       this.tab = 'details';
       
     }
 
+    //Troca a tab pra tab de chamada dos alunos
     changeToChamada(){
+      //Faz uma animação de volta
       this.transitions.quickBack();
       this.tab = 'chamada';
-      setTimeout(()=>document.getElementById('status').classList.add(this.cor),300);
+      setTimeout(()=>
+      //Seta a cor do STATUS na tab chamada
+      document.getElementById('status').classList.add(this.cor)
+      ,300);
     }
 
-
+    //Evento que detecta o movimento de swipe do dedo
     swipe(event){
     
     
@@ -332,7 +425,7 @@ export class ChamadaPage {
       }
     }
 
-   
+   //Cria um alert de loading
     createloader(){
     
       this.loader = this.loadingCtrl.create({

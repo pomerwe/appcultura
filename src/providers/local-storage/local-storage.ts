@@ -30,7 +30,7 @@ export class LocalStorageProvider {
   }
 
   logout(){
-    //Set a page root do app para LoginPage novamente
+    //Remove variáveis do nativeStorage ao usuário realizar logout
     this.localStorage.remove('keepConnected');
     this.localStorage.remove('rootPage');
     this.localStorage.remove('contas');

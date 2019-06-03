@@ -6,6 +6,7 @@ import { AlunoProvider } from '../../providers/aluno/aluno';
 import { ISubscription } from '../../../node_modules/rxjs/Subscription';
 import * as __ from 'underscore';
 import { TransitionsProvider } from '../../providers/transitions/transitions';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Generated class for the NotasPage page.
@@ -76,6 +77,9 @@ export class NotasPage {
   //Array com a nota final do seungo bimestre
   notaFinalB2;
 
+  //Array com os labels traduzidos das notas finais
+  notasFinaisTitles = [];
+
   //Array com todas as notas finais
   provasNotasFinais;
 
@@ -97,7 +101,8 @@ export class NotasPage {
     private alunos:AlunoProvider,
     private loadingCtrl:LoadingController,
     private menu:MenuController,
-    private transitions:TransitionsProvider
+    private transitions:TransitionsProvider,
+    private translate:TranslateService
   
   ) {
   }
@@ -109,6 +114,7 @@ export class NotasPage {
         this.navParams.data = {push:false};
       }  
     } 
+
   }
 
   ionViewDidLoad() {
@@ -130,6 +136,13 @@ export class NotasPage {
       }
     )
     this.carregarDados();
+    this.translate.get(['notas_notabimestre','notas_notafinal'])
+    .subscribe(
+      data=>{
+        this.notasFinaisTitles['notabimestre'] = data.notas_notabimestre;
+        this.notasFinaisTitles['notafinal'] = data.notas_notafinal;
+      }
+    )
   }
   ionViewWillLeave(){
     this.transitions.back();
@@ -139,7 +152,6 @@ export class NotasPage {
     );
   }
   carregarDados(){
-    //47874 , 59245 ,114023
     this.createloader();
     this.loader.present();
     let uri = '/codperlet';
@@ -210,7 +222,7 @@ getNotasConceito(uri):any{
       {prova:'Listening Skills', conceito: this.notasConceito.listening1},
       {prova:'Reading Skills', conceito: this.notasConceito.reading1}
   ]   
-      this.notaFinalB1={prova:'Nota Bimestre', conceito: this.notasConceito.bimestre1};
+      this.notaFinalB1={prova:this.notasFinaisTitles['notabimestre'], conceito: this.notasConceito.bimestre1};
 
     this.provasNotas2 = [
       {prova:'Quick Review', conceito: this.notasConceito.quick}, 
@@ -219,7 +231,7 @@ getNotasConceito(uri):any{
       {prova:'Listening Skills', conceito: this.notasConceito.listening2},
       {prova:'Reading Skills', conceito: this.notasConceito.reading2}
     ]  
-    this.notaFinalB2={prova:'Nota Bimestre', conceito: this.notasConceito.bimestre2}; 
+    this.notaFinalB2={prova:this.notasFinaisTitles['notabimestre'], conceito: this.notasConceito.bimestre2}; 
 
     this.provasNotasFinais =[
       {prova:'Writing Final', conceito: this.notasConceito.writingfinal},
@@ -227,7 +239,7 @@ getNotasConceito(uri):any{
       {prova:'Use of English', conceito: this.notasConceito.useofenglish}       
 
     ]
-    this.notaFinal={prova:'Nota Final', conceito: this.notasConceito.notafinal}  ;
+    this.notaFinal={prova:this.notasFinaisTitles['notafinal'], conceito: this.notasConceito.notafinal}  ;
     this.loader.dismiss();
     },
     error=>{console.log(error)}

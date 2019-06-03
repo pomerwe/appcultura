@@ -1,6 +1,12 @@
 {
     "semconexao":"You have no internet connection. Please reconnect and try again...",
+    "botaosair":"Log out",
+    "loader_saindo":"Exiting...",
+    "alert_desejamesmosair":"Do you really want to exit?",
 
+    "menu_usuario":"Username",
+    "menu_matricula":"Academic Record",
+    
     "menu_notas":"Grades",
     "menu_financeiro":"Financial",
     "menu_calendario":"Calendar",
@@ -23,5 +29,21 @@
     "financeiro_semboletos":"There is no bills to show.",
     "financeiro_copiarcodigo":"Copy code",
     "financeiro_verboleto":"See bill",
-    "financeiro_pago":"Paid"
+    "financeiro_pago":"Paid",
+
+    "notas_titulo":"Grades",
+    "notas_periodoletivo":"Working Period",
+    "notas_curso":"Course",
+    "notas_bimestre":"Bimester",
+    "notas_notas":"",
+    "notas_finais":"Final Grades",
+    "notas_notabimestre": "Bimester Grade",
+    "notas_notafinal":"Final Grade",
+
+    "login_usuario":"Username",
+    "login_senha":"Password",
+    "login_esqueciminhasenha":"Forgot my password",
+    "login_manterconectado":"Keep connected",
+    "login_lembrar":"Remember",
+    "login_entrar":"LOGIN"
 }

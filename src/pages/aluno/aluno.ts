@@ -19,11 +19,22 @@ import { ISubscription } from 'rxjs/Subscription';
 
 export class AlunoPage {
   @ViewChild(Navbar) navBar:Navbar; 
+  
+  //Array de subscriptions
   subscriptions:Array<ISubscription> = [];
+
+  //Variável objeto do aluno escolhido
   aluno;
+
+  //Variável de controle da div buttonEffect1
   buttonEffect1 = false;
+
+  //Variável de controle da div buttonEffect2
   buttonEffect2 = false;
+
+  //Variável de controle da div buttonEffect3
   buttonEffect3 = false;
+  
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -38,17 +49,19 @@ export class AlunoPage {
       ,photo: "http://app.culturabh.com.br:22001/public/photo/pessoa/17413"}
 
       */
-      console.log(this.aluno);
   }
 
   ionViewWillLeave(){
+    //Função que faz animação de retorno
     this.transitions.back();
+    //Desescreve os subscribes feitos nessa page
     this.subscriptions.forEach(
       subs=>subs.unsubscribe()
     );
   }
 
   ionViewWillEnter(){
+    //Verifica se no navparams chega o Push pra saber se fará ou não animação
     let pushParam = this.navParams.get('push');
     if(pushParam!=undefined){
       if(pushParam==true) {
@@ -58,11 +71,13 @@ export class AlunoPage {
     } 
   }
   ionViewDidLoad() {
+    //Desativa a animação padrão do ionic(para fins de usar a animação nativa do android)
     this.navBar.backButtonClick = (e:UIEvent) => {
       this.navCtrl.pop({animate:false});
     };
   }
 
+  //Função que ativa o div buttonEffect pra efeito de click
   button(buttonEffect){
     if(buttonEffect.match('buttonEffect1')){ 
       this.buttonEffect1 = true ; 

@@ -26,53 +26,7 @@ export class HttpServiceProvider {
   }
   
 
-  // public getDiaDia(param):Observable<any>{
-
-  //   console.log(param);
-  //   let page = param.page;
-  //   let matricula = param.matricula;
-  //   return this.http.get(`${this.urlApi}/dia-dia/?matricula=${matricula}&sort=data,desc&page=${page}&size=10&example`);
-
-  // }
-
-  public getCodperlet(matricula):Observable<any>{
-    let mat = matricula;
-    return this.http.get(`${this.urlApi}/codperlet/?sort=codperlet,desc&matricula=${mat}&example`);
-
-  }
-
-  // public getCursosList(params):Observable<any>{
-  //   let matricula = params.matricula;
-  //   let codperlet = params.codperlet
-  //   return this.http.get(`${this.urlApi}/cursos/?matricula=${matricula}&codperlet=${codperlet}&example`);
-  // }
-
-  // public getNotasConceito(id):Observable<any>{
-  //   return this.http.get(`${this.urlApi}/notas/${id}`);
-
-  // }
-
-
-  // public getCheckAluno(params) : Observable<any>{
-  //   let matricula = params.id;
-  //   let email = params.email;
-  //   return this.http.get(`${this.urlApi}contas/checkaluno?id=${matricula}&email=${email}&example&sort=nome,asc`);
-
-  // }
-  // public getCheckResp(params) : Observable<any>{
-  //   let matricula = params.id;
-  //   let email = params.email;
-  //   return this.http.get(`${this.urlApi}contas/checkresp?id=${matricula}&email=${email}&example&sort=nome,asc`);
-
-  // }
-  
-  // public getContasVinculo(params) : Observable<any>{
-  //   let matricula = params.id;
-  //   return this.http.get(`${this.urlApi}contas/?matricularesp=${matricula}&example&sort=nome,asc`);
-
-  // }
-
-  
+  //Get criado pra realizar requisições em urns fora de MOVEL
   public specialGet(url, urn: string, params?: HttpParams | { [param: string]: string | string[] }): Observable<any> {
     if (params) {
       for (const p in params) {
@@ -93,6 +47,7 @@ export class HttpServiceProvider {
         return this.http.get(`${url}${urn}`, { headers: { 'Authorization': `Bearer ${token}` }, params, withCredentials: true });
       });
   }
+  //Post criado pra realizar requisições em urns fora de MOVEL
   public specialPost(url: string, urn: string, body: any, params?: HttpParams | { [param: string]: string | string[] }): Observable<any> {
     if (this.auth.isValidAccessToken()) {
       const token = localStorage.getItem('access_token');

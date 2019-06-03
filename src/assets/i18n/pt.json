@@ -1,5 +1,11 @@
 {
     "semconexao":"Não há conexão com a internet. Reconecte e recarregue...",
+    "botaosair":"Sair",
+    "loader_saindo":"Saindo...",
+    "alert_desejamesmosair":"Deseja mesmo sair?",
+
+    "menu_usuario":"Usuário",
+    "menu_matricula":"Matrícula",
 
     "menu_notas":"Notas",
     "menu_financeiro":"Financeiro",
@@ -23,5 +29,21 @@
     "financeiro_semboletos":"Não há boletos abertos.",
     "financeiro_copiarcodigo":"Copiar código",
     "financeiro_verboleto":"Ver boleto",
-    "financeiro_pago":"Pago"
+    "financeiro_pago":"Pago",
+
+    "notas_titulo":"Notas",
+    "notas_periodoletivo":"Período Letivo",
+    "notas_curso":"Curso",
+    "notas_bimestre":"Bimestre",
+    "notas_notas":"Notas",
+    "notas_finais":"Finais",
+    "notas_notabimestre": "Nota Bimestre",
+    "notas_notafinal":"Nota Final",
+
+    "login_usuario":"Usuario",
+    "login_senha":"Senha",
+    "login_esqueciminhasenha":"Esqueci minha senha",
+    "login_manterconectado":"Manter conectado",
+    "login_lembrar":"Lembrar",
+    "login_entrar":"ENTRAR"
 }

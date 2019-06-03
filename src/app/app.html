@@ -46,8 +46,8 @@
             </div>
             
             <div class='avatarDesc' >
-              <span *ngIf='matricula!=undefined' style='display:block; font-size:11px;'>Matricula: {{matricula}}</span>
-              <span style='display:block;font-size:11px;'>Usuario:{{usuario ? usuario : "Sem email cadastrado"}}</span> 
+              <span *ngIf='matricula!=undefined' style='display:block; font-size:11px;'>{{ 'menu_matricula' | translate}}: {{matricula}}</span>
+              <span style='display:block;font-size:11px;'>{{ 'menu_usuario' | translate}}: {{usuario ? usuario : "Sem email cadastrado"}}</span> 
             </div> 
             <ion-icon *ngIf='contas.length>1' (click)='clicked=!clicked;carregado=true;' name="arrow-dropdown-circle" ></ion-icon>
             <div scrollY='true' class='popover' *ngIf='clicked==true'>
@@ -76,7 +76,7 @@
         {{p.title}}
       </button>
     </ion-list>
-    <button (click)='logout()' class='logoutButton'>Sair</button>
+    <button (click)='logout()' class='logoutButton'>{{'botaosair' | translate}}</button>
   </ion-content>
 
 </ion-menu>

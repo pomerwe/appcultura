@@ -246,12 +246,13 @@ export class FeedPage {
   setChamadas(data){
     this.chamadas = this.autoReload.getDiaDiaByMatricula(data.matricula);
     this.chamadas = __.sortBy(this.chamadas,'data').reverse();
-    setTimeout(()=>{if(this.chamadas.length==0){
-      this.setChamadas(data);
-    }
-    else{ 
-        this.autoReloadRoutine();
-        this.loader.dismiss();
+    setTimeout(()=>{
+      if(this.chamadas.length==0){
+        this.setChamadas(data);
+      }
+      else{ 
+          this.autoReloadRoutine();
+          this.loader.dismiss();
       }
     },500);
   }
@@ -342,7 +343,7 @@ export class FeedPage {
     let uri = '/dia-dia';
     
     this.subscriptions.push(
-      //Requisição HTTP personalisada para o Infinite Scroll, para a URN dia-dia
+      //Requisição HTTP personalizada para o Infinite Scroll, para a URN dia-dia
       this.http.get(uri,this.diaDiaParam).subscribe(
           data => 
           {
