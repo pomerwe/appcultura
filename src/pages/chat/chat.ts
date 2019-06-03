@@ -26,10 +26,20 @@ export class ChatPage {
   ionViewDidLoad() {
     this.setHiddenTextArea();
     this.initialScrollHeight = document.getElementById('textarea').scrollHeight;
-    setTimeout(()=>this.scrollBottom(),300);
+    setTimeout(()=>{this.scrollBottom()},150);
   }
   scrollBottom(){
     document.getElementById('messagesScroll').scrollTop = (document.getElementById('messagesScroll').scrollHeight);
+
+  }
+  scrollTop(height?){
+    let maxScroll = document.getElementById('messagesScroll').scrollHeight;
+    let scrollHeight = height != undefined ? height : maxScroll;
+    document.getElementById('messagesScroll').scrollTop = scrollHeight;
+    scrollHeight = scrollHeight - 30;
+    setTimeout(()=>{
+      if(scrollHeight < maxScroll) this.scrollTop(scrollHeight);
+    },15);
 
   }
   inputText(divInput,textarea,hiddenTextArea){  

@@ -1,0 +1,27 @@
+{
+    "semconexao":"You have no internet connection. Please reconnect and try again...",
+
+    "menu_notas":"Grades",
+    "menu_financeiro":"Financial",
+    "menu_calendario":"Calendar",
+
+    "feed_titulo":"Feed",
+    "feed_resumoaula":"Lesson Summary",
+    "feed_conteudo":"Content",
+    "feed_paracasa":"Homework",
+    "feed_comparecimento":"Attendance",
+
+    "financeiro_titulo":"Financial",
+    "financeiro_descricao":"Details",
+    "financeiro_valor":"Value",
+    "financeiro_vencimento":"Deadline",
+    "financeiro_aluno":"Student",
+    "financeiro_curso":"Course",
+    "financeiro_historico":"History",
+    "financeiro_boletos":"Bills",
+    "financeiro_situacao":"Status",
+    "financeiro_semboletos":"There is no bills to show.",
+    "financeiro_copiarcodigo":"Copy code",
+    "financeiro_verboleto":"See bill",
+    "financeiro_pago":"Paid"
+}

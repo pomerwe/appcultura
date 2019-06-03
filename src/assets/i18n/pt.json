@@ -1,0 +1,27 @@
+{
+    "semconexao":"Não há conexão com a internet. Reconecte e recarregue...",
+
+    "menu_notas":"Notas",
+    "menu_financeiro":"Financeiro",
+    "menu_calendario":"Calendário",
+
+    "feed_titulo":"Dia-Dia",
+    "feed_resumoaula":"Resumo da Aula",
+    "feed_conteudo":"Conteúdo",
+    "feed_paracasa":"Tarefas",
+    "feed_comparecimento":"Comparecimento",
+
+    "financeiro_titulo":"Financeiro",
+    "financeiro_descricao":"Descrição",
+    "financeiro_valor":"Valor",
+    "financeiro_vencimento":"Vencimento",
+    "financeiro_aluno":"Aluno",
+    "financeiro_curso":"Curso",
+    "financeiro_historico":"Histórico",
+    "financeiro_boletos":"Boletos",
+    "financeiro_situacao":"Situação",
+    "financeiro_semboletos":"Não há boletos abertos.",
+    "financeiro_copiarcodigo":"Copiar código",
+    "financeiro_verboleto":"Ver boleto",
+    "financeiro_pago":"Pago"
+}

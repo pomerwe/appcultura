@@ -12,6 +12,7 @@ import { ISubscription } from '../../../node_modules/rxjs/Subscription';
 import { NetworkCheckServiceProvider } from '../../providers/network-check-service/network-check-service';
 import * as __ from 'underscore';
 import { TransitionsProvider } from '../../providers/transitions/transitions';
+import { TranslateService } from '@ngx-translate/core';
 /**
  * Generated class for the FinanceiroPage page.
  *
@@ -44,7 +45,7 @@ export class FinanceiroPage {
   cursos = [];
 
   //Array de titulo. Contém os títulos das duas Divs principais dessa page;
-  title=["Histórico" , "Boletos"];
+  title=[];
 
   //Controla a estilização do icon de seta para trás
   arrowBackDisplay = "none";
@@ -86,18 +87,31 @@ export class FinanceiroPage {
     private fileOpener:FileOpener,
     private netCheck:NetworkCheckServiceProvider,
     private menu:MenuController,
-    private transitions:TransitionsProvider
+    private transitions:TransitionsProvider,
+    private translate: TranslateService
 
   ) {
+    this.translate.get('financeiro_historico')
+    .subscribe(
+      data=>this.title.push(data)
+    );
+    this.translate.get('financeiro_boletos')
+    .subscribe(
+      data=>this.title.push(data)
+    );
   }
 
   ionViewDidLoad() {
+    
     //Cancela a animação feita pelo Ionic
     this.navBar.backButtonClick = (e:UIEvent) => {
       this.navCtrl.pop({animate:false});
     };
     //Função que proibe a exibição do menu através do arrastar o dedo pela tela.
     this.menu.swipeEnable(false);
+
+    //Ativação do scroll na entrada da view
+    setTimeout(()=>{this.scrollDownHistoricoDiv()},300);
   }
   ionViewWillEnter(){
     let pushParam = this.navParams.get('push');
@@ -406,5 +420,16 @@ export class FinanceiroPage {
     this.setUnsetArrows();
   }
 
+  //Função que vai dar um scroll bottom na div de historico
+  scrollDownHistoricoDiv(height?){
+    let scrollHeight = height != undefined ? height : 0;
+    let maxScroll = document.getElementById('ioncontentdosboletos').getElementsByClassName('scroll-content')[0].scrollHeight; 
+    document.getElementById('ioncontentdosboletos').getElementsByClassName('scroll-content')[0].scrollTop = scrollHeight;
+    scrollHeight = scrollHeight + 30;
+    setTimeout(()=>{
+      if(scrollHeight < maxScroll) this.scrollDownHistoricoDiv(scrollHeight);
+    },15);
+
+  }
   
 }

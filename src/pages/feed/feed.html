@@ -11,7 +11,7 @@
     <div style='padding:10px;font-size:20px;'>
       <ion-icon name="menu" menuToggle></ion-icon>
     </div>
-      <ion-title>Feed</ion-title>
+      <ion-title>{{ 'feed_titulo' | translate}}</ion-title>
   </ion-row>
   </ion-navbar>
 
@@ -26,29 +26,31 @@
         refreshingSpinner="crescent">
       </ion-refresher-content>
     </ion-refresher>
+    
   <div class='allContent'>
+      
     <div *ngIf='noConnectionTop' class='noConnectionMessage top'>
-        Não há conexão com a internet. Reconecte e recarregue...
+        {{ 'semconexao' | translate}}
     </div>
     
     <ion-card *ngFor= "let c of chamadas">
       <ion-card-header class='cardHeader' >
           <img src='../../assets/imgs/chamada.jpg' class="chamadaIcon" />
         <div style='display:inline-block; '>
-        <span class='chamadaTitle'>LESSON SUMMARY </span>
+        <span class='chamadaTitle'>{{ 'feed_resumoaula' | translate}}</span>
         <span class='chamadaSubtitle'>{{c.nome}} - {{c.data | date:'dd/MM/yy' }} <br> {{c.horario}}</span>
         <span class='chamadaSubtitle'>{{c.periodo}} - {{c.codtur}}</span>
       </div>
       </ion-card-header>
       <ion-card-content  class='cardContent'>
-        <span class='chamadaContentTitle'>Content: </span><span class='chamadaContent'> {{c.descricao}}</span><br>
-        <span class='chamadaContentTitle'>Homework: </span><span class='chamadaContent'> {{c.tarefasdia}}</span><br>
-        <span class='chamadaContentTitle'>Attendance: </span><span class='chamadaContent'> {{c.freq}}</span>
+        <span class='chamadaContentTitle'>{{ 'feed_conteudo' | translate}}: </span><span class='chamadaContent'> {{c.descricao}}</span><br>
+        <span class='chamadaContentTitle'>{{ 'feed_paracasa' | translate}}: </span><span class='chamadaContent'> {{c.tarefasdia}}</span><br>
+        <span class='chamadaContentTitle'>{{ 'feed_comparecimento' | translate}}: </span><span class='chamadaContent'> {{c.freq}}</span>
       </ion-card-content>
     </ion-card>
   
     <div *ngIf='noConnectionBot' class='noConnectionMessage'>
-        Não há conexão com a internet. Reconecte e recarregue...
+        {{ 'semconexao' | translate}}
     </div>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
         <ion-infinite-scroll-content

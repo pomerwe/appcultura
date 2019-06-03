@@ -37,6 +37,10 @@
 <div *ngIf='true'>
     <div class='calendario'>
         <div class='calendarioYear'>
+            <div (click)='reloadMonth();button("reloadButton");' class='reload'>
+                <ion-icon name="repeat"></ion-icon>
+                <div *ngIf="reloadButton==true" class='buttonEffect'></div>
+            </div>
             <span class='calendarioYearTitle'>{{currentYear}}</span> 
             <div (click)='activeHelp(ioncontent._scrollContent.nativeElement)' class='help'>
                 <ion-icon class='icon' name="help-circle"></ion-icon>

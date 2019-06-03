@@ -35,6 +35,26 @@
 </div><br><br>
 
 <div (click)='changeToDetails()' class='moreInformation'>Mais informações <ion-icon name="arrow-round-forward"></ion-icon></div>
+<br><br>
+<div class='classWork' ion-row>
+    <div ion-col col-6>
+        <span class='title'>Conteúdo</span><br>
+        <textarea [disabled]='radioDisabled' maxlength='100' class='conteudo' [(ngModel)]='aula.conteudo'></textarea>
+    </div>
+    <div ion-col col-6>
+        <span class='title'>Dever</span><br>
+        <textarea [disabled]='radioDisabled' maxlength='100'  class='dever' [(ngModel)]='aula.dever'></textarea>
+    </div>
+    
+    
+</div>
+<div class='allPresent'>
+  <div class='content' (touchstart)='marcarTodosButtonClickActivate()' (touchend)='marcarTodosButtonClickDectivate()' (click)='setarTodosPresentes()'>
+    <div *ngIf='marcarTodosButtonClick' class='buttonEffect'></div>   
+    <label class='title'  >Marcar presença para todos</label>
+  </div>
+ 
+</div>
 <div (swipe)='swipe($event)' class='alunos' ion-grid>
   <div class='alunosGrid'>
   <div class='rowTitleDiv' ion-row>
@@ -43,7 +63,7 @@
     <span class='rowTitle' ion-col col-3>Nome</span>
     <span class='rowTitle' ion-col col-4>Chamada</span>
   </div>
- 
+
       <div *ngFor='let a of chamada' class='aluno' ion-row>
           <div ion-col col-2 class='alunoInfo'>
             <!-- [style.background-image]='photo(a.foto)' -->
@@ -54,7 +74,7 @@
           <div class='alunoInfo matricula' ion-col col-3> <span class='alunoInfoText'>{{a.matricula}}</span></div>
           <div class='alunoInfo' ion-col col-3> <span class='alunoInfoText'>{{a.alunoNome}}</span></div>
           <div class='alunoInfo' ion-col col-4> 
-            <div ion-row radio-group  class='radioRow'  (ionChange)="setarChamada($event,a.matricula)" [(ngModel)]="alunosChamada != undefined ? alunosChamada[a.matricula].chamada : waiter " >
+            <div ion-row radio-group  class='radioRow'  (ionChange)="setarFrequencia($event,a.matricula)" [(ngModel)]="alunosChamada != undefined ? alunosChamada[a.matricula].frequencia : waiter " >
               <div ion-col ion-col-4>
                 <span class='radioText present'>P</span><br>
                 <ion-radio [disabled]='radioDisabled' value='PRESENCA'></ion-radio>

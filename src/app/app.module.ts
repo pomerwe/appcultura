@@ -8,7 +8,7 @@ import { File } from '@ionic-native/file';
 import { Clipboard } from '@ionic-native/clipboard';
 import { HttpServiceProvider } from '../providers/http-service/http-service';
 import {LOCALE_ID} from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Functions } from '../functions/functions';
 import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { ContasChooseProvider } from '../providers/contas-choose/contas-choose';
@@ -41,7 +41,8 @@ import { Firebase } from '@ionic-native/firebase';
 import { FcmProvider } from '../providers/fcm/fcm';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
-
+import { TranslateModule, TranslateLoader, } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 const firebase = {
     apiKey: "AIzaSyDHv4jwB3rAgfYOgtIxYmH5MniNfDY4Pq8",
     authDomain: "movelproject.firebaseapp.com",
@@ -50,7 +51,9 @@ const firebase = {
     messagingSenderId: "996329366895",
     storageBucket:"gs://movelproject.appspot.com/"
  }
-
+ export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
  
 @NgModule({
   declarations: [
@@ -62,6 +65,13 @@ const firebase = {
     IonicModule.forRoot(MyApp,{
       scrollPadding: true,
       scrollAssist: false
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
     }),
     HttpClientModule,
     AngularFireModule.initializeApp(firebase), 
@@ -108,7 +118,7 @@ const firebase = {
     Keyboard,
     FirebaseAuthentication,
     Firebase,
-    FcmProvider
+    FcmProvider,
   ]
 })
 export class AppModule {}

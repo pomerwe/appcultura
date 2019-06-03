@@ -4,7 +4,6 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 import { ContasChooseProvider } from '../../providers/contas-choose/contas-choose';
 import 'rxjs/add/operator/toPromise';
-import * as firebase from 'firebase';
 import { AlunoProvider } from '../../providers/aluno/aluno';
 import { MyApp } from '../../app/app.component';
 import { UtilServiceProvider } from '../../providers/util-service/util-service';
@@ -14,8 +13,8 @@ import { Functions } from '../../functions/functions';
 import * as __ from 'underscore';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { AutoReloadDiaDiaProvider } from '../../providers/auto-reload-dia-dia/auto-reload-dia-dia';
-import { NativePageTransitions } from '../../../node_modules/@ionic-native/native-page-transitions';
-import { HttpClient } from '@angular/common/http';
+
+
 /**
  * Generated class for the FeedPage page.
  *
@@ -92,9 +91,6 @@ export class FeedPage {
     private functions:Functions,
     private autoReload:AutoReloadDiaDiaProvider,
     private sanitizer: DomSanitizer,
-    private nativePageTransitions: NativePageTransitions,
-    private httpNormal:HttpClient
-    
     
     ) {
    
@@ -429,5 +425,7 @@ export class FeedPage {
   //       );
             
   //     }
+
+  
   
 }

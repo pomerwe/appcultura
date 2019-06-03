@@ -15,7 +15,62 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-
+.language{
+    right:0;
+    margin-top:80px;
+    margin-right:30px;
+    position:absolute;
+    transform: scale(1);
+    animation: languageAnimation 1s;
+    .buttonDiv{
+        position:relative;
+        display: inline-block;
+        .button{
+            border-radius: 100%;
+            width:35px;
+            height:35px;
+        }
+        .pt{
+            background-image: url('../assets/imgs/brazil.png');
+            background-size: cover;   
+            background-repeat: no-repeat;
+            background-position: center center; 
+        }
+        .en{
+            background-image: url('../assets/imgs/unitedkingdom.png');
+            background-size: cover;   
+            background-repeat: no-repeat;
+            background-position: center center; 
+        }
+        .effect{
+            position:absolute;
+            width:35px;
+            height:35px;
+            top:0;
+            bottom:0;
+            border-radius: 100%;
+            animation:buttonAnimation 0.5s;
+            background-color:transparent;
+        }
+    }
+    
+    @keyframes languageAnimation{
+        from{
+            transform:scale(0.21)
+        }
+        to{
+            transform:scale(1)
+        }
+    }
+    @keyframes buttonAnimation{
+        from{
+            background-color:white;
+        }
+        to{
+            background-color:transparent;
+        }
+    }
+}
 .toolbar-content{
     text-align: left;
 }

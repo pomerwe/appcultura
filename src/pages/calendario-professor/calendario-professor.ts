@@ -21,21 +21,52 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 })
 export class CalendarioProfessorPage {
   @ViewChild(Navbar) navBar:Navbar; 
+  //Verifica se o ano já foi carregado
+  isLoaded = false;
+  //Variávei de controle da Div de efeito dos botões
   arrowBack = false;
   arrowForward = false;
+  reloadButton = false;
+
+  //Variável de controle da div de Ajuda
   helpActive = false;
+  //Loading controller
   carregando = false;
+
+  //Options do get locale string
   mesLocaleDateStringOptions = { month: 'long' };
+
+  //Array de calendário
   calendario = [];
+
+  //Dia de hoje
   hoje:Date = new Date();
+
+  //Nome do mês
   mesLabel:string;
+
+  //Dia que foi selecionado anteriormente
   previousSelected = undefined;
+
+  //Ano inteiro
   year;
-  backYearRange;
-  forwardYearRange;
-  currentYear = 2019;
-  currentMonthIndex;
+
+  //Variável de range minimo de ano
+  // backYearRange;
+
+  //Variável dfe range máximo de ano
+  // forwardYearRange;
+
+  //Ano atual selecionado
+  currentYear = 0;
+
+  //Index correspondente ao mês no getMonth do date
+  currentMonthIndex = 0;
+
+  //Mês inteiro 
   currentMonth;
+
+  //Vetor que define os dias que serão mostrados no html
   calendarDaysDisplay = [
     {day:'dom',days:[]},
     {day:'seg',days:[]},
@@ -44,6 +75,7 @@ export class CalendarioProfessorPage {
     {day:'qui',days:[]},
     {day:'sex',days:[]},
     {day:'sáb',days:[]}];
+  //Vetor dos dias que preencherão o calendário com os dias do mes anterior
   calendarDaysFakeDisplayTop = [
     {day:'dom',days:[]},
     {day:'seg',days:[]},
@@ -52,6 +84,7 @@ export class CalendarioProfessorPage {
     {day:'qui',days:[]},
     {day:'sex',days:[]},
     {day:'sáb',days:[]}];
+    //Vetor dos dias que preencherão o calendário com os dias do mes seguinte
   calendarDaysFakeDisplayBottom = [
     {day:'dom',days:[]},
     {day:'seg',days:[]},
@@ -60,11 +93,15 @@ export class CalendarioProfessorPage {
     {day:'qui',days:[]},
     {day:'sex',days:[]},
     {day:'sáb',days:[]}];
+  //A seguir temos vetores dos dias que preencherão o calendário no html com o index baseado no dia
   calendarDaysDisplayIndexed;
   calendarFakeDaysDisplayIndexedTop;
   calendarFakeDaysDisplayIndexedBottom;
+
+  //Array de subscriptions
   subscriptions:Array<ISubscription> = [];
 
+  //Eventos que serão mostrados no html ao selecionar um dia
   eventsDisplay;
 
   constructor(  
@@ -96,6 +133,8 @@ export class CalendarioProfessorPage {
         this.navParams.data = {push:false};
       }  
     } 
+    if(this.isLoaded == false)this.getFullYear(this.currentYear);
+    else this.reloadMonth();
   }
   
   ionViewDidLoad() {
@@ -104,7 +143,7 @@ export class CalendarioProfessorPage {
     this.navBar.backButtonClick = (e:UIEvent) => {
       this.navCtrl.pop({animate:false});
     };
-    this.getFullYear(this.currentYear);
+    
   }
 
   ionViewWillLeave(){
@@ -124,7 +163,6 @@ export class CalendarioProfessorPage {
     // this.forwardYearRange = yearEnd;
     //let year = yearStart;
     // while(year<=yearEnd){
-    
       let y = {
         year:year,
         months:[
@@ -356,6 +394,24 @@ export class CalendarioProfessorPage {
   
   }
 
+  reloadMonth(){
+    this.unsetEventsClasses();
+    document.getElementById('events').innerHTML = '';
+    this.subscriptions.forEach(
+      subs=>{subs.unsubscribe();}
+    );
+
+    this.carregando = true;
+    this.unsetDays();
+    this.getMonth(this.currentMonthIndex);
+
+    
+    
+    
+    
+    
+
+  }
   unsetDays(){
     
     Object.keys(this.calendarDaysDisplayIndexed)
@@ -472,6 +528,7 @@ export class CalendarioProfessorPage {
           if(this.previousSelected == undefined)this.showEvents(this.hoje.getDate());
           
           this.carregando = false;
+          this.isLoaded = true;
         }
       )
     )
@@ -541,7 +598,10 @@ export class CalendarioProfessorPage {
           document.getElementById(dia.toString()).classList.remove('green');
           document.getElementById(dia.toString()).classList.remove('red');
           document.getElementById(dia.toString()).classList.remove('gray');
+          document.getElementById(dia.toString()).classList.remove('selected');
+          document.getElementById(dia.toString()).classList.remove('blue');
         }
+
         
       }
     )
@@ -596,6 +656,11 @@ export class CalendarioProfessorPage {
     else if(arrow.match('arrowBack')){ 
       this.arrowBack = true ; 
       setTimeout(()=>this.arrowBack=false,
+      600);
+    }
+    else if(arrow.match('reloadButton')){ 
+      this.reloadButton = true ; 
+      setTimeout(()=>this.reloadButton=false,
       600);
     }
     

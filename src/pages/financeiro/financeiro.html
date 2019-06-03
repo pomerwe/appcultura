@@ -7,21 +7,21 @@
 <ion-header>
 
   <ion-navbar color='danger'>
-    <ion-title>Financeiro</ion-title>
+    <ion-title>{{'financeiro_titulo' | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content >
-  
+    
     <div class="financeiroTitleDiv">
     <div class='bloco1'>
-        <span class='blocoTitle'>Aluno:</span>
+        <span class='blocoTitle'>{{'financeiro_aluno' | translate}}:</span>
         <span class='blocoContent'>{{nome}}</span>
     </div>
     <div class='bloco2'>
-        <span class='blocoTitle'>Curso:</span>
+        <span class='blocoTitle'>{{'financeiro_curso' | translate}}:</span>
         <span *ngFor='let curso of cursos' class='blocoContent'>{{curso}}</span>
       </div>
     </div>
@@ -37,7 +37,7 @@
           
       </div>
     <div class='swipe' scrollY='true'>
-  <ion-content class='contentSwipe' (swipe)='swipe($event,historicoDivis,boletosDivis)' #ioncontent>
+  <ion-content class='contentSwipe' (swipe)='swipe($event,historicoDivis,boletosDivis)' #ioncontent id="ioncontentdosboletos">
     
       <ion-refresher (ionRefresh)="doRefresh($event)">
           <ion-refresher-content
@@ -48,22 +48,22 @@
       </ion-refresher>
 <div class='allContent'>
     <div *ngIf='noConnectionTop' class='noConnectionMessage'>
-        Não há conexão com a internet. Reconecte e recarregue...
+        {{'semconexao' | translate}}
     </div>
-  <div class='historicoDiv' (swipe)='swipe($event,historicoDivis,boletosDivis)' #historicoDivis>
+  <div class='historicoDiv' (swipe)='swipe($event,historicoDivis,boletosDivis)' #historicoDivis >
     <div *ngFor='let b of boletos'>
       <div class='historicoContent' ion-row text-center>
-        <div ion-col col-12 class='historicoContentDescricao'><span style="font-weight: bold">Descrição: </span><span style='color:rgb(61, 61, 35)'>{{b.descricao}}</span></div>
+        <div ion-col col-12 class='historicoContentDescricao'><span style="font-weight: bold">{{'financeiro_descricao' | translate}}: </span><span style='color:rgb(61, 61, 35)'>{{b.descricao}}</span></div>
         <div ion-col class='historicoCol' col-4>
-          <span class='historicoColtitle'>Valor </span>
+          <span class='historicoColtitle'>{{'financeiro_valor' | translate}} </span>
           <span class='historicoColcontent'>{{b.valor | currency:'BRL':'symbol'}}</span>
         </div>
         <div ion-col class='historicoCol' col-4>
-          <span class='historicoColtitle'>Vencimento</span>
+          <span class='historicoColtitle'>{{'financeiro_vencimento' | translate}}</span>
           <span class='historicoColcontent'>{{b.vencimento | date:'dd/MM/yyyy'}}</span>
         </div>
         <div ion-col class='historicoCol last' col-4>
-          <span class='historicoColtitle'>Pago</span>
+          <span class='historicoColtitle'>{{'financeiro_pago' | translate}}</span>
           <ion-icon *ngIf='b.estado.match("PAGO")===null' color='gray' style='margin:3px;' name="checkmark-circle"></ion-icon>
           <ion-icon *ngIf='b.estado.match("PAGO")!==null' color='secondary' style='margin:3px;' name="checkmark-circle"></ion-icon>
         </div>
@@ -71,13 +71,13 @@
       </div>
     </div>
   </div>
-  <div class='boletosDiv hidden' (swipe)='swipe($event,historicoDivis,boletosDivis)' #boletosDivis>
+  <div class='boletosDiv hidden' (swipe)='swipe($event,historicoDivis,boletosDivis)' #boletosDivis id="boletosDivis">
     <div *ngFor='let b of boletosAbertos'>
       <div class='boletosContent'>
-        <span class='boletosContentTitle'>Descrição: {{b.descricao}} </span>
-        <span class='boletosContentInfo'>Valor: {{b.valor | currency:'BRL':true}} </span>
-        <span class='boletosContentInfo'> Vencimento: {{b.vencimento | date:'dd/MM/yyyy'}} </span>
-        <span class='boletosContentInfo'> Situação: {{b.estado}} </span>
+        <span class='boletosContentTitle'>{{'financeiro_descricao' | translate}}: {{b.descricao}} </span>
+        <span class='boletosContentInfo'>{{'financeiro_valor' | translate}}: {{b.valor | currency:'BRL':true}} </span>
+        <span class='boletosContentInfo'> {{'financeiro_vencimento' | translate}}: {{b.vencimento | date:'dd/MM/yyyy'}} </span>
+        <span class='boletosContentInfo'> {{'financeiro_situacao' | translate}}: {{b.estado}} </span>
         <div class='boletosButtonDiv' ion-row>
           <div  ion-col col-6>
             <div (click)='baixarBoleto(b.id,b.base,b.matricula)' class='buttonContentDiv button' ion-row>
@@ -85,7 +85,7 @@
                 <ion-icon start class='boletosButtonIcon' name="archive"></ion-icon>
               </div>
               <div ion-col col-11>
-                  Ver boleto
+                  {{'financeiro_verboleto' | translate}}
               </div>
             
             </div>
@@ -96,7 +96,7 @@
                   <ion-icon start class='boletosButtonIcon' name="albums"></ion-icon>
                 </div>
                 <div ion-col col-11>
-                    Copiar código
+                    {{'financeiro_copiarcodigo' | translate}}
                 </div>
               
               </div>
@@ -107,7 +107,7 @@
       
     </div>
     <div *ngIf='noBoletoAberto' class='noBoletoMessage' (swipe)='swipe($event,historicoDivis,boletosDivis)'>
-     Não há boletos abertos.
+     {{'financeiro_semboletos' | translate}}
     
   </div>
   </div>

@@ -121,6 +121,19 @@ page-calendario-professor {
                     
                 }
             }
+            .reload{
+                position:absolute;
+                left:0;
+                top:0;
+                margin-left:12px;
+                margin-top:8px;
+                vertical-align: middle;
+                .icon{
+                    color:black;
+                    font-size:30px;
+                    
+                }
+            }
         }
         .calendarioMonth{
             position:relative;
@@ -387,5 +400,21 @@ page-calendario-professor {
     }
     .scroll-content{
         overflow-y:hidden !important; 
+    }
+    .buttonEffect{
+        background-color:rgba(0, 0, 0, 0.404);
+        z-index:111;
+        bottom:0;
+        top:0;
+        position: absolute; 
+        left: 0; 
+        right: 0; 
+        margin-left: auto; 
+        margin-right: auto; 
+        width: 30px; 
+        height:30px; 
+        border-radius:100%;
+        animation: 1s efeitoButtonAnimation ;
+
     }
 }

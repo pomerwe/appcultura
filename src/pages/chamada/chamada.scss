@@ -45,6 +45,51 @@ page-chamada {
         }
 
     }
+    .allPresent{
+        width:300px;
+         margin-left:10px;
+        .content{
+            position:relative;
+            padding:6px;
+            background-color:rgb(61, 152, 255);
+            border: 1px solid rgb(10, 124, 255);
+            color:white;
+            display:inline-block;
+            font-size:14px;
+            text-align:center;
+            .buttonEffect{
+                position:absolute;
+                top:0;
+                bottom:0;
+                left:0;
+                right:0;
+                background-color:rgba(255, 255, 255, 0.568);
+                z-index:99;
+                animation: 1s efeitoButtonAnimation infinite;
+            }
+        }
+        
+    }
+    .classWork{
+        padding:10px;
+        .title{
+            font-size:14px;
+            font-weight: bold;
+        }
+        .conteudo{
+            border:1px rgb(189, 189, 189) solid;
+            font-size:14px;
+            resize:none;
+            height:150px;
+        }
+        .dever{
+            border:1px rgb(189, 189, 189) solid;
+            font-size:14px;
+            resize:none;
+            height:150px;
+        }
+        
+    }
     .alunos{
         padding:10px;
         .alunosGrid{

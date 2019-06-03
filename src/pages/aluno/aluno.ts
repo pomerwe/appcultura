@@ -30,14 +30,14 @@ export class AlunoPage {
     private transitions:TransitionsProvider,
     
     ) {
-      this.aluno = {
+      this.aluno = this.navParams.get('aluno');/*{
         id: "CULTURA3391494", 
         base: "CULTURA", periodo: "2019/1", 
       filial: "BV", turma: "F2SS8A", idAluno: 16265,idPessoa: 17413,matricula: "106612",
       nome: "Isabela De Oliveira Resende Neves"
       ,photo: "http://app.culturabh.com.br:22001/public/photo/pessoa/17413"}
 
-      //this.navParams.get('aluno');
+      */
       console.log(this.aluno);
   }
 

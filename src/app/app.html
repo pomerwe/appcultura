@@ -26,6 +26,17 @@
                 <div style='float:right;padding-right:17px;font-size:20px;' >
                     <ion-icon  name="return-left" menuToggle></ion-icon>
                 </div>   
+            <div class='language'>
+              <div class='buttonDiv'>
+                  <button class='button pt' (click)='changeLanguage("pt");buttonEffects("ptEffect");' > </button>
+                  <div class='effect' *ngIf='ptEffect'></div>
+              </div>
+              <div class='buttonDiv'>
+                  <button class='button en' (click)='changeLanguage("en");buttonEffects("enEffect");' > </button>
+                  <div class='effect' *ngIf='enEffect'></div>
+              </div>
+              
+            </div>
             <div  class='avatarImg' >
               <div class="avatar" [(style.background-image)]='photoUrl' >
               
@@ -33,7 +44,6 @@
               </div>
               <a  class='avatarName'>{{nome}}</a>
             </div>
-            
             
             <div class='avatarDesc' >
               <span *ngIf='matricula!=undefined' style='display:block; font-size:11px;'>Matricula: {{matricula}}</span>

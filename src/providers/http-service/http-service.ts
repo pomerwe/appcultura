@@ -93,6 +93,22 @@ export class HttpServiceProvider {
         return this.http.get(`${url}${urn}`, { headers: { 'Authorization': `Bearer ${token}` }, params, withCredentials: true });
       });
   }
+  public specialPost(url: string, urn: string, body: any, params?: HttpParams | { [param: string]: string | string[] }): Observable<any> {
+    if (this.auth.isValidAccessToken()) {
+      const token = localStorage.getItem('access_token');
+      return this.http.post(`${url}${urn}`
+        , body
+        , { headers: { 'Authorization': `Bearer ${token}` }, params, withCredentials: true });
+    }
+    
+    return this.auth.refreshAccessToken()
+      .flatMap(() => {
+        const token = localStorage.getItem('access_token');
+        return this.http.post(`${url}${urn}`
+            , body
+            , { headers: { 'Authorization': `Bearer ${token}` }, params, withCredentials: true });
+      });
+  }
 
   public get( urn: string, params?: HttpParams | { [param: string]: string | string[] }): Observable<any> {
     if (params) {

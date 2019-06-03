@@ -24,6 +24,7 @@ import { tap } from 'rxjs/operators';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { FirebaseAuthentication } from '@ionic-native/firebase-authentication';
 import * as firebase from 'firebase'
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -36,6 +37,11 @@ export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
   
+  ptEffect = false;
+  enEffect = false;
+  notasPageTitle:string = '';
+  financeiroPageTitle:string = '';
+  calendarioPageTitle:string = '';
 
   //Variável que determina se as contas já foram carregadas 
   //na div Popover, que é a div onde o usuário troca de conta
@@ -109,7 +115,8 @@ export class MyApp {
     private transition:TransitionsProvider,
     private fcm: FcmProvider,
     private localNotifications: LocalNotifications,
-    private firebaseAuth:FirebaseAuthentication
+    private firebaseAuth:FirebaseAuthentication,
+    public translate: TranslateService,
 
     ) {
     this.initializeApp();
@@ -137,25 +144,28 @@ export class MyApp {
         }
       }
     );
-
+    translate.setDefaultLang('en');
     // used for an example of ngFor and navigation
+    this.setTitlePages();
+
+    
     this.pages = [{
 
-       funcao:'USUARIO',
+      funcao:'USUARIO',
+      pages:  [
+     { title: this.notasPageTitle, component: 'NotasPage' },
+     { title: this.financeiroPageTitle, component: 'FinanceiroPage'},
+     { title: 'Chat', component: 'ChatPage'}
+     ]},
+     {
+
+       funcao:'FUNCIONARIO',
        pages:  [
-      { title: 'Notas', component: 'NotasPage' },
-      { title: 'Financeiro', component: 'FinanceiroPage'},
-      { title: 'Chat', component: 'ChatPage'}
-      ]},
-      {
-
-        funcao:'FUNCIONARIO',
-        pages:  [
-       { title: 'Calendário', component: 'CalendarioProfessorPage' }
-       ]}
-    ];
-
-    this.pages =__.indexBy(this.pages,'funcao');
+      { title: this.calendarioPageTitle, component: 'CalendarioProfessorPage' }
+      ]}
+   ];
+   
+      this.pages =__.indexBy(this.pages,'funcao');
     
   
 
@@ -410,6 +420,62 @@ export class MyApp {
       
       
     }
+  }
+  
+  setTitlePages(data?){
+    if(data==undefined){
+      this.translate.get(['menu_notas','menu_financeiro','menu_calendario'])
+      .subscribe(
+        data => {
+          this.setTitlePages(data);
+          
+      
+         
+        }
+      );
+    }
+    else{
+      this.notasPageTitle = data.menu_notas;
+      this.financeiroPageTitle = data.menu_financeiro;
+      this.calendarioPageTitle = data.menu_calendario;
+      this.pages = [{
+  
+        funcao:'USUARIO',
+        pages:  [
+       { title: this.notasPageTitle, component: 'NotasPage' },
+       { title: this.financeiroPageTitle, component: 'FinanceiroPage'},
+       { title: 'Chat', component: 'ChatPage'}
+       ]},
+       {
+  
+         funcao:'FUNCIONARIO',
+         pages:  [
+        { title: this.calendarioPageTitle, component: 'CalendarioProfessorPage' }
+        ]}
+     ];
+     this.pages =__.indexBy(this.pages,'funcao');
+    }
+    
+    
+  }
+
+  changeLanguage(string){
+    this.translate.use(string);
+    this.setTitlePages();
+  }
+  buttonEffects(effect){
+    if(effect.match('ptEffect')!==null){
+      this.ptEffect = true;
+      setTimeout(()=>{
+        this.ptEffect = false;
+      },300);
+    } 
+    else if(effect.match('enEffect')!==null){
+      this.enEffect = true;
+      setTimeout(()=>{
+        this.enEffect = false;
+      },300);
+    } 
   }
   
 }
