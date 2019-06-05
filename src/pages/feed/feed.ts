@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, InfiniteScroll, LoadingController } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
-import { LoginServiceProvider } from '../../providers/login-service/login-service';
 import { ContasChooseProvider } from '../../providers/contas-choose/contas-choose';
 import 'rxjs/add/operator/toPromise';
 import { AlunoProvider } from '../../providers/aluno/aluno';
@@ -11,7 +10,7 @@ import { ISubscription } from '../../../node_modules/rxjs/Subscription';
 import { NetworkCheckServiceProvider } from '../../providers/network-check-service/network-check-service';
 import { Functions } from '../../functions/functions';
 import * as __ from 'underscore';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AutoReloadDiaDiaProvider } from '../../providers/auto-reload-dia-dia/auto-reload-dia-dia';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -82,7 +81,6 @@ export class FeedPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     private http:HttpServiceProvider,
-    private loginService:LoginServiceProvider,
     private contasChoose:ContasChooseProvider,
     private aluno:AlunoProvider,
     private MyApp:MyApp,

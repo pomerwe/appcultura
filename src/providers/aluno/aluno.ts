@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Functions }  from '../../functions/functions';
 import { Observable } from '../../../node_modules/rxjs/Observable';
@@ -33,7 +32,6 @@ export class AlunoProvider {
   private base;
 
   constructor(
-    public http: HttpClient,
     private functions:Functions
     ) {
 

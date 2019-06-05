@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { MyApp } from '../../app/app.component';
-import { ProfessorProvider, Turma } from '../../providers/professor/professor';
+import { ProfessorProvider } from '../../providers/professor/professor';
 import { UtilServiceProvider } from '../../providers/util-service/util-service';
 import { LoginServiceProvider } from '../../providers/login-service/login-service';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
@@ -9,8 +9,6 @@ import { environment as env } from '../../environments/environment';
 import { DomSanitizer } from '../../../node_modules/@angular/platform-browser';
 import * as __ from 'underscore';
 import { NativeStorage } from '../../../node_modules/@ionic-native/native-storage';
-import { LocalStorageProvider } from '../../providers/local-storage/local-storage';
-import { TransitionsProvider } from '../../providers/transitions/transitions';
 import { NetworkCheckServiceProvider } from '../../providers/network-check-service/network-check-service';
 /**
  * Generated class for the ProfessorPage page.
@@ -44,8 +42,6 @@ export class ProfessorPage {
         private http:HttpServiceProvider,
         private sanitizer:DomSanitizer,
         private localStorage:NativeStorage,
-        private localStorageProvider:LocalStorageProvider,
-        private transitions:TransitionsProvider,
         private menu:MenuController,
         private netCheck:NetworkCheckServiceProvider
       ) {

@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, LoadingController, MenuController,
 import { Clipboard } from '../../../node_modules/@ionic-native/clipboard';
 import { AlunoProvider } from '../../providers/aluno/aluno';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
-import { Functions } from '../../functions/functions';
 import { File, IWriteOptions } from '../../../node_modules/@ionic-native/file';
 import { saveAs } from 'file-saver';
 import { DeviceServiceProvider } from '../../providers/device-service/device-service';
@@ -84,7 +83,6 @@ export class FinanceiroPage {
     private alunoServ:AlunoProvider,
     private http:HttpServiceProvider,
     private loadingCtrl:LoadingController,
-    private functions:Functions,
     private file:File,
     private deviceServ:DeviceServiceProvider,
     private fileOpener:FileOpener,

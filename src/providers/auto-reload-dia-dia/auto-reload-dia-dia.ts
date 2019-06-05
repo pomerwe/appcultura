@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpServiceProvider } from '../http-service/http-service';
-import { timer as t } from '../../../node_modules/rxjs/Observable/timer';
 import { ISubscription } from '../../../node_modules/rxjs/Subscription';
 import * as __ from 'underscore';
 import { LocalNotifications } from '../../../node_modules/@ionic-native/local-notifications';
@@ -8,7 +7,6 @@ import { NetworkCheckServiceProvider } from '../network-check-service/network-ch
 import { LoginServiceProvider } from '../login-service/login-service';
 import { Functions } from '../../functions/functions';
 import { LoadingController } from '../../../node_modules/ionic-angular/';
-import { HttpParams } from '../../../node_modules/@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 /*
   Generated class for the AutoReloadDiaDiaProvider provider.

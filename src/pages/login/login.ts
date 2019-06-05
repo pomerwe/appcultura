@@ -232,7 +232,7 @@ export class LoginPage {
                 //Aqui vai ocorrer uma série de fatores:
                 //Criar uma variável de usuario do firebase com base no login realizado
                 //Criar um usuário no firebase com os dados, caso já exista usuário, realiza login no firebase
-                let firebaseUser:FirebaseUser = new FirebaseUser(`${data.username}@culturabh.com.br`,`${credentials.senha}`);
+                let firebaseUser:FirebaseUser = new FirebaseUser(`${data.username}@culturainglesamg.com.br`,`${data.id}${data.username}`);
                 this.fcm.firebaseCreateUser(firebaseUser);
                 this.myApp.funcao=data.role;
 
@@ -246,7 +246,7 @@ export class LoginPage {
                 //Aqui vai ocorrer uma série de fatores:
                 //Criar uma variável de usuario do firebase com base no login realizado
                 //Criar um usuário no firebase com os dados, caso já exista usuário, realiza login no firebase
-                let firebaseUser:FirebaseUser = new FirebaseUser(`${data.username}`,`${credentials.senha}`);
+                let firebaseUser:FirebaseUser = new FirebaseUser(`${data.username}`,`${data.id}${data.username}`);
                 this.fcm.firebaseCreateUser(firebaseUser);
                 this.myApp.funcao= 'USUARIO';
 
@@ -351,5 +351,8 @@ export class LoginPage {
                  
                 }
               );
-          }
+      }
+      pushToLembrarSenha(){
+        this.navCtrl.push('LembrarSenhaPage',{push:true});
+      }
 }

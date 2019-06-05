@@ -18,13 +18,12 @@ import { LocalStorageProvider } from '../providers/local-storage/local-storage';
 import * as __ from 'underscore';
 import { DomSanitizer } from '../../node_modules/@angular/platform-browser';
 import { ProfessorProvider } from '../providers/professor/professor';
-import { TransitionsProvider } from '../providers/transitions/transitions';
 import { FcmProvider } from '../providers/fcm/fcm';
 import { tap } from 'rxjs/operators';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-import { FirebaseAuthentication } from '@ionic-native/firebase-authentication';
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpServiceProvider } from '../providers/http-service/http-service';
 
 
 
@@ -114,14 +113,26 @@ export class MyApp {
     private localStorageProvider:LocalStorageProvider,
     private sanitizer:DomSanitizer,
     private professor:ProfessorProvider,
-    private transition:TransitionsProvider,
     private fcm: FcmProvider,
     private localNotifications: LocalNotifications,
-    private firebaseAuth:FirebaseAuthentication,
     public translate: TranslateService,
+    private http:HttpServiceProvider
 
     ) {
     this.initializeApp();
+    if(this.platform.is('ios') || this.platform.is('android')){
+      this.localNotifications.on('click')
+      .subscribe(
+        data=>{
+          let urn='/notificacao'
+          this.http.post(`${urn}/${data.id}`,"")
+          .subscribe(
+            ()=>console.log('success')
+          );
+        }
+      );
+    }
+    
     firebase.auth().onAuthStateChanged(
       user=>{
         if(user){
@@ -130,7 +141,8 @@ export class MyApp {
            this.fcm.listenToNotifications().pipe(
              tap(msg => {
                this.localNotifications.schedule({
-                 id: 1,
+                 id: msg.id,
+                 data:{id:msg.id},
                  title:msg.title,
                  text:msg.body,
                  vibrate: true,

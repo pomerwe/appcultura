@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 import { TransitionsProvider } from '../../providers/transitions/transitions';
-import { NavigationBar } from '@ionic-native/navigation-bar';
 import { ISubscription } from 'rxjs/Subscription';
 
 /**

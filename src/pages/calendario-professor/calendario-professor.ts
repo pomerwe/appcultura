@@ -1,5 +1,5 @@
 import { Component, ViewChild, } from '@angular/core';
-import { IonicPage, NavController, NavParams, Navbar, DateTime, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Navbar, MenuController } from 'ionic-angular';
 import { TransitionsProvider } from '../../providers/transitions/transitions';
 import * as __ from 'underscore';
 import { Functions } from '../../functions/functions';

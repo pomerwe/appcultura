@@ -100,10 +100,11 @@
     "chamada_foto":"Photo",
     "chamada_matricula":"Academic Record",
     "chamada_nome":"Name",
-    "chamada_presenca":"Attendance",
+    "chamada_presencatab":"Attendance",
     "chamada_p":"P",
     "chamada_a":"L",
     "chamada_f":"A",
+    "chamada_legenda":"Label",
     "chamada_realizarchamada":"Finish",
     "chamada_presenca":"Present",
     "chamada_falta":"Abscent",
@@ -128,6 +129,9 @@
     "chamada_set":"SEP",
     "chamada_out":"OCT",
     "chamada_nov":"NOV",
-    "chamada_dez":"DEC"
+    "chamada_dez":"DEC",
+
+    "recuperarsenha_reqsuccess":"Request Sucessful!\nYou will receive a email message with the new password.",
+    "recuperarsenha_reqsuccessdenovo":"Already recovered password.\nWait for the email with your informations."
 
 }

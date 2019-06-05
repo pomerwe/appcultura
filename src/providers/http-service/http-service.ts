@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 
 import { Observable } from "../../../node_modules/rxjs/Observable";
 import { RequestOptionsArgs } from "@angular/http";
-import { HTTP } from '@ionic-native/http';
 
 import { environment as env } from "../../environments/environment";
 import { AuthServiceProvider } from "../auth-service/auth-service";

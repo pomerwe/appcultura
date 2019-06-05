@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from '../../../node_modules/rxjs';
-import { DateTime } from '../../../node_modules/ionic-angular/umd';
+import { DateTime } from '../../../node_modules/ionic-angular';
 import * as __ from 'underscore';
-import { PromiseObservable } from '../../../node_modules/rxjs/observable/PromiseObservable';
 /*
   Generated class for the ProfessorProvider provider.
 

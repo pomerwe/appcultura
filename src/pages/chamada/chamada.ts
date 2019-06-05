@@ -449,11 +449,16 @@ export class ChamadaPage {
 
    //Cria um alert de loading
     createloader(){
-    
-      this.loader = this.loadingCtrl.create({
-       spinner: "crescent",
-       content:"Carregando..."
-     });
+      this.translate.get('loader_carregando')
+      .subscribe(
+        carregando=>{
+          this.loader = this.loadingCtrl.create({
+            spinner: "crescent",
+            content:carregando
+          });
+        }
+      );
+      
      }
   }
 

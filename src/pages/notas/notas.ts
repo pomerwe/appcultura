@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, List, MenuController, Navbar } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, MenuController, Navbar } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { Functions } from '../../functions/functions';
 import { AlunoProvider } from '../../providers/aluno/aluno';
@@ -137,7 +137,6 @@ export class NotasPage {
         this.matricula=data.matricula;
       }
     )
-    this.carregarDados();
     this.loadTranslatedVariables();
   }
   ionViewWillLeave(){
@@ -148,7 +147,6 @@ export class NotasPage {
     );
   }
   carregarDados(){
-    this.createloader();
     this.loader.present();
     let uri = '/codperlet';
     let param = {
@@ -316,7 +314,8 @@ createloader(){
             this.loaderCarregandoLabel = data.loader_carregando;
             this.notasFinaisTitles['notabimestre'] = data.notas_notabimestre;
             this.notasFinaisTitles['notafinal'] = data.notas_notafinal;
-           
+            this.createloader();
+            this.carregarDados();
           }
         );
     }

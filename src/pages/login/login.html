@@ -25,9 +25,9 @@
  <div padding class='loginForm'>
 <form #entrar='ngForm' (ngSubmit)='getAccess(entrar.form.value)'>
     
-  <!--Padrão pra tratar emails -->    
-  <!-- pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"  -->
-      <!-- span class='invalidEmail' *ngIf='email.invalid && !email.pristine && emailLostFocus'>Coloque um email válido!</span -->
+  <!-- Padrão pra tratar emails    
+  pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" 
+      span class='invalidEmail' *ngIf='email.invalid && !email.pristine && emailLostFocus'>Coloque um email válido!</span -->
 
    <div class='formDiv'>
       
@@ -46,7 +46,7 @@
       <ion-input ngModel name='senha' clearOnEdit="false" [type]='passwordInput' #senha='ngModel' required></ion-input>
       <button style='position:relative;top:15px;' ion-button clear color='dark' type="button" item-right (click)='mostrarSenha(eye)'> <ion-icon  class='mostrarSenha' name="eye" #eye> </ion-icon> </button>
     </ion-item>
-    <span class='rememberPassword'>{{'login_esqueciminhasenha' | translate}}</span>
+    <span class='rememberPassword' (click)='pushToLembrarSenha()'>{{'login_esqueciminhasenha' | translate}}</span>
     </ion-list>
   </div>
     

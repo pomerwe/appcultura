@@ -3,8 +3,6 @@ import { Firebase } from '@ionic-native/firebase';
 import { Platform } from 'ionic-angular';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase';
-import { FirebaseAuthentication } from '@ionic-native/firebase-authentication';
-import { AuthServiceProvider } from '../auth-service/auth-service';
 import { HttpServiceProvider } from '../http-service/http-service';
 
 
@@ -17,7 +15,6 @@ export class FcmProvider {
     public firebaseNative: Firebase,
     public firestore: AngularFirestore,
     private platform: Platform,
-    private firebaseAuth:FirebaseAuthentication,
     private http:HttpServiceProvider
   ) {
 
@@ -116,9 +113,20 @@ export class FcmProvider {
 
   async firebaseSignOut(){
     
+    let token;
+  
+    if (this.platform.is('android')) {
+      token = await this.firebaseNative.getToken();
+      
+    } 
+  
+    if (this.platform.is('ios')) {
+      token = await this.firebaseNative.getToken();
+      await this.firebaseNative.grantPermission();
+    } 
     const devicesRef = this.firestore.collection<any>('devices');
     
-    await devicesRef.doc(this.token).delete()
+    await devicesRef.doc(token).delete()
       .then(
         data=>{
           

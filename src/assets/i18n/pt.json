@@ -98,10 +98,11 @@
     "chamada_foto":"Foto",
     "chamada_matricula":"Matrícula",
     "chamada_nome":"Nome",
-    "chamada_presenca":"Presença",
+    "chamada_presencatab":"Presença",
     "chamada_p":"P",
     "chamada_a":"A",
     "chamada_f":"F",
+    "chamada_legenda":"Legenda",
     "chamada_realizarchamada":"Realizar chamada",
     "chamada_presenca":"Presente",
     "chamada_falta":"Falta",
@@ -126,7 +127,10 @@
     "chamada_set":"SET",
     "chamada_out":"OUT",
     "chamada_nov":"NOV",
-    "chamada_dez":"DEZ"
+    "chamada_dez":"DEZ",
+
+    "recuperarsenha_reqsuccess":"Senha recuperada com sucesso!\nEspere o email com suas novas informações!",
+    "recuperarsenha_reqsuccessdenovo":"Senha já foi recuperada.\nEspere pelo email com as informações."
     
 
 
