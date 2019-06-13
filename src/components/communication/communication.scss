@@ -94,6 +94,21 @@ communication {
                             }
                         }
                     }
+                    .listaDiv{
+                        padding:15px;
+                        font-size:15px;
+                        .col{
+                            display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                        }
+                        .radio{
+                            display:inline-block;
+                        }
+                        .radioLabel{
+                            display:inline-block;
+                        }
+                    }
                     .textoDiv{
                         font-size:15px;
                         padding:15px;

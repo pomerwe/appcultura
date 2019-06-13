@@ -31,6 +31,8 @@ export class CommunicationComponent {
   @Output() overlayCloseClick = new EventEmitter();
   image:any = './assets/imgs/noimage.png';
   imageToUpload = null ; 
+  lista = '';
+  listaRadioValues = [];
   //idMidia
   imageIdToUpload:number = null;
   clicked = [];
@@ -99,7 +101,47 @@ export class CommunicationComponent {
   ) {
     
   }
-  
+  ngOnDestroy(){
+  this.image= './assets/imgs/noimage.png';
+  this.imageToUpload = null ; 
+  this.lista = '';
+  this.listaRadioValues = [];
+  this.imageIdToUpload = null;
+  this.clicked = [];
+  this.clickedIndexed;
+  this.options = undefined;
+  this.zoomDiv = false;
+  this.texto = undefined;
+  this.tipoTexto = false;
+  this.tipoTextoFixo = false;
+  this.tipoFoto = false;
+  this.tipoHTML = false;
+  this.tipoLista = false;
+  this.tipoFotoGaleria = false;
+  this.currentTipo = undefined;
+  this.currentComunicacao = undefined;
+  this.currentActionDescricao = undefined;
+  this.mandarNotificacao = false; 
+  this.data;
+  this.hora;
+  this.dataHora;
+  this.expiravel = false;
+  this.dataExpiracao = null;
+  this.horaExpiracao = null;
+   this.dataHoraExpiracao = null;
+    this.postObject = {
+      idComunicacao: undefined,
+      dataHoraPublicacao: undefined,
+      dataHoraExpiracao: undefined,
+      notificar: undefined,
+      texto: undefined,
+      idMidia: undefined,
+      distribuicoes: [{
+        objeto: undefined,
+        identificador: undefined
+      }]};
+    this.enviarButton = undefined; 
+  }
   ngOnInit(){
     this.createLoader();
     this.data = moment().format("YYYY-MM-DD");
@@ -149,6 +191,8 @@ export class CommunicationComponent {
     this.currentActionDescricao = option.descricao;
     this.currentComunicacao = option.id;
     this.expiravel = option.expiravel;
+    this.lista = option.valor;
+
     this.currentTipo = option.tipo;
     switch (option.tipo){
       case 'TEXTO':{
@@ -169,6 +213,8 @@ export class CommunicationComponent {
       }
       case 'LISTA':{
         this.tipoLista = true;
+        this.listaRadioValues = this.lista.split('|');
+        console.log(this.listaRadioValues);
         break;
       }
       case 'FOTO_GALERIA':{
@@ -196,6 +242,7 @@ export class CommunicationComponent {
     });
     this.currentComunicacao = undefined;
     this.currentTipo = undefined;
+    
     switch (tipo){
       case 'TEXTO':{
         setTimeout(()=>{this.tipoTexto = false;},180);
@@ -222,11 +269,13 @@ export class CommunicationComponent {
         break;
       }
     }
+    this.unsetPostVariables();
+  } 
 
-}
     updateDateTime(){
       this.dataHora = this.functions.combineDateAndTime(this.data,this.hora);
     }
+
     updateDateTimeExpiracao(){
       if(this.dataExpiracao == null){
         this.functions.combineDateAndTime(this.data,this.horaExpiracao);
@@ -247,6 +296,7 @@ export class CommunicationComponent {
       textarea.classList.remove('editing');
     }
     uploadImage(){
+      this.loader.present();
       this.camera.getPicture({
       quality: 100,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
@@ -254,7 +304,7 @@ export class CommunicationComponent {
       correctOrientation:true
     
       }).then((imageData) => {
-        this.loader.present();
+        
         this.imageToUpload = imageData;
          this.image = `data:image/jpeg;base64,${imageData}`;    /// passing it to variable to be used in html side
         this.uploadImageToDrive();
@@ -263,6 +313,7 @@ export class CommunicationComponent {
       });
     }
     uploadImageByCamera(){
+      this.loader.present();
       this.camera.getPicture({
       quality: 100,
       sourceType: this.camera.PictureSourceType.CAMERA,
@@ -271,7 +322,7 @@ export class CommunicationComponent {
       correctOrientation:true
     
       }).then((imageData) => {
-        this.loader.present();
+        
         this.imageToUpload = imageData;
          this.image = `data:image/jpeg;base64,${imageData}`;    /// passing it to variable to be used in html side
         this.uploadImageToDrive();
@@ -414,6 +465,16 @@ export class CommunicationComponent {
 
         }
       )
+   }
+
+   unsetPostVariables(){
+    this.dataHoraExpiracao = undefined;
+    this.dataHora = undefined;
+    
+    this.currentComunicacao = undefined;
+    this.imageIdToUpload = undefined;
+    this.mandarNotificacao = false;
+    this.texto = '';
    }
 }
 

@@ -15,7 +15,10 @@ page-aluno {
             }
         }
     }
-
+    .scroll-content.noScroll{
+        overflow-y: hidden !important;
+        overflow-x: hidden !important;
+    }
     .aluno{
         text-align: center;
         .alunoPhoto{

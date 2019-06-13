@@ -33,6 +33,45 @@
                   {{currentActionDescricao}}
               </div>
           </div>
+          <div>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodatahorapublicacao" | translate}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodata" | translate}}</ion-label>
+                    <ion-datetime (ionChange)='updateDateTime()' [(ngModel)]='data' display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                <ion-label>{{"communication_notificacaohora" | translate}}</ion-label>
+                <ion-datetime (ionChange)='updateDateTime()' [(ngModel)]='hora' displayFormat="HH:mm" pickerFormat="HH mm" ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodatahoraexpiracao" | translate}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodata" | translate}}</ion-label>
+                    <ion-datetime [disabled]='!expiravel' (ionChange)='updateDateTimeExpiracao()' [(ngModel)]='dataExpiracao' display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                <ion-label>{{"communication_notificacaohora" | translate}}</ion-label>
+                <ion-datetime [disabled]='!expiravel' (ionChange)='updateDateTimeExpiracao()' [(ngModel)]='horaExpiracao' displayFormat="HH:mm" pickerFormat="HH mm" ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacao" | translate}}</ion-label>
+                    <ion-toggle [(ngModel)]='mandarNotificacao' checked="false"></ion-toggle>
+                </ion-item>
+                <div ion-row>
+                    <div class='textoDiv' ion-col col-12>
+                        <label class='titleTextoDiv' ion-col col-12>{{"communication_mensagem" | translate}}</label>
+                        <textarea (focus)='textoClicked(textareaFoto)' [(ngModel)]='texto' (blur)='textoDesfocado(textareaFoto)' class='texto' ion-col col-12 #textareaFoto></textarea>
+                    </div>
+                    
+                </div>
+        
+                <button [disabled]='enviarButton' (click)='sendMessage()' class='enviarButton' ion-button>{{"communication_enviarmensagem" | translate}}</button>
+           
+            </div>   
+           
       </div>  
       <div *ngIf='tipoFoto' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
           <div class='titleDiv' ion-row>
@@ -117,7 +156,7 @@
             </div>
       </div>  
       <div *ngIf='tipoLista' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
-          <div class='titleDiv' ion-row>
+            <div class='titleDiv' ion-row>
               <div class='divIcon' ion-col col-1>
                   <ion-icon (click)='closeCommunicationAction(currentTipo)' name="arrow-back"></ion-icon>
               </div>
@@ -125,6 +164,50 @@
                     {{currentActionDescricao}}
                 </div>
             </div>
+            <div>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodatahorapublicacao" | translate}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodata" | translate}}</ion-label>
+                    <ion-datetime (ionChange)='updateDateTime()' [(ngModel)]='data' display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                <ion-label>{{"communication_notificacaohora" | translate}}</ion-label>
+                <ion-datetime (ionChange)='updateDateTime()' [(ngModel)]='hora' displayFormat="HH:mm" pickerFormat="HH mm" ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodatahoraexpiracao" | translate}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodata" | translate}}</ion-label>
+                    <ion-datetime [disabled]='!expiravel' (ionChange)='updateDateTimeExpiracao()' [(ngModel)]='dataExpiracao' display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                <ion-label>{{"communication_notificacaohora" | translate}}</ion-label>
+                <ion-datetime [disabled]='!expiravel' (ionChange)='updateDateTimeExpiracao()' [(ngModel)]='horaExpiracao' displayFormat="HH:mm" pickerFormat="HH mm" ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacao" | translate}}</ion-label>
+                    <ion-toggle [(ngModel)]='mandarNotificacao' checked="false"></ion-toggle>
+                </ion-item>
+                <div ion-row>
+                    <div class='listaDiv' ion-col col-12>
+                            <div ion-row [(ngModel)]='texto' radio-group>
+                                <div *ngFor='let value of listaRadioValues' ion-col col-12>
+                                    
+                                    <ion-radio class='radio' [value]='value'></ion-radio>
+                                    <ion-label class='radioLabel'>{{value}}</ion-label>
+                                </div>
+                            </div>
+                        
+                    </div>
+                    
+                </div>
+            
+                <button [disabled]='enviarButton' (click)='sendMessage()' class='enviarButton' ion-button>{{"communication_enviarmensagem" | translate}}</button>
+               
+            </div>  
       </div>  
       <div *ngIf='tipoFotoGaleria' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
           <div class='titleDiv' ion-row>
@@ -196,4 +279,5 @@
         <img [src]='image' />
     </div>
  
+</div>
 </div>

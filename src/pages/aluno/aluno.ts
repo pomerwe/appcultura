@@ -97,4 +97,18 @@ export class AlunoPage {
       600);} 
     
   }
+  scrollLock(boolean){
+    if(boolean == false){
+      document.getElementById('ioncontent').children[1].classList.remove('noScroll');
+    }
+    else{
+      document.getElementById('ioncontent').children[1].classList.add('noScroll');
+    }
+  }
+
+  see(t){
+    console.log(t);
+  }
+ 
+  
 }
