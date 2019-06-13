@@ -8,6 +8,7 @@ import { LoginServiceProvider } from '../login-service/login-service';
 import { Functions } from '../../functions/functions';
 import { LoadingController } from '../../../node_modules/ionic-angular/';
 import { TranslateService } from '@ngx-translate/core';
+import { environment as ENV } from '../../environments/environment';
 /*
   Generated class for the AutoReloadDiaDiaProvider provider.
 
@@ -20,7 +21,7 @@ export class AutoReloadDiaDiaProvider {
   autoReloadParam;
   param;
   top10Pattern = [];
-  chamadasPattern: {matricula:any , nome:string, chamadas: Array<Object>}[] = [];
+  chamadasPattern: {matricula:any , nome:string, chamadas: Array<Object>,base:any}[] = [];
   contas = [];
   loader ;
   first = true;
@@ -31,7 +32,6 @@ export class AutoReloadDiaDiaProvider {
   loaderCarregandoLabel = '';
   constructor(
     private http:HttpServiceProvider,    
-    private localNotifications:LocalNotifications,
     private netCheck:NetworkCheckServiceProvider,
     private loginServ:LoginServiceProvider,
     private functions:Functions,
@@ -50,7 +50,8 @@ export class AutoReloadDiaDiaProvider {
           {
             matricula:conta.matricula,            
             nome:this.functions.nomes(conta.nome),
-            chamadas:[]
+            chamadas:[],
+            base:conta.base
           }
         );
         
@@ -58,7 +59,8 @@ export class AutoReloadDiaDiaProvider {
           {
             matricula:conta.matricula,            
             nome:this.functions.nomes(conta.nome),
-            chamadas:[]
+            chamadas:[],
+            base:conta.base
           }
         );
         
@@ -66,7 +68,8 @@ export class AutoReloadDiaDiaProvider {
           {
             id: conta.id,
             matricula:conta.matricula,
-            nome:this.functions.nomes(conta.nome)
+            nome:this.functions.nomes(conta.nome),
+            base:conta.base
           }
         );
       }
@@ -76,20 +79,21 @@ export class AutoReloadDiaDiaProvider {
     this.createLoader();
     this.load();
   }
-  setAutoReloadParam(matricula){
+  setAutoReloadParam(conta){
     this.autoReloadParam = {
       'page':0,
-      'matricula':matricula,
+      'matricula':conta.matricula,
       'size':10,
       'example':'',
-      'sort':'data,desc'
+      'base':conta.base
     }
   }
 
   
   getDiaDia(conta){
-    let uri = '/dia-dia';
-    this.subscriptions.push(this.http.get(uri,this.autoReloadParam).subscribe(
+    let url = ENV.BASE_URL;
+    let urn = '/classe/dia-dia';
+    this.subscriptions.push(this.http.specialGet(url,urn,this.autoReloadParam).subscribe(
 
       data =>{ 
         
@@ -118,7 +122,8 @@ export class AutoReloadDiaDiaProvider {
   }
 
   getDiaDiaAutoReload(conta){
-    let uri = '/dia-dia';
+    let url = ENV.BASE_URL;
+    let urn = '/classe/dia-dia';
     // this.param={
     //   'page':0,
     //   'matricula':'59245',
@@ -126,32 +131,33 @@ export class AutoReloadDiaDiaProvider {
     //   'example':'',
     //   'sort':'data,desc'
     // }
-    this.subscriptions.push(this.http.get(uri,this.autoReloadParam).subscribe(
+    this.subscriptions.push(this.http.specialGet(url,urn,this.autoReloadParam).subscribe(
+    
 
       data =>{ 
-                
-        let notifications = [];
-        for(let chamada of data.content){
-        if(__.indexOf(this.top10[conta.matricula].chamadas,chamada.id) == -1){
-          this.chamadas[conta.matricula].chamadas.push(chamada);
-          notifications.push(chamada);
-        } 
-        }
-        this.chamadas[conta.matricula].chamadas = __.sortBy(data.content,'data').reverse();
-        notifications = __.sortBy(notifications, 'data').reverse();
-        this.top10[conta.matricula].chamadas = [];
-        for(let cham of this.chamadas[conta.matricula].chamadas){          
-          this.top10[conta.matricula].chamadas.push(cham.id);
-        }
-        for(let chamNot of notifications){
-          this.toSchedule.push({
-            id: this.notificationsId,
-            title:`Cultura Inglesa MG - ${conta.nome}`  ,
-            text: `${chamNot.periodo}\nDescription: ${chamNot.descricao}\nHomework: ${chamNot.tarefasdia}\nAttendance: ${chamNot.freq}`,
-            vibrate:true
-          });
-          this.notificationsId = this.notificationsId + 1;
-        }
+        console.log(data);
+        // let notifications = [];
+        // for(let chamada of data.content){
+        // if(__.indexOf(this.top10[conta.matricula].chamadas,chamada.id) == -1){
+        //   this.chamadas[conta.matricula].chamadas.push(chamada);
+        //   notifications.push(chamada);
+        // } 
+        // }
+        // this.chamadas[conta.matricula].chamadas = __.sortBy(data.content,'data').reverse();
+        // notifications = __.sortBy(notifications, 'data').reverse();
+        // this.top10[conta.matricula].chamadas = [];
+        // for(let cham of this.chamadas[conta.matricula].chamadas){          
+        //   this.top10[conta.matricula].chamadas.push(cham.id);
+        // }
+        // for(let chamNot of notifications){
+        //   this.toSchedule.push({
+        //     id: this.notificationsId,
+        //     title:`Cultura Inglesa MG - ${conta.nome}`  ,
+        //     text: `${chamNot.periodo}\nDescription: ${chamNot.descricao}\nHomework: ${chamNot.tarefasdia}\nAttendance: ${chamNot.freq}`,
+        //     vibrate:true
+        //   });
+        //   this.notificationsId = this.notificationsId + 1;
+        // }
         
           
           
@@ -171,30 +177,30 @@ export class AutoReloadDiaDiaProvider {
 
     ));
   }
-  autoReload(){
+  // autoReload(){
    
-    this.contas.forEach(
-      conta=>{
-        this.setAutoReloadParam(conta.matricula);
+  //   this.contas.forEach(
+  //     conta=>{
+  //       this.setAutoReloadParam(conta.matricula);
         
-        this.getDiaDiaAutoReload(conta);
+  //       //this.getDiaDiaAutoReload(conta);
         
         
-      }
-    );
-    this.localNotifications.schedule(this.toSchedule);
-    this.toSchedule = [];
+  //     }
+  //   );
+  //   // this.localNotifications.schedule(this.toSchedule);
+  //   // this.toSchedule = [];
      
     
     
-  }
+  // }
 
   load(){
     
     this.loader.present();
     this.contas.forEach(
         conta=>{
-          this.setAutoReloadParam(conta.matricula);         
+          this.setAutoReloadParam(conta);         
           this.getDiaDia(conta);
           
         }
@@ -207,6 +213,7 @@ export class AutoReloadDiaDiaProvider {
   }
 
   createLoader(){
+    this.loadTranslatedVariables();
     this.loader=this.loadingCtrl.create({
         spinner: "crescent",
         content:this.loaderCarregandoLabel

@@ -35,17 +35,28 @@
     
     <ion-card *ngFor= "let c of chamadas">
       <ion-card-header class='cardHeader' >
-          <img src='../../assets/imgs/chamada.jpg' class="chamadaIcon" />
+          <img [src]='c.icone' class="chamadaIcon" />
         <div style='display:inline-block; '>
-        <span class='chamadaTitle'>{{ 'feed_resumoaula' | translate}}</span>
-        <span class='chamadaSubtitle'>{{c.nome}} - {{c.data | date:'dd/MM/yy' }} <br> {{c.horario}}</span>
-        <span class='chamadaSubtitle'>{{c.periodo}} - {{c.codtur}}</span>
+        <span class='chamadaTitle'>{{c.titulo}}</span>
+        <span class='chamadaSubtitle'>{{c.dataHora | date:'dd/MM/yy' }}</span>
+        <span [innerHTML]='c.descricao' class='chamadaSubtitle'></span>
       </div>
       </ion-card-header>
       <ion-card-content  class='cardContent'>
-        <span class='chamadaContentTitle'>{{ 'feed_conteudo' | translate}}: </span><span class='chamadaContent'> {{c.descricao}}</span><br>
-        <span class='chamadaContentTitle'>{{ 'feed_paracasa' | translate}}: </span><span class='chamadaContent'> {{c.tarefasdia}}</span><br>
-        <span class='chamadaContentTitle'>{{ 'feed_comparecimento' | translate}}: </span><span class='chamadaContent'> {{c.freq}}</span>
+        <div class='conteudo'>
+            <div  [innerHTML]='c.conteudo'>
+
+            </div>
+            <div *ngIf='c.baixar!=null' (click)='baixarIconOnClick(c.baixar);' class='downloadIconDiv'>
+                <ion-icon class='downloadIcon' name='download'></ion-icon>
+            </div>
+        </div>
+        <div *ngIf='baixarIconClicked && c.baixar!=null' class='dropdown' [id]='c.baixar'>
+        <div class='buttonDiv' >
+          <button (touchstart)='downloadEffect("touchstart");' (touchend)='downloadEffect("touchend");' (click)='downloadEffect("cliked");baixarImagem(c.baixar,c.dataHora)' class='baixarImagem' >{{'feed_salvar' | translate}}</button><div *ngIf='downloadClicked' class='buttonEffect' id='buttonEffect'></div>
+        </div>
+
+        </div>
       </ion-card-content>
     </ion-card>
   

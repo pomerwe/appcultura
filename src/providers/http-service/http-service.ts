@@ -15,6 +15,7 @@ import { AuthServiceProvider } from "../auth-service/auth-service";
 @Injectable()
 export class HttpServiceProvider {
 
+
   private urlApi: string;
 
   constructor(
@@ -63,7 +64,20 @@ export class HttpServiceProvider {
             , { headers: { 'Authorization': `Bearer ${token}` }, params, withCredentials: true });
       });
   }
-
+  //Requisição que não requer token e pode ir além da urn movel
+  public noTokenSpecialPost(url: string, urn: string, body: any, params?: HttpParams | { [param: string]: string | string[] }): Observable<any> {
+   
+      return this.http.post(`${url}${urn == undefined ? "" : urn}`
+        , body
+        , {  headers: { 'Access-Control-Allow-Origin': `*`,"Access-Control-Allow-Headers": "Content-Length" },params});
+    
+  }
+  public noTokenSpecialGet(url: string, urn?: string, params?: HttpParams | { [param: string]: string | string[] }): Observable<any> {
+   
+    return this.http.get(`${url}${urn == undefined ? "" : urn}`
+      , {headers: { 'Access-Control-Allow-Origin': `*`,"Access-Control-Allow-Headers": "Content-Length" }, params});
+  
+}
   public get( urn: string, params?: HttpParams | { [param: string]: string | string[] }): Observable<any> {
     if (params) {
       for (const p in params) {

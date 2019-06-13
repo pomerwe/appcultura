@@ -92,8 +92,8 @@ export class FinanceiroPage {
     private translate: TranslateService
 
   ) {
-    
     this.loadTranslatedVariables();
+    
     
   }
 
@@ -110,6 +110,7 @@ export class FinanceiroPage {
     setTimeout(()=>{this.scrollDownHistoricoDiv()},300);
   }
   ionViewWillEnter(){
+    this.loadTranslatedVariables();
     let pushParam = this.navParams.get('push');
     if(pushParam!=undefined){
       if(pushParam==true) {
@@ -149,7 +150,7 @@ export class FinanceiroPage {
 
   //Função que instancia um Loader através do LoadingController
   createloader(){
-    
+    this.loadTranslatedVariables();
     this.loader = this.loadingCtrl.create({
      spinner: "crescent",
      content:this.loaderCarregandoLabel

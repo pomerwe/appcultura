@@ -19,6 +19,7 @@
     "feed_conteudo":"Conteúdo",
     "feed_paracasa":"Tarefas",
     "feed_comparecimento":"Comparecimento",
+    "feed_salvar":"Salvar",
 
     "financeiro_titulo":"Financeiro",
     "financeiro_descricao":"Descrição",
@@ -129,8 +130,22 @@
     "chamada_nov":"NOV",
     "chamada_dez":"DEZ",
 
-    "recuperarsenha_reqsuccess":"Senha recuperada com sucesso!\nEspere o email com suas novas informações!",
-    "recuperarsenha_reqsuccessdenovo":"Senha já foi recuperada.\nEspere pelo email com as informações."
+    "recuperarsenha_titulo":"Recupere a senha",
+    "recuperarsenha_reqsuccesstitle":"Senha recuperada com sucesso!",
+    "recuperarsenha_reqsuccess":"Espere o email com suas novas informações!",
+    "recuperarsenha_reqsuccessdenovotitle":"Senha já foi recuperada!",
+    "recuperarsenha_reqsuccessdenovo":"Espere pelo email com as informações.",
+    "recuperarsenha_digiteemail":"Digite seu email",
+
+    "communication_titulo":"Comunicação",
+    "communication_notificacao":"Mandar notificação?",
+    "communication_notificacaodata":"Data",
+    "communication_notificacaohora":"Hora",
+    "communication_notificacaodatahoraexpiracao":"Expiração - DataHora",
+    "communication_notificacaodatahorapublicacao":"Publicação - DataHora",
+    "communication_imagem":"Imagem",
+    "communication_mensagem":"Mensagem",
+    "communication_enviarmensagem":"Enviar Mensagem"
     
 
 

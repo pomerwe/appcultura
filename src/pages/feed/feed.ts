@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, InfiniteScroll, LoadingController 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { ContasChooseProvider } from '../../providers/contas-choose/contas-choose';
 import 'rxjs/add/operator/toPromise';
+import { File, IWriteOptions } from '../../../node_modules/@ionic-native/file';
 import { AlunoProvider } from '../../providers/aluno/aluno';
 import { MyApp } from '../../app/app.component';
 import { UtilServiceProvider } from '../../providers/util-service/util-service';
@@ -10,9 +11,14 @@ import { ISubscription } from '../../../node_modules/rxjs/Subscription';
 import { NetworkCheckServiceProvider } from '../../providers/network-check-service/network-check-service';
 import { Functions } from '../../functions/functions';
 import * as __ from 'underscore';
+import { environment as ENV } from '../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AutoReloadDiaDiaProvider } from '../../providers/auto-reload-dia-dia/auto-reload-dia-dia';
 import { TranslateService } from '@ngx-translate/core';
+import { DeviceServiceProvider } from '../../providers/device-service/device-service';
+import { FileOpener } from '@ionic-native/file-opener';
+import { saveAs } from 'file-saver';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 
 
 /**
@@ -44,19 +50,26 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class FeedPage {
 
+  baixarIconClicked = false;
+
+  downloadClicked = false;
+
   loaderCarregandoLabel = '';
 
   //Variável array que carrega objetos Chamada;
   chamadas: Array<Chamada>;
 
   //Variável que controla o component Ionic Refresher. Posteriormente é set
-  refresher;
+  refresher = undefined;
   
   //Variável que controla a Page do Pageable que vem da API
   page = 0;
 
   //Variável que controla o component Ionic Infinite Scroll
   infiniteScroll:any ;
+
+  //Variável que recebrá um loader
+  loader;
 
   //Parametros para a URI do Dia-Dia
   diaDiaParam;
@@ -90,28 +103,33 @@ export class FeedPage {
     private functions:Functions,
     private autoReload:AutoReloadDiaDiaProvider,
     private sanitizer: DomSanitizer,
-    private translate:TranslateService
+    private translate:TranslateService,
+    private deviceServ:DeviceServiceProvider,
+    private fileOpener:FileOpener,
+    private file:File,
+    private transfer:FileTransfer
     
     ) {
    
       this.loadTranslatedVariables();
-  
+      this.createLoader();
   }
-      // Função que cria um loader na página;
-      loader = this.loadingCtrl.create({
-      spinner: "crescent",
-      content:this.loaderCarregandoLabel
+     
+
+
+  createLoader(){
+ // Função que cria um loader na página;
+    this.loader = this.loadingCtrl.create({
+    spinner: "crescent",
+    content:this.loaderCarregandoLabel
     });
-
-
-    
+  }  
     
   
   ionViewWillEnter(){
-   
+    this.loadTranslatedVariables();
   }
    ionViewDidLoad() {
-
     this.MyApp.carregarContas();  
 
     /*Função que abre uma lista de contas caso o usuário tenha mais 
@@ -186,7 +204,7 @@ export class FeedPage {
       'matricula':this.aluno.getMatricula(),
       'size':10,
       'example':'',
-      'sort':'data,desc'
+      'base':this.aluno.getBase()
     }
   }
 
@@ -196,10 +214,10 @@ export class FeedPage {
  
   getDiaDia(){
     this.setDiaDiaParam();
-    let urn = '/dia-dia';
-    this.subscriptions.push(
-      //Requisição HTTP dos dados do Dia-Dia
-      this.http.get(urn,this.diaDiaParam).subscribe(
+    let url = ENV.BASE_URL;
+    let urn = '/classe/dia-dia';
+    this.subscriptions.push(this.http.specialGet(url,urn,this.diaDiaParam).subscribe(
+
 
       data =>{ 
         this.chamadas = data.content;
@@ -207,8 +225,9 @@ export class FeedPage {
         //sortBy é uma função da Library Underscore(foda pra caralho!!), nela você encontrará uma imensa gama de utilidades;
         //Essa função organiza de forma Crescente os dados da variável de acordo com o parâmetro que passar
         //Reverse apenas reverte os Indexes do Array. Deixa ele ao contrário;  
-        this.chamadas = __.sortBy(this.chamadas, 'data').reverse();        
+        this.chamadas = __.sortBy(this.chamadas, 'dataHora').reverse();        
         this.loader.dismiss();
+        this.createLoader();
         if(this.refresher!=undefined){
           this.refresher.complete();
         }
@@ -226,36 +245,35 @@ export class FeedPage {
       }
 
     ));
-  
-
-    
-
   }
-  autoReloadRoutine(){
-    setTimeout(()=>{
-      this.autoReload.autoReload();
-      this.aluno.getAluno()
-        .then(
-          data=>{
-            console.log(data);
-            this.setChamadas(data);
-          }
-      );
-    },600000);
-  }
+
+  // autoReloadRoutine(){
+  //   setTimeout(()=>{
+  //     this.autoReload.autoReload();
+  //     this.aluno.getAluno()
+  //       .then(
+  //         data=>{
+  //           console.log(data);
+  //           this.setChamadas(data);
+  //         }
+  //     );
+  //   },600000);
+  // }
 
   setChamadas(data){
     this.chamadas = this.autoReload.getDiaDiaByMatricula(data.matricula);
     this.chamadas = __.sortBy(this.chamadas,'data').reverse();
-    setTimeout(()=>{
-      if(this.chamadas.length==0){
-        this.setChamadas(data);
-      }
-      else{ 
-          this.autoReloadRoutine();
-          this.loader.dismiss();
-      }
-    },500);
+    this.loader.dismiss();
+
+    // setTimeout(()=>{
+    //   if(this.chamadas.length==0){
+    //     this.setChamadas(data);
+    //   }
+    //   else{ 
+    //       this.autoReloadRoutine();
+    //       this.loader.dismiss();
+    //   }
+    // },500);
   }
   setPage(page){
     this.page = page;
@@ -341,11 +359,12 @@ export class FeedPage {
       this.setPage(1);
     }    
     this.setDiaDiaParam();
-    let uri = '/dia-dia';
+    let url = ENV.BASE_URL;
+    let urn = '/classe/dia-dia';
     
     this.subscriptions.push(
       //Requisição HTTP personalizada para o Infinite Scroll, para a URN dia-dia
-      this.http.get(uri,this.diaDiaParam).subscribe(
+      this.http.specialGet(url,urn,this.diaDiaParam).subscribe(
           data => 
           {
             data.content.forEach(chamada => {
@@ -439,6 +458,80 @@ export class FeedPage {
             
   //     }
 
+  baixarImagem(link,dataHora){
+    console.log(link,dataHora);
+    let storageLocation;
+    this.createLoader();
+    this.loader.present();
+    switch (this.deviceServ.getPlatform()) {
+
+      case "Android":
+          storageLocation = 'file:///storage/emulated/0/download';
+          break;
+      case "iOS":
+          storageLocation = this.file.documentsDirectory;
+          break;
   
+    }
+    const fileTransfer:FileTransferObject = this.transfer.create();
+
+    fileTransfer.download(link,storageLocation + `/${this.aluno.getNome()}${dataHora}.jpeg`)
+    .then(
+      data=>{
+        let filePath = data.nativeURL;
+
+        //Função do Ionic Native File Opener, que abre o arquivo
+        this.fileOpener.open(filePath, 'image/jpeg')
+              .then(() => console.log('File is opened'))
+              .catch(e => console.log('Error opening file', e));
+               
+         
+        this.loader.dismiss();
+
+     }
+    ).catch(
+      error=>{
+        console.log(error);
+        this.loader.dismiss();
+      }
+    )
+           
+
+  }
+
+  downloadEffect(event){
+    switch (event) {
+      case 'touchstart':
+      this.downloadClicked = true;
+      setTimeout(()=>{
+        if(document.getElementById('buttonEffect'))document.getElementById('buttonEffect').classList.add('pressing');
+      },100);
+      
+      break;
+
+      case 'touchend':
+      this.downloadClicked = false;
+      break;
+
+      case 'clicked':
+      this.downloadClicked = true;
+      setTimeout(()=>{
+        this.downloadClicked = false;
+      },300);
+      break;
+    }
+  }
+  baixarIconOnClick(id){
+    if(this.baixarIconClicked == false){
+      this.baixarIconClicked = true ;
+    }
+    else{
+      document.getElementById(id).classList.add('reverse');
+      setTimeout(()=>{
+        this.baixarIconClicked = false;
+      },350);
+    }
+      
+  }
   
 }

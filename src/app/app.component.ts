@@ -21,10 +21,10 @@ import { ProfessorProvider } from '../providers/professor/professor';
 import { FcmProvider } from '../providers/fcm/fcm';
 import { tap } from 'rxjs/operators';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase'
 import { TranslateService } from '@ngx-translate/core';
 import { HttpServiceProvider } from '../providers/http-service/http-service';
-
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 
 
@@ -116,10 +116,32 @@ export class MyApp {
     private fcm: FcmProvider,
     private localNotifications: LocalNotifications,
     public translate: TranslateService,
-    private http:HttpServiceProvider
+    private http:HttpServiceProvider,
+    private androidPermissions:AndroidPermissions
 
     ) {
     this.initializeApp();
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+         result => {
+          if(!result.hasPermission){this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+
+         }
+        }
+    );
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(
+      result => {
+       if(!result.hasPermission){
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
+       }
+      }
+    );
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(
+      result => {
+        if(!result.hasPermission){this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+
+        }
+      }
+    );
     if(this.platform.is('ios') || this.platform.is('android')){
       this.localNotifications.on('click')
       .subscribe(
@@ -129,10 +151,10 @@ export class MyApp {
           .subscribe(
             ()=>console.log('success')
           );
+          this.nav.setRoot('FeedPage');
         }
       );
     }
-    
     firebase.auth().onAuthStateChanged(
       user=>{
         if(user){
@@ -145,7 +167,6 @@ export class MyApp {
                  data:{id:msg.id},
                  title:msg.title,
                  text:msg.body,
-                 vibrate: true,
                  priority: 2,
                  silent: false,
                  wakeup: true,
@@ -310,7 +331,7 @@ export class MyApp {
           let contaId = c.indexOf(acc);
           //Função que deixa a Uri da foto do usuário carregada
           let photoUrl = this.sanitizer.bypassSecurityTrustStyle(`url(${this.util.getFoto(acc.foto)})`);
-          let conta= {matricula:acc.matricula,nome:this.functions.nomes(acc.nome),usuario:acc.email,contaId:contaId,checked:acc.checked,photo:photoUrl}
+          let conta= {matricula:acc.matricula,nome:this.functions.nomes(acc.nome),usuario:acc.email,contaId:contaId,checked:acc.checked,photo:photoUrl,base:acc.base}
           this.contas.push(conta);
           
           
@@ -384,7 +405,7 @@ export class MyApp {
       //Firebase logout
       this.fcm.firebaseSignOut();
         
-
+      this.loadTranslatedVariables();
       //Série de remoções do nativeStorage
       this.localStorageProvider.logout();
 
@@ -486,6 +507,7 @@ this.translate.get(['loader_saindo','alert_desejamesmosair'])
   changeLanguage(string){
     this.translate.use(string);
     this.setTitlePages();
+    this.loadTranslatedVariables();
   }
   buttonEffects(effect){
     if(effect.match('ptEffect')!==null){
@@ -502,4 +524,27 @@ this.translate.get(['loader_saindo','alert_desejamesmosair'])
     } 
   }
   
+
+  resetBackButtonActions(){
+    this.platform.registerBackButtonAction(() => {
+     
+      this.menu.close();
+      
+      let pop:boolean = this.closeModals();
+      if (this.nav.canGoBack() && pop == true) {
+      this.nav.pop({animate:false,direction:'back',animation:'slide',duration:300});
+        return;
+      }
+      else if(this.nav.getActive().id.match("LoginPage")!==null && pop == true){
+        if(window.confirm(this.alertDesejaMesmoSair)===true) this.platform.exitApp();
+      }
+      else if(this.nav.getActive().id.match("ProfessorPage")!==null && pop == true || this.nav.getActive().id.match("FeedPage")!==null && pop == true){
+        
+        this.backgroundMode.moveToBackground();
+      }
+      
+    
+   
+    }, 0);
+  }
 }

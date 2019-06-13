@@ -1,0 +1,217 @@
+communication {
+    .noScroll{
+        overflow: hidden !important;
+    }
+    .communicationOverlay{
+        
+        position:absolute;
+        height:100%;
+        width:100%;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        background-color:rgba(0, 0, 0, 0.479);
+        z-index:120;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .closeClickListener{
+            position:absolute;
+            height:100%;
+            width:100%;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            z-index:121;
+        }
+        .communicationDiv{
+            background-color: rgb(242, 247, 248) !important;
+            position:relative;
+            height:80vh;
+            width:80vw;
+            display:block;
+            background-color:white;
+            box-shadow: 5px 15px 20px rgba(0, 0, 0, 0.486);
+            z-index:121;
+            overflow-y:scroll;
+            overflow-x:hidden;
+            .titleDiv{
+                position:relative;
+                width:100%;
+                height:50px;
+                background-color:blue;
+                color:white;
+                box-shadow:0px 1px 3px black;
+                padding:10px;
+                font-size:15px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+            }
+            .communicationRow{
+                display:flex;
+                justify-content: center;
+                .communicationAction{
+                    background-color:rgb(242, 247, 248) !important;
+                    position: absolute;
+                    margin: auto;
+                    left: 0; 
+                    right: 0; 
+                    top:0;
+                    bottom:0;
+                    height:100%;
+                    width:100%;
+                    overflow-y:scroll;
+                    overflow-x:hidden;
+                    animation: divInAnimation 0.35s;
+                    .titleDiv{
+                        position:relative;
+                        width:100%;
+                        height:50px;
+                        
+                        background-color:blue;
+                        color:white;
+                        box-shadow:0px 1px 3px black;
+                        padding:10px;
+                        font-size:15px;
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                        text-align:left;
+                        .divIcon{
+                            margin-right:15px;
+                            position:relative;
+                            height:100%;
+                            display: flex;
+                            justify-content: center;
+                            flex-direction: column;
+                            text-align:left;
+                            ion-icon{
+                                font-size:25px;
+
+                            }
+                        }
+                    }
+                    .textoDiv{
+                        font-size:15px;
+                        padding:15px;
+                        .texto{
+                            margin-top:5px;
+                            position:relative;
+                            resize: none;
+                            height:100px;
+                        }
+                        .texto.editing{
+                            position:fixed;
+                            z-index:999;
+                            top: 50%;
+                            left: 50%;
+                            width:300px;
+                            height:300px;
+                            margin-top: -150px; /* Negative half of height. */
+                            margin-left: -150px;
+                        }
+                        .titleTextoDiv{
+                            position:relative;
+                            margin-bottom:7px;
+                           
+                        }
+                    }
+                    .imgDiv{
+                        font-size:15px;
+                        padding:15px;
+                        .titleImageDiv{
+                            display:block;
+                        }
+                        img{
+                            max-height:100px;
+                            max-width:200px;
+                        }
+                        .icons{
+                            font-size:23px;
+                        }
+            
+                    }
+                    .enviarButton{
+                        display:block;
+                        margin: 0 auto;
+                        width:80%;
+                    }
+                }
+                @keyframes divInAnimation{
+                    from{
+                        transform: scale(0.05);
+                    }
+                    to{
+                        transform: scale(1);
+                    }
+                }
+               .communicationCol{
+                    ion-card{
+                        position:relative;
+                        height:100%;
+                        ion-card-header{
+                            font-size:14px;
+                            font-weight: bold;
+                            word-wrap: break-word;
+                        }
+                        .buttonEffect{
+                            background-color:rgba(0, 0, 0, 0.219);
+                           
+                            position: absolute;
+                            margin: auto;
+                            left: 0; 
+                            right: 0; 
+                            top:0;
+                            bottom:0;
+                            height:100px;
+                            width:100px;
+                            border-radius:100%;
+                            
+                            animation: cardClick 0.5s;
+                        }   
+                        @keyframes cardClick{
+                            from{
+                                transform: scale(0.1);
+                                opacity: 1;
+                            }
+                            to{
+                                transform: scale(10);
+                                opacity: 0
+                            }
+                        }
+                    }
+               }
+                
+                
+            }
+           
+        }
+    }
+    .alunoZoomPhotoContainer{
+        animation:0.22s fadein;
+        position:fixed;
+        z-index:9999;
+        width:100%;
+        height:100%;    
+        background-color:rgba(0, 0, 0, 0.5);
+        .alunoZoomPhotoDiv{
+            z-index:19999;
+            text-align: center;
+            position:relative;
+            display:block;
+            margin: 0 auto;
+            height:60vh;
+            width:70vw;
+            background-color:white;
+            transform: translateY(30%);
+            img{
+                z-index:19999;
+                height:100%;
+                width:100%;
+            }
+        }
+    }
+}

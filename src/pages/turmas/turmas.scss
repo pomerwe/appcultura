@@ -13,6 +13,10 @@ page-turmas {
             }
         }
     }
+    .scroll-content.noScroll{
+        overflow-y: hidden !important;
+        overflow-x: hidden !important;
+    }
     .Message{
         margin-top:10px;
         font-size:10px;
@@ -30,6 +34,16 @@ page-turmas {
         padding:15px;
         margin:15px;
         border-radius:0px 50px 50px 0px;
+        .turmaPageClickListener{
+            position:absolute;
+            top:0;
+            right:0;
+            left:0;
+            bottom:0;
+            width:100%;
+            height:100%;
+            border-radius:0px 50px 50px 0px;
+        }
         .turmaCardContent{
             color:white;
             font-size:15px;
@@ -42,6 +56,21 @@ page-turmas {
             right:0%;
             color:white;
             margin-right:25px;
+        }
+        .enviarAtividade{
+            z-index:99;
+            font-size:30px;
+            position:absolute;
+            top:50%;
+            transform: translateY(-50%);
+            right:0%;
+            margin-right:70px;
+            font-size:30px;
+            background-color:white;
+            border-radius: 3px;
+            border: 1px rgba(0, 0, 0, 0.267) solid;
+            padding:10px;
+            text-align:center;
         }
     }
 }

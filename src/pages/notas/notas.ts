@@ -109,6 +109,7 @@ export class NotasPage {
   ) {
   }
   ionViewWillEnter(){
+    this.loadTranslatedVariables();
     let pushParam = this.navParams.get('push');
     if(pushParam!=undefined){
       if(pushParam==true) {
@@ -137,7 +138,7 @@ export class NotasPage {
         this.matricula=data.matricula;
       }
     )
-    this.loadTranslatedVariables();
+    
   }
   ionViewWillLeave(){
     this.transitions.back();
@@ -235,6 +236,7 @@ getNotasConceito(uri):any{
     ]
     this.notaFinal={prova:this.notasFinaisTitles['notafinal'], conceito: this.notasConceito.notafinal}  ;
     this.loader.dismiss();
+    this.createloader();
     },
     error=>{console.log(error)}
   ));

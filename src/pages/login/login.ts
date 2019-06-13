@@ -95,14 +95,14 @@ export class LoginPage {
               private translate:TranslateService
             ) 
             {
+              
               this.loadTranslatedVariables();
-            
            
   }
 
 
   ionViewWillEnter(){
-   
+    this.loadTranslatedVariables();
   }
   ionViewDidLoad() {
     //Armazena no native storage se o usuário marcou ou não o checkbox de lembrar
@@ -140,7 +140,7 @@ export class LoginPage {
 
   //Função que instancia um loader na variável loader
   createloader(){
-    
+    this.loadTranslatedVariables();
    this.loader = this.loadingCtrl.create({
     spinner: "crescent",
     content:this.loaderEntrandoLabel
@@ -325,6 +325,7 @@ export class LoginPage {
       changeLanguage(string){
         this.translate.use(string);
         this.myApp.setTitlePages();
+        this.loadTranslatedVariables();
       }
       buttonEffects(effect){
         if(effect.match('ptEffect')!==null){

@@ -31,6 +31,7 @@ export class NetworkCheckServiceProvider {
   
   
   notConnected(){
+    this.loadTranslatedVariables();
     let alert = this.alert.create({
       title:this.notConnectedAlertTitle,
       message: this.notConnectedAlertMessage,

@@ -13,7 +13,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content id='ioncontent'>
 
   
 
@@ -24,12 +24,17 @@
         {{'semconexao' | translate}}
     </div>
 
-    <div *ngFor='let t of turmas' (click)="pushTurmaPage(t)" class='turmaCard'>
+    <div *ngFor='let t of turmas'  class='turmaCard'>
+      <div class='turmaPageClickListener' (click)="pushTurmaPage(t)"></div>
       <span class='turmaCardContent'>{{t.curso}} <br> {{t.dia}} - {{t.horario}}</span>
+      <div (click)='communicationComponent = true; scrollLock(true); communicationTurma = t; see(t);' class='enviarAtividade'>
+          <ion-icon name="megaphone"></ion-icon>
+      </div>
       <ion-icon class='turmaArrow' name="arrow-forward" ></ion-icon>
       
     </div>
 
+    <communication *ngIf='communicationComponent' (overlayCloseClick)='communicationComponent = $event; scrollLock($event);' [identificador]='communicationTurma.id' objeto='TURMA' [turma]='communicationTurma.curso'></communication>
  
     
 </ion-content>

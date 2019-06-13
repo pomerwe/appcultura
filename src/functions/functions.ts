@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "../../node_modules/rxjs";
 import { ISubscription } from "../../node_modules/rxjs/Subscription";
+import { Time } from "@angular/common";
 
 
 /*
@@ -60,9 +61,13 @@ export class Functions{
            obs =>{
             obs.next(event.classList.remove('scrolling')),
             obs.next(event.classList.add('inactive')),
-            obs.complete;
+            obs.complete();
     
          })
       }
-     
+      combineDateAndTime = function(date, time) {
+        let combined = date + 'T'+time+':00';
+    
+        return combined;
+    };
 }

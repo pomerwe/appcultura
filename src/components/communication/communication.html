@@ -1,0 +1,199 @@
+<!-- Generated template for the CommunicationComponent component -->
+<div  class='communicationOverlay'>
+  
+  <div (click)='close()' class='closeClickListener'>
+
+  </div>
+  <div class='communicationDiv' id='communicationDiv' #communicationDiv>
+    <div class='titleDiv'>
+      <div class='title'>
+          {{'communication_titulo' | translate}} - {{turma}}
+      </div>
+    </div>
+    <div class='communicationRow' ion-row>
+      <div *ngFor='let op of options' class='communicationCol'  ion-col col-6>
+          <ion-card (click)='buttonEffect(op.id);openCommunicationAction(op);'>
+              <ion-card-header text-wrap>
+                {{op.descricao}}
+              </ion-card-header>
+              <ion-card-content>
+                <img [src]='op.icone.urlImagemMiniatura' />
+              </ion-card-content>
+              <div *ngIf='clickedIndexed[op.id].clicked' class='buttonEffect'>
+
+              </div>
+          </ion-card>
+      </div>
+      <div *ngIf='tipoTexto' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
+          <div class='titleDiv' ion-row>
+            <div class='divIcon' ion-col col-1>
+                <ion-icon (click)='closeCommunicationAction(currentTipo)' name="arrow-back"></ion-icon>
+            </div>
+              <div class='title' ion-col col-11>
+                  {{currentActionDescricao}}
+              </div>
+          </div>
+      </div>  
+      <div *ngIf='tipoFoto' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
+          <div class='titleDiv' ion-row>
+              <div class='divIcon' ion-col col-1>
+                  <ion-icon (click)='closeCommunicationAction(currentTipo)' name="arrow-back"></ion-icon>
+              </div>
+                <div class='title' ion-col col-11>
+                    {{currentActionDescricao}}
+                </div>
+            </div>
+            <div>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodatahorapublicacao" | translate}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodata" | translate}}</ion-label>
+                    <ion-datetime (ionChange)='updateDateTime()' [(ngModel)]='data' display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                  <ion-label>{{"communication_notificacaohora" | translate}}</ion-label>
+                  <ion-datetime (ionChange)='updateDateTime()' [(ngModel)]='hora' displayFormat="HH:mm" pickerFormat="HH mm" ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodatahoraexpiracao" | translate}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodata" | translate}}</ion-label>
+                    <ion-datetime [disabled]='!expiravel' (ionChange)='updateDateTimeExpiracao()' [(ngModel)]='dataExpiracao' display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                  <ion-label>{{"communication_notificacaohora" | translate}}</ion-label>
+                  <ion-datetime [disabled]='!expiravel' (ionChange)='updateDateTimeExpiracao()' [(ngModel)]='horaExpiracao' displayFormat="HH:mm" pickerFormat="HH mm" ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacao" | translate}}</ion-label>
+                    <ion-toggle [(ngModel)]='mandarNotificacao' checked="false"></ion-toggle>
+                </ion-item>
+                <div ion-row>
+                    <div class='textoDiv' ion-col col-6>
+                        <label class='titleTextoDiv' ion-col col-12>{{"communication_mensagem" | translate}}</label>
+                        <textarea (focus)='textoClicked(textareaFoto)' [(ngModel)]='texto' (blur)='textoDesfocado(textareaFoto)' class='texto' ion-col col-12 #textareaFoto></textarea>
+                    </div>
+                    <div class='imgDiv' ion-col col-6>
+                        <div  ion-row>
+                                <label class='titleImagemDiv' ion-col col-12>{{"communication_imagem" | translate}}</label>
+                                <img [src]='image' (click)='zoom();' ion-col col-12>
+                        </div>
+                        
+                        <div class='icons' ion-row>
+                            <ion-icon name="camera"  (click)='uploadImageByCamera();' ion-col col-6></ion-icon>
+                            <ion-icon name="photos" (click)='uploadImage();' ion-col col-6></ion-icon>
+                        </div>
+                        
+                    </div>
+                </div>
+            
+                    <button [disabled]='enviarButton' (click)='sendMessage()' class='enviarButton' ion-button>{{"communication_enviarmensagem" | translate}}</button>
+               
+                
+                
+                
+            </div>
+      </div>  
+      <div *ngIf='tipoTextoFixo' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
+          <div class='titleDiv' ion-row>
+              <div class='divIcon' ion-col col-1>
+                  <ion-icon (click)='closeCommunicationAction(currentTipo)' name="arrow-back"></ion-icon>
+              </div>
+                <div class='title' ion-col col-11>
+                    {{currentActionDescricao}}
+                </div>
+            </div>
+      </div>  
+      <div *ngIf='tipoHTML' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
+          <div class='titleDiv' ion-row>
+              <div class='divIcon' ion-col col-1>
+                  <ion-icon (click)='closeCommunicationAction(currentTipo)' name="arrow-back"></ion-icon>
+              </div>
+                <div class='title' ion-col col-11>
+                    {{currentActionDescricao}}
+                </div>
+            </div>
+      </div>  
+      <div *ngIf='tipoLista' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
+          <div class='titleDiv' ion-row>
+              <div class='divIcon' ion-col col-1>
+                  <ion-icon (click)='closeCommunicationAction(currentTipo)' name="arrow-back"></ion-icon>
+              </div>
+                <div class='title' ion-col col-11>
+                    {{currentActionDescricao}}
+                </div>
+            </div>
+      </div>  
+      <div *ngIf='tipoFotoGaleria' class='communicationAction' [style.margin-top.px]='communicationDiv.scrollTop'>
+          <div class='titleDiv' ion-row>
+              <div class='divIcon' ion-col col-1>
+                  <ion-icon (click)='closeCommunicationAction(currentTipo)' name="arrow-back" ></ion-icon>
+              </div>
+                <div class='title' ion-col col-11>
+                    {{currentActionDescricao}}
+                </div>
+            </div>
+            <div>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodatahorapublicacao" | translate}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodata" | translate}}</ion-label>
+                    <ion-datetime (ionChange)='updateDateTime()' [(ngModel)]='data' display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                  <ion-label>{{"communication_notificacaohora" | translate}}</ion-label>
+                  <ion-datetime (ionChange)='updateDateTime()' [(ngModel)]='hora' displayFormat="HH:mm" pickerFormat="HH mm" ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodatahoraexpiracao" | translate}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacaodata" | translate}}</ion-label>
+                    <ion-datetime [disabled]='!expiravel' (ionChange)='updateDateTimeExpiracao()' [(ngModel)]='dataExpiracao' display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                  <ion-label>{{"communication_notificacaohora" | translate}}</ion-label>
+                  <ion-datetime [disabled]='!expiravel' (ionChange)='updateDateTimeExpiracao()' [(ngModel)]='horaExpiracao' displayFormat="HH:mm" pickerFormat="HH mm" ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>{{"communication_notificacao" | translate}}</ion-label>
+                    <ion-toggle [(ngModel)]='mandarNotificacao' checked="false"></ion-toggle>
+                </ion-item>
+                <div ion-row>
+                    <div class='textoDiv' ion-col col-6>
+                        <label class='titleTextoDiv' ion-col col-12>{{"communication_mensagem" | translate}}</label>
+                        <textarea (focus)='textoClicked(textareaFoto)' [(ngModel)]='texto' (blur)='textoDesfocado(textareaFoto)' class='texto' ion-col col-12 #textareaFoto></textarea>
+                    </div>
+                    <div class='imgDiv' ion-col col-6>
+                        <div  ion-row>
+                                <label class='titleImagemDiv' ion-col col-12>{{"communication_imagem" | translate}}</label>
+                                <img [src]='image' (click)='zoom();' ion-col col-12>
+                        </div>
+                        
+                        <div class='icons' ion-row>
+                            <ion-icon name="camera"  (click)='uploadImageByCamera();' ion-col col-6></ion-icon>
+                            <ion-icon name="photos" (click)='uploadImage();' ion-col col-6></ion-icon>
+                        </div>
+                        
+                    </div>
+                </div>
+            
+                    <button [disabled]='enviarButton' (click)='sendMessage()' class='enviarButton' ion-button>{{"communication_enviarmensagem" | translate}}</button>
+               
+                
+                
+                
+            </div>
+    </div>
+    
+  </div>
+</div>
+<div *ngIf='zoomDiv' (click)='zoomOut()' class='alunoZoomPhotoContainer'>
+    <div class='alunoZoomPhotoDiv'>
+        <img [src]='image' />
+    </div>
+ 
+</div>

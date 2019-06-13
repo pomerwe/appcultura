@@ -49,10 +49,10 @@
     
 </div>
 <div class='allPresent'>
-  <div class='content' (touchstart)='marcarTodosButtonClickActivate()' (touchend)='marcarTodosButtonClickDectivate()' (click)='setarTodosPresentes()'>
+  <button class='content' [disabled]='radioDisabled' (touchstart)='marcarTodosButtonClickActivate()' (touchend)='marcarTodosButtonClickDectivate()' (click)='setarTodosPresentes()'>
     <div *ngIf='marcarTodosButtonClick' class='buttonEffect'></div>   
     <label class='title'  >{{"chamada_marcarpresenca" | translate}}</label>
-  </div>
+  </button>
  
 </div>
 <div (swipe)='swipe($event)' class='alunos' ion-grid>

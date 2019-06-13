@@ -30,6 +30,112 @@ page-feed {
         }
         .cardContent{
             margin-top:10px;
+            position:relative;
+            .conteudo{
+                position:relative;
+                background-color:white;
+                z-index: 90 !important;
+                .downloadIconDiv{
+                    bottom:0;
+                    right: 0;
+                    margin-right:10px;
+                    margin-bottom:10px;
+                    z-index: 100 !important;
+                    position:absolute;
+                    width:40px;
+                    height:36px;
+                    background-color:rgba(255, 255, 255, 0.527);
+                    font-size:30px;
+                    text-align:center;
+                    border-radius:3px;
+                    border: 1px solid rgba(0, 0, 0, 0.322);
+                    .downloadIcon{
+                        display:block;
+                        margin: 0 auto;
+                    }
+                }
+            }
+            
+            .dropdown{
+                position:relative;
+                display:block;
+                width:100%;
+                height:50px;
+                background-color:white;
+                animation:dropdownEffect 0.35s ease-out;
+            }
+            .dropdown.reverse{
+                height:0px;
+                animation:dropdownEffectReverse 0.35s ease-out;
+            }
+            .buttonDiv{
+                position:absolute;
+                bottom:0;
+                display:block;
+                margin:0 auto;
+                width:150px;
+                height:40px;
+                left: 0; 
+                right: 0; 
+                margin-left: auto; 
+                margin-right: auto; 
+                .baixarImagem{
+                    width:100%;
+                    height:100%;
+                    border-radius:12px;
+                    color:white;
+                    background-color:rgb(63, 63, 190);
+                    text-align:center;
+                }
+                .buttonEffect{
+                    position:absolute;
+                    top:0;
+                    bottom:0;
+                    width:100%;
+                    height:100%;
+                    border-radius:12px;
+                    background-color:transparent;
+                    animation: baixarImagemEffect 0.5s;
+                }
+                .buttonEffect.pressing{
+                    background-color:rgba(235, 235, 235, 0.527); 
+                    animation: baixarImagemEffectPressing 0.5s;
+                }
+                @keyframes baixarImagemEffect{
+                    from{
+                        background-color:rgb(235, 235, 235); 
+                    }
+                    to{
+                        background-color:transparent; 
+                    }
+                }
+                @keyframes baixarImagemEffect{
+                    from{
+                        background-color:rgb(235, 235, 235); 
+                    }
+                    to{
+                        background-color:rgba(235, 235, 235, 0.527); 
+                    }
+                }
+                @keyframes dropdownEffect{
+                    from{
+                        height:0px;
+                    }
+                    to{
+                        height:50px;
+                    }
+                }
+                @keyframes dropdownEffectReverse{
+                    from{
+                        height:50px;
+                    }
+                    to{
+                        height:0px;
+                    }
+                }
+            
+            }
+            
         }
         .chamadaIcon{
             width:50px;

@@ -16,15 +16,15 @@
 
 
 <ion-content>
-<span class='esqueceuMessage'>Recupere a senha</span>
+<span class='esqueceuMessage'>{{'recuperarsenha_titulo' | translate}}</span>
 
-<img class='imgConfused' src='../../assets/imgs/imagemprovisoriaremember.png' />
+<img class='imgConfused' src='./assets/imgs/imagemprovisoriaremember.png' />
 <span class='invalidEmail' *ngIf='emailInput.ngControl.invalid && emailInput.ngControl.dirty && emailInputLostFocus'>Coloque um email válido!</span>
 <ion-item >
     
-    <ion-label class='emailLabel'  floating >Digite seu email</ion-label>
+    <ion-label class='emailLabel'  floating >{{'recuperarsenha_digiteemail' | translate}}</ion-label>
     <ion-input (ionBlur)='emailInputLostFocus = true' pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" 
-    [(ngModel)]='email' name='email' #emailInput></ion-input>
+    [(ngModel)]='email' type='email' name='email' #emailInput></ion-input>
     
   </ion-item>
   <div class="divRecuperarButton">

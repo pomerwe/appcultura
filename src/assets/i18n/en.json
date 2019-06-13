@@ -19,6 +19,7 @@
     "feed_conteudo":"Content",
     "feed_paracasa":"Homework",
     "feed_comparecimento":"Attendance",
+    "feed_salvar":"Download",
 
     "financeiro_titulo":"Financial",
     "financeiro_descricao":"Details",
@@ -131,7 +132,20 @@
     "chamada_nov":"NOV",
     "chamada_dez":"DEC",
 
-    "recuperarsenha_reqsuccess":"Request Sucessful!\nYou will receive a email message with the new password.",
-    "recuperarsenha_reqsuccessdenovo":"Already recovered password.\nWait for the email with your informations."
+    "recuperarsenha_titulo":"Retrieve Password",
+    "recuperarsenha_reqsuccesstitle":"Request Successful!",
+    "recuperarsenha_reqsuccess":"You will receive a email message with the new password.",
+    "recuperarsenha_reqsuccessdenovotitle":"Password already recovered!",
+    "recuperarsenha_reqsuccessdenovo":"Please wait for the email with your informations.",
+    "recuperarsenha_digiteemail":"Type your email",
 
+    "communication_titulo":"Communication",
+    "communication_notificacao":"Send push notification?",
+    "communication_notificacaodata":"Date",
+    "communication_notificacaohora":"Time",
+    "communication_notificacaodatahoraexpiracao":"Expiration - DateTime",
+    "communication_notificacaodatahorapublicacao":"Post - DateTime",
+    "communication_imagem":"Image",
+    "communication_mensagem":"Message",
+    "communication_enviarmensagem":"Send Message"
 }

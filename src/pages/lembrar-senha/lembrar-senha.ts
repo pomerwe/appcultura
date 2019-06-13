@@ -6,6 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { TransitionsProvider } from '../../providers/transitions/transitions';
 import { environment as ENV} from '../../environments/environment'
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import { NetworkCheckServiceProvider } from '../../providers/network-check-service/network-check-service';
+import { ISubscription } from 'rxjs/Subscription';
 /**
  * Generated class for the LembrarSenhaPage page.
  *
@@ -22,11 +24,14 @@ export class LembrarSenhaPage {
   @ViewChild(Navbar) navBar:Navbar; 
   email:string = '';
   emailInputLostFocus = false;
+  recuperarSuccessTitle:string = '';
+  recuperarSuccessAgainTitle:string = '';
   recuperarSuccessMessage:string = '';
   recuperarSuccessMessageAgain:string = '';
   recuperarButtonEffect = false;
   loaderCarregandoLabel = '';
   loader;
+  subscriptions:Array<ISubscription> = [];
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private screenOrientation:ScreenOrientation,
     private menu:MenuController,
@@ -34,7 +39,8 @@ export class LembrarSenhaPage {
     private loadingCtrl:LoadingController,
     private transitions:TransitionsProvider,
     private http:HttpServiceProvider,
-    private alert:AlertController
+    private alert:AlertController,
+    private netCheck:NetworkCheckServiceProvider
     ) {
       this.loadTranslatedVariables();
   }
@@ -47,6 +53,7 @@ export class LembrarSenhaPage {
     this.menu.swipeEnable(false);
   }
   ionViewWillEnter(){
+    this.loadTranslatedVariables();
     let pushParam = this.navParams.get('push');
     if(pushParam!=undefined){
       if(pushParam==true) {
@@ -75,47 +82,75 @@ export class LembrarSenhaPage {
   recuperarSenhaRequest(){
     let url = ENV.BASE_URL;
     let urn = '/remember';
-    this.http.specialPost(url,urn,this.email)
+    if (this.netCheck.check() == false) this.dismissLoader(),this.netCheck.notConnected();
+    else
+    this.subscriptions.push(this.http.noTokenSpecialPost(url,urn,this.email)
       .subscribe(
         data=>{
           this.dismissLoader();
-          console.log(data);
+          if(data[0] == ""){
+            this.reqSuccess('success');
+          }
+          else{
+            this.reqSuccess('successAgain');
+          }
+          
+          setTimeout(()=>{
+            if (this.netCheck.check() == false) this.netCheck.notConnected();
+          }
+          ,500);
+          
+        },
+        error =>{
+          setTimeout(()=>{
+            if (this.netCheck.check() == false) this.netCheck.notConnected();
+          }
+          ,500);
+           
+          
+          this.subscriptions.forEach(subs=>{subs.unsubscribe()});
         }
-      );
+        ));
   }
 
   loadTranslatedVariables(){
-    this.translate.get(['loader_carregando','recuperarsenha_reqsuccess','recuperarsenha_reqsuccessdenovo'])
+    this.translate.get(['loader_carregando',
+    'recuperarsenha_reqsuccess',
+    'recuperarsenha_reqsuccessdenovo',
+    'recuperarsenha_reqsuccessdenovotitle',
+  'recuperarsenha_reqsuccesstitle'])
           .subscribe(
             data => {
               this.loaderCarregandoLabel = data.loader_carregando;
+              this.recuperarSuccessTitle = data.recuperarsenha_reqsuccesstitle;
               this.recuperarSuccessMessage = data.recuperarsenha_reqsuccess;
               this.recuperarSuccessMessageAgain = data.recuperarsenha_reqsuccessdenovo;
+              this.recuperarSuccessAgainTitle = data.recuperarsenha_reqsuccessdenovotitle;
               this.createloader();
              
             }
           );
   }
   createloader(){
-
     this.loader = this.loadingCtrl.create({
       spinner: "crescent",
       content:this.loaderCarregandoLabel
     });
   }
   presentLoader(){
+    this.createloader();
     this.loader.present();
   }
   dismissLoader(){
     this.loader.dismiss();
-    this.createloader();
   }
 
 
   reqSuccess(which){
-    if(which === 'success'){
+    console.log(which);
+    if(which == 'success'){
       let alert = this.alert.create({
-        title:'',
+        title:this.recuperarSuccessTitle,
         message: this.recuperarSuccessMessage,
         buttons:[
           {text:'OK',role:'cancel'}
@@ -124,9 +159,9 @@ export class LembrarSenhaPage {
       });
       alert.present();
     }
-    else if(which === 'successAgain'){
+    else if(which == 'successAgain'){
       let alert = this.alert.create({
-        title:'',
+        title:this.recuperarSuccessAgainTitle,
         message: this.recuperarSuccessMessageAgain,
         buttons:[
           {text:'OK',role:'cancel'}

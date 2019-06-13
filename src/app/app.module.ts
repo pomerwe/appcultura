@@ -43,6 +43,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { TranslateModule, TranslateLoader, } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { Camera } from '@ionic-native/camera';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 const firebase = {
     apiKey: "AIzaSyDHv4jwB3rAgfYOgtIxYmH5MniNfDY4Pq8",
     authDomain: "movelproject.firebaseapp.com",
@@ -119,6 +122,9 @@ const firebase = {
     FirebaseAuthentication,
     Firebase,
     FcmProvider,
+    FileChooser,
+    Camera,
+    AndroidPermissions
   ]
 })
 export class AppModule {}

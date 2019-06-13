@@ -25,8 +25,8 @@
   </div>
   <div class='contato' ion-row>
       <div class='contatoButtonDiv'  ion-col col-4>
-          <div (click)='button("buttonEffect1")' class='contatoButton'>
-              <ion-icon name="chatboxes"></ion-icon>
+          <div (click)='button("buttonEffect1");communicationComponent = true;' class='contatoButton'>
+              <ion-icon name="megaphone"></ion-icon>
           </div>
           <div *ngIf="buttonEffect1==true" class='buttonEffect'></div>
       </div>
@@ -44,4 +44,5 @@
     </div>
       
   </div>
+  <communication *ngIf='communicationComponent' (overlayCloseClick)='communicationComponent = $event; scrollLock($event);' [identificador]='aluno.id' objeto='MATRICULA' [turma]='aluno.nome'></communication>
 </ion-content>

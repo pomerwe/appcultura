@@ -34,6 +34,9 @@ export class AlunoPage {
   //Variável de controle da div buttonEffect3
   buttonEffect3 = false;
   
+  communicationComponent = false;
+
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
