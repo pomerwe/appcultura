@@ -99,7 +99,7 @@
     "promise-polyfill": "^6.0.2",
     "rxjs": "^5.5.11",
     "sw-toolbox": "3.6.0",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "v1": "^1.0.0",
     "zone.js": "0.8.26"
   },
